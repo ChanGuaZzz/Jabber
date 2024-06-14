@@ -1,6 +1,6 @@
-=====================================================
-Jabber - Random Chat Application (STILL IN PROGRESS)
-======================================================
+================================
+Jabber - Random Chat Application 
+=================================
 
 A dynamic web application for chatting with random people in any language. This application supports real-time communication and message translation using WebSockets.
 
