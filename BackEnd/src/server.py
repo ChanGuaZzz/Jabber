@@ -1,5 +1,8 @@
+import os
 import time
-from flask import Flask, jsonify, request
+import datetime
+from datetime import datetime
+from flask import Flask, jsonify, request, send_from_directory
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -54,16 +57,19 @@ class Message(db.Model):
             'content': self.content,
             'timestamp': self.timestamp.isoformat(),
         }   
-    
-# Serving index.html at the root path
+
+# Ruta absoluta al directorio del frontend (hermano de Backend)
+frontend_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', 'FrontEnd'))
+
+# Configuración de la ruta estática para el frontend
 @app.route('/')
 def index():
-    return app.send_static_file('index.html')
+    return send_from_directory(frontend_dir, 'index.html')
 
-# Handling 404 errors
+# Manejo de errores 404
 @app.errorhandler(404)
 def not_found(e):
-    return app.send_static_file('index.html')
+    return send_from_directory(frontend_dir, 'index.html')
 
 # Example API route to get current time
 @app.route('/api/time')
