@@ -21,7 +21,7 @@ CORS(app)  # Allowing CORS requests from the frontend
 
 
 # User model definition
-class User(db.Model):
+class Users(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(50), unique=True, nullable=False)
     email = db.Column(db.String(100), unique=True, nullable=False)
@@ -39,7 +39,7 @@ class User(db.Model):
         return check_password_hash(self.password_hash, password)
 
 # Definición del modelo de Mensaje
-class Message(db.Model):
+class Messages(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     sender_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     receiver_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
