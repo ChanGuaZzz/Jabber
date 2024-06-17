@@ -2,7 +2,8 @@
 function Home() {
     return (
         <div>
-            <h1>Home</h1>
+            <h1>Home <a href="/login">Login</a></h1>
+
         </div>
     );
 }
