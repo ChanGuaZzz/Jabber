@@ -3,7 +3,7 @@ import axios from "axios";
 import '../styles/input.css'
 
 function Login() {
-    const [window, setWindow] = useState("login");
+    const [currentWindow, setCurrentWindow] = useState("login");
     const [username, setUsername] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -32,7 +32,7 @@ function Login() {
             .then(response => {
                 setMessage(response.data.message);
                 // Puedes manejar el cambio de ventana aquí si es necesario
-                setWindow('login');
+                setCurrentWindow('login');
             })
             .catch(error => {
                 setMessage('Error: User already exists or invalid input.');
@@ -41,7 +41,7 @@ function Login() {
 
     return (
         <div className="border h-[23px]">
-            {window === "login" ?
+            {currentWindow === "login" ?
                 <div>
                     <h2>Log in</h2>
                     <form onSubmit={handleLogin}>
@@ -61,7 +61,7 @@ function Login() {
                         />
                         <button type="submit">Enter</button>
                     </form>
-                    <button onClick={() => { setWindow('register') }}>I don't have an account</button>
+                    <button onClick={() => { setCurrentWindow('register') }}>I don't have an account</button>
                 </div>
                 :
                 <div>
@@ -90,7 +90,7 @@ function Login() {
                         />
                         <button type="submit">Register</button>
                     </form>
-                    <button onClick={() => { setWindow('login') }}>I have an account</button>
+                    <button onClick={() => { setCurrentWindow('login') }}>I have an account</button>
                 </div>
             }
             {message && <p>{message}</p>}
