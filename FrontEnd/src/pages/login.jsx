@@ -21,7 +21,7 @@ function Login() {
                 }
             })
             .catch(error => {
-                setMessage('Error: Incorrect username or password.');
+                setMessage('Incorrect username or password.');
             });
     };
 
@@ -35,7 +35,7 @@ function Login() {
                 setCurrentWindow('login');
             })
             .catch(error => {
-                setMessage('Error: User already exists or invalid input.');
+                setMessage('User already exists or invalid input.');
             });
     };
 
@@ -95,7 +95,7 @@ function Login() {
                         <button onClick={() => { setCurrentWindow('login') }}>I have an account</button>
                     </div>
                 }
-                {message && <p>{message}</p>}
+                {message && <p className="messages">{message}</p>}
             </div>
         </div>
     );
