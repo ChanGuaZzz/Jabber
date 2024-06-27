@@ -85,7 +85,7 @@ function Login() {
                        <p className="text-white">I don't have an account <a className="font-medium text-orange-500" onClick={() => { setCurrentWindow('register') }}>Sign Up</a></p> 
                     </div>
                     :
-                    <div className="flex flex-col" >
+                    <div className="h-3/5  flex flex-col w-4/5 sm:w-3/5 xl:w-1/5 lg:w-2/5" >
                         <h2 className="text-center">Register</h2>
                         <form className="flex flex-col" onSubmit={handleRegister}>
                             <input
@@ -109,9 +109,9 @@ function Login() {
                                 onChange={(e) => setPassword(e.target.value)}
                                 required
                             />
-                            <button type="submit">Register</button>
+                            <button className="buttonG" type="submit">Register</button>
                         </form>
-                        <button onClick={() => { setCurrentWindow('login') }}>I have an account</button>
+                        <p className="text-white">I don't have an account <a className="font-medium text-orange-500" onClick={() => { setCurrentWindow('login') }}>Sign Up</a></p> 
                     </div>
                 }
                 {message && <p className={`messages ${animation}`}>{message}</p>}
