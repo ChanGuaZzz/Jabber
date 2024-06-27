@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import './styles/App.css'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import Login from './pages/login'
 import Home from './pages/Home'

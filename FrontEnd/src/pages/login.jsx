@@ -40,60 +40,63 @@ function Login() {
     };
 
     return (
-        <div className="border h-[23px]">
-            {currentWindow === "login" ?
-                <div>
-                    <h2>Log in</h2>
-                    <form onSubmit={handleLogin}>
-                        <input
-                            type="text"
-                            placeholder="Username"
-                            value={username}
-                            onChange={(e) => setUsername(e.target.value)}
-                            required
-                        />
-                        <input
-                            type="password"
-                            placeholder="Password"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                            required
-                        />
-                        <button type="submit">Enter</button>
-                    </form>
-                    <button onClick={() => { setCurrentWindow('register') }}>I don't have an account</button>
-                </div>
-                :
-                <div>
-                    <h2>Register</h2>
-                    <form onSubmit={handleRegister}>
-                        <input
-                            type="text"
-                            placeholder="Username"
-                            value={username}
-                            onChange={(e) => setUsername(e.target.value)}
-                            required
-                        />
-                        <input
-                            type="email"
-                            placeholder="Email"
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
-                            required
-                        />
-                        <input
-                            type="password"
-                            placeholder="Password"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                            required
-                        />
-                        <button type="submit">Register</button>
-                    </form>
-                    <button onClick={() => { setCurrentWindow('login') }}>I have an account</button>
-                </div>
-            }
-            {message && <p>{message}</p>}
+        <div className="background-login w-full h-full flex justify-center items-center">
+            <div  >
+                <img src="" alt="" />
+                {currentWindow === "login" ?
+                    <div className="flex flex-col">
+                        <h2 className="text-center">Log in</h2>
+                        <form className="flex flex-col" onSubmit={handleLogin}>
+                            <input
+                                type="text"
+                                placeholder="Username"
+                                value={username}
+                                onChange={(e) => setUsername(e.target.value)}
+                                required
+                            />
+                            <input
+                                type="password"
+                                placeholder="Password"
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                                required
+                            />
+                            <button type="submit">Enter</button>
+                        </form>
+                        <button onClick={() => { setCurrentWindow('register') }}>I don't have an account</button>
+                    </div>
+                    :
+                    <div className="flex flex-col" >
+                        <h2 className="text-center">Register</h2>
+                        <form className="flex flex-col" onSubmit={handleRegister}>
+                            <input
+                                type="text"
+                                placeholder="Username"
+                                value={username}
+                                onChange={(e) => setUsername(e.target.value)}
+                                required
+                            />
+                            <input
+                                type="email"
+                                placeholder="Email"
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                                required
+                            />
+                            <input
+                                type="password"
+                                placeholder="Password"
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                                required
+                            />
+                            <button type="submit">Register</button>
+                        </form>
+                        <button onClick={() => { setCurrentWindow('login') }}>I have an account</button>
+                    </div>
+                }
+                {message && <p>{message}</p>}
+            </div>
         </div>
     );
 }
