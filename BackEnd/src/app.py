@@ -2,7 +2,9 @@ import os
 import time
 import datetime
 import hashlib
-from flask import Flask, jsonify, request, send_from_directory
+from flask_session import Session
+from datetime import timedelta
+from flask import Flask, session, jsonify, request, send_from_directory
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -16,9 +18,14 @@ mysql_port = 3306
 mysql_db = 'jabber'
 app.config['SQLALCHEMY_DATABASE_URI'] = f'mysql+mysqlconnector://{mysql_Users}:{mysql_password}@{mysql_host}:{mysql_port}/{mysql_db}'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False  # Disable SQLAlchemy modification tracking
+app.config['SESSION_TYPE'] = 'filesystem'
+app.config['SECRET_KEY'] = 'supersecretkey'
+app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(minutes=20000)
+
+Session(app)
 
 db = SQLAlchemy(app)
-CORS(app)  # Allowing CORS requests from the frontend
+CORS(app, supports_credentials=True, origins=['http://localhost:5173'])  # Allowing CORS requests from the frontend
 
 # Users model definition
 class Users(db.Model):
@@ -69,6 +76,18 @@ class Messages(db.Model):
 # Absolute path to the frontend directory
 frontend_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', 'FrontEnd'))
 
+#Del session
+@app.route('/api/logout', methods=['GET'])
+def logout():
+    session.clear()
+    return jsonify({"message": "Logged out!"})
+
+#get session
+@app.route('/api/getsession', methods=['GET'])
+def get_session():
+    return jsonify({"session": session})
+
+
 # Static route for the frontend
 @app.route('/')
 def index():
@@ -104,6 +123,7 @@ def register():
 
     return jsonify({'Messages': 'User registered successfully.'}), 201
 
+
 # Login endpoint
 @app.route('/api/login', methods=['POST'])
 def login():
@@ -116,9 +136,11 @@ def login():
 
     # Check if the user exists and if the password is correct
     if user and user.check_password(password):
+        session['username'] = user.username
+        session['email'] = user.email
         return jsonify({'Messages': 'Login successful.'}), 200
     else:
-        return jsonify({'Messages': 'Incorrect username or password.'}), 401
+        return jsonify({'Messages': 'Incorrect username or password.'}), 400
 
 # User profile endpoint
 @app.route('/api/profile/<username>', methods=['GET', 'POST'])

@@ -7,6 +7,11 @@
     src: url(../font/Fabrica-ZOjx.otf);
 }
 
+@font-face {
+    font-family: 'Fun';
+    src: url(../font/SuperCorn-X3xGg.ttf);
+}
+
 body{
     font-family: 'Fabric', sans-serif;
 }
@@ -15,18 +20,24 @@ h2{
     color: white;
 }
 
-button{
+.buttonG{
     background-color: #e64900;
     color: white;
-    padding: 5px 13px;
+    padding: 20px 23px;
     border-radius: 5px;
     cursor: pointer;
     margin: 10px;
+    transition: all .2s;
 }
+.buttonG:hover{
+    transform: scale(0.97);
+    background-color: #ff7b00;
+}
+
 
 input{
     margin: 10px;
-    padding: 5px;
+    padding: 10px;
     background: none;
     border-color: white;
     border-bottom: 1px solid white;
@@ -45,3 +56,14 @@ input{
     color: rgb(253, 0, 0);
     text-shadow: 0px 0px 10px white;
 }
+.bg-div-login{
+    background: -webkit-linear-gradient(rgb(185, 64, 3),rgb(210, 99, 43),rgb(219, 131, 87)); /* ff3.6+ */
+    box-shadow: 0px 0px 100px rgb(0, 0, 0);
+    
+}
+
+.title{
+    font-family: 'Fun', sans-serif;
+}
+
+
