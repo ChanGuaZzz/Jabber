@@ -66,4 +66,8 @@ input{
     font-family: 'Fun', sans-serif;
 }
 
+a{
+    cursor: pointer;
+}
+
 
