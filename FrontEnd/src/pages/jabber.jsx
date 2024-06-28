@@ -68,6 +68,7 @@ function Jabber() {
     useEffect(() => {
         if (loggedIn && currentRoom)
         socket.emit('join', { currentRoom });
+    
     }, [currentRoom]);
 
     const logout=() => {
@@ -94,8 +95,8 @@ function Jabber() {
     };
     
     return (
-        <div>
-            <h1>Jabber</h1>
+        <div className="w-full h-full">
+            
             <p>Welcome, {username}</p>
             <button className="buttonLogout" onClick={logout}>Log Out</button>
 
@@ -103,31 +104,42 @@ function Jabber() {
                 <h2>Available rooms</h2>
                 <ul>
                     {rooms.map(room => (
-                        <button className="buttonG" key={room.id} onClick={() => setCurrentRoom(room.name)}>
+                        <button className="buttonG" key={room.id} onClick={() => {setCurrentRoom(room.name); setIschatting(true)}}>
                             {room.name}
                         </button>
                     ))}
                 </ul>
             </div>
-
-            <div>
-                <h2>Chat in {currentRoom}</h2>
-                <div className="flex flex-col messages-container">
-                    {messages.map((msg, index) => (
-                        <div key={index} className="message">
-                            {msg.content  && (
-                             <p className={`${msg.username == username?'me':'them'} chatmessage`}><strong>{msg.username}:</strong> {msg.content}</p>
-                           )}
-                        </div>
-                    ))}
+            {ischatting 
+            ?
+            <div >
+                <div className=" flex items-center justify-center bg-orange-600 w-full h-[6vh]  "><h2 className="text-shadow font-semibold">Chat in {currentRoom}</h2></div> 
+                <div className="">
+                    <div className="flex flex-col h-[450px] pb-6 bg-chat rounded-md messages-container overflow-auto">
+                        {messages.map((msg, index) => (
+                            <div key={index} className="message">
+                                {msg.content  && (
+                                <p className={`${msg.username == username?'me':'them'} chatmessage`}><strong>{msg.username}:</strong> {msg.content}</p>
+                            )}
+                            </div>
+                        ))}
+                    </div>
+                    <div className="bg-slate-900 w-full fixed top-[90vh] flex items-center justi ">
+                    <input
+                        type="text"
+                        value={message}
+                        onChange={(e) => setMessage(e.target.value)}
+                    />
+                    <button onClick={sendMessage}>Enviar</button>
+                    </div>
                 </div>
-                <input
-                    type="text"
-                    value={message}
-                    onChange={(e) => setMessage(e.target.value)}
-                />
-                <button onClick={sendMessage}>Enviar</button>
             </div>
+            :
+            <div>
+                <h2>Select a room to chat</h2>
+            </div>
+            }
+            
         </div>
     );
 }

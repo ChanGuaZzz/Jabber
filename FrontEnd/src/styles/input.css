@@ -78,23 +78,34 @@ border-radius: 40;
 
 .me{
 color: white;
+background-color: rgb(119, 119, 119);
 text-align: end;
 float: right;
 }
 
 .them{
 color: bisque;
+background-color: rgb(63, 62, 62);
+
 text-align: start;
 float: left;
 
 }
 
 .chatmessage{
-    border: 1px solid white;
     border-radius: 10px;
-    padding: 2%;
     margin-inline: 7%;
+    padding: 1%;
     margin-block: 1%;
+}
+.text-shadow{
+    text-shadow: 0px 0px 10px rgb(0, 0, 0);
+}
+.bg-chat{
+    background: fixed url(../img/bgchat.png);
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
 }
 
 
