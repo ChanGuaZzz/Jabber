@@ -36,6 +36,10 @@ button:hover{
     filter: brightness(1.2);
 }
 
+button:active{
+    transform: scale(0.90);
+}
+
 
 input{
     margin: 10px;
@@ -90,6 +94,16 @@ background-color: rgb(63, 62, 62);
 text-align: start;
 float: left;
 
+}
+
+.inputchat{
+    color: white;
+}
+
+.buttonSend{
+    background-color: #59a503;
+    color: white;
+    padding: 10px;
 }
 
 .chatmessage{

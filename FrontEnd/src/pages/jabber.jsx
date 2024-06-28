@@ -124,14 +124,17 @@ function Jabber() {
                             </div>
                         ))}
                     </div>
-                    <div className="bg-slate-900 w-full fixed top-[90vh] flex items-center justi ">
+                    <div className="bg-slate-900 w-full fixed top-[90vh] flex items-center justify-center inputchat ">
                     <input
                         type="text"
                         value={message}
                         onChange={(e) => setMessage(e.target.value)}
                     />
-                    <button onClick={sendMessage}>Enviar</button>
-                    </div>
+                    {message.length>0
+                    ?<button  className="buttonSend " onClick={sendMessage}>Enviar</button>
+                    :<button disabled className="buttonSend opacity-50 pointer-events-none" onClick={sendMessage}>Enviar</button>
+                    }
+                </div>
                 </div>
             </div>
             :
