@@ -57,13 +57,14 @@ function Login() {
     return (
         <div className="background-login w-full h-full flex justify-center items-center  p-0">
            
-            <div className="h-full w-full  flex items-center flex-col  justify-center" >
+            <div className="h-full w-full  flex items-center flex-col text-center justify-center" >
                     <div className="h-2/3 flex items-center flex-col  justify-center">
                      <img  src={logo} alt="" />
                      <img  src={letra} alt="" />
                      </div>
+                     <div  className="h-3/5  flex flex-col w-4/5 sm:w-2/5 xl:w-1/5 lg:w-2/5">
                 {currentWindow === "login" ?
-                    <div  className="h-3/5  flex flex-col w-4/5 sm:w-3/5 xl:w-1/5 lg:w-2/5">
+                   <>
                         <h2 className="text-center">Log in</h2>
                         <form className="flex flex-col" onSubmit={handleLogin}>
                             <input
@@ -83,9 +84,9 @@ function Login() {
                             <button className="buttonG" type="submit">Log In</button>
                         </form>
                        <p className="text-white">I don't have an account <a className="font-medium text-orange-500" onClick={() => { setCurrentWindow('register') }}>Sign Up</a></p> 
-                    </div>
+                    </>
                     :
-                    <div className="h-3/5  flex flex-col w-4/5 sm:w-3/5 xl:w-1/5 lg:w-2/5" >
+                    <>
                         <h2 className="text-center">Register</h2>
                         <form className="flex flex-col" onSubmit={handleRegister}>
                             <input
@@ -109,12 +110,14 @@ function Login() {
                                 onChange={(e) => setPassword(e.target.value)}
                                 required
                             />
+                            
                             <button className="buttonG" type="submit">Register</button>
                         </form>
                         <p className="text-white">I don't have an account <a className="font-medium text-orange-500" onClick={() => { setCurrentWindow('login') }}>Sign Up</a></p> 
-                    </div>
+                    </>
                 }
                 {message && <p className={`messages ${animation}`}>{message}</p>}
+                </div>
             </div>
         </div>
     );

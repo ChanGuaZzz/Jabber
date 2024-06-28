@@ -19,19 +19,21 @@ body{
 h2{
     color: white;
 }
-
-.buttonG{
-    background-color: #e64900;
-    color: white;
+button{
     padding: 20px 23px;
     border-radius: 5px;
     cursor: pointer;
     margin: 10px;
     transition: all .2s;
 }
-.buttonG:hover{
+
+.buttonG{
+    background-color: #e64900;
+    color: white;
+}
+button:hover{
     transform: scale(0.97);
-    background-color: #ff7b00;
+    filter: brightness(1.2);
 }
 
 
@@ -43,6 +45,7 @@ input{
     border-bottom: 1px solid white;
     outline: none;
     color: white;
+    text-align: center;
 }
 
 
@@ -56,11 +59,6 @@ input{
     color: rgb(253, 0, 0);
     text-shadow: 0px 0px 10px white;
 }
-.bg-div-login{
-    background: -webkit-linear-gradient(rgb(185, 64, 3),rgb(210, 99, 43),rgb(219, 131, 87)); /* ff3.6+ */
-    box-shadow: 0px 0px 100px rgb(0, 0, 0);
-    
-}
 
 .title{
     font-family: 'Fun', sans-serif;
@@ -68,6 +66,35 @@ input{
 
 a{
     cursor: pointer;
+}
+
+.buttonLogout{
+background-color: red;
+font-size: small;
+color: white;
+padding: 1%;
+border-radius: 40;
+}
+
+.me{
+color: white;
+text-align: end;
+float: right;
+}
+
+.them{
+color: bisque;
+text-align: start;
+float: left;
+
+}
+
+.chatmessage{
+    border: 1px solid white;
+    border-radius: 10px;
+    padding: 2%;
+    margin-inline: 7%;
+    margin-block: 1%;
 }
 
 

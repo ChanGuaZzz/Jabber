@@ -4,8 +4,9 @@ import datetime
 import hashlib
 from flask_session import Session
 from datetime import timedelta
-from flask import Flask, session, jsonify, request, send_from_directory
+from flask import Flask,  session, jsonify, request, send_from_directory
 from flask_sqlalchemy import SQLAlchemy
+from flask_socketio import SocketIO, join_room, leave_room, send
 from flask_cors import CORS
 from werkzeug.security import generate_password_hash, check_password_hash
 
@@ -23,6 +24,7 @@ app.config['SECRET_KEY'] = 'supersecretkey'
 app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(minutes=20000)
 
 Session(app)
+socketio = SocketIO(app, cors_allowed_origins="*")
 
 db = SQLAlchemy(app)
 CORS(app, supports_credentials=True, origins=['http://localhost:5173'])  # Allowing CORS requests from the frontend
@@ -57,9 +59,10 @@ class Users(db.Model):
 class Messages(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     sender_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
-    receiver_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    receiver_id = db.Column(db.Integer, db.ForeignKey('users.id'),  nullable=True)
     content = db.Column(db.Text, nullable=False)
     timestamp = db.Column(db.DateTime, default=datetime.datetime.utcnow, nullable=False)
+    room = db.Column(db.String(100), default=0, nullable=True)
 
     def __repr__(self):
         return f'<Messages {self.id}>'
@@ -123,7 +126,6 @@ def register():
 
     return jsonify({'Messages': 'User registered successfully.'}), 201
 
-
 # Login endpoint
 @app.route('/api/login', methods=['POST'])
 def login():
@@ -171,24 +173,68 @@ def profile(username):
         return jsonify({'Messages': 'Profile updated successfully.'}), 200
 
 # Message routes and controllers
-@app.route('/api/messages', methods=['GET'])
-def get_messages():
-    messages = Messages.query.all()
-    return jsonify([message.serialize() for message in messages])
+@app.route('/api/messages/<room>', methods=['GET'])
+def get_messages(room):
+    print(room, 'NOMBREEEEE DE LA SALAAAAAAAAAAAAAAAAA')
+    messages = Messages.query.filter_by(room=room).order_by(Messages.timestamp.asc()).all()
+    messages_json = [{"username": Users.query.filter_by(id=msg.sender_id).first().username, "content": msg.content, "timestamp": msg.timestamp} for msg in messages]
+    return jsonify(messages_json)
+    
 
-@app.route('/api/messages', methods=['POST'])
-def send_message():
-    data = request.get_json()
-    sender_id = data.get('sender_id')
-    receiver_id = data.get('receiver_id')
-    content = data.get('content')
+# @app.route('/api/messages', methods=['POST'])
+# def send_message():
 
-    # Create a new message
-    new_message = Messages(sender_id=sender_id, receiver_id=receiver_id, content=content)
-    db.session.add(new_message)
-    db.session.commit()
 
-    return jsonify({'Messages': 'Message sent successfully.'}), 201
+
+
+
+#     data = request.get_json()
+#     sender_id = data.get('sender_id')
+#     receiver_id = data.get('receiver_id')
+#     content = data.get('content')
+
+#     # Create a new message
+#     new_message = Messages(sender_id=sender_id, receiver_id=receiver_id, content=content)
+#     db.session.add(new_message)
+#     db.session.commit()
+
+#     return jsonify({'Messages': 'Message sent successfully.'}), 201
+
+#SOCKET IO
+@socketio.on('join')
+def handle_join(data):
+    room = data['currentRoom']
+    join_room(room)
+    send(f"{session['username']} has entered the room.", room=room)
+
+@socketio.on('leave')
+def handle_leave(data):
+    room = data['currentRoom']
+    leave_room(room)
+    send(f"{session['user']} has left the room.", room=room)
+
+@socketio.on('message')
+def handle_message(data):
+    room = data['currentRoom']
+    message_content = data['message']
+    username = session.get('username')
+    print(message_content)
+    if username:
+        print('entre al if')
+        username_id = Users.query.filter_by(username=username).first().id
+        print(username_id)
+
+        if username_id is None:
+            return jsonify({'Messages': 'User not found.'}), 404
+        message = Messages(content=message_content, sender_id=username_id, room=room)
+        db.session.add(message)
+        db.session.commit()
+        # Obtener la representación serializable del timestamp
+        timestamp_isoformat = message.timestamp.isoformat()
+        send({"username": username, "content": message_content, "timestamp": timestamp_isoformat, "room": room}, room=room)
 
 if __name__ == '__main__':
     app.run(debug=True)
+
+if __name__ == '__main__':
+    socketio.run(app, debug=True)
