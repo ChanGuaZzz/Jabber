@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import axios from "axios";
 import {io} from "socket.io-client"
 import '../styles/input.css'
@@ -12,11 +12,24 @@ function Jabber() {
     const [rooms, setRooms] = useState([]);
     const [currentRoom, setCurrentRoom] = useState('');
     const [ischatting, setIschatting] = useState(false);
-    
+    const scrollRef = useRef(null);
+    const [scrollbutton, setScrollbutton] = useState(false);
+
+    const scrollToBottom = () => {
+        if (scrollRef.current) {
+          scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+        }
+      };
+
+    useEffect(() => {
+        scrollToBottom();
+    }, [messages, scrollbutton]);
+
     useEffect(() => {
         socket.on('message', (data) => {
             // Actualiza los mensajes recibidos del servidor
             setMessages((prevMessages) => [...prevMessages, data]);
+            
         });
 
         return () => {
@@ -115,15 +128,18 @@ function Jabber() {
             <div >
                 <div className=" flex items-center justify-center bg-orange-600 w-full h-[6vh]  "><h2 className="text-shadow font-semibold">Chat in {currentRoom}</h2></div> 
                 <div className="">
-                    <div className="flex flex-col h-[450px] pb-6 bg-chat rounded-md messages-container overflow-auto">
-                        {messages.map((msg, index) => (
+                    <div className="flex flex-col h-[450px] pb-6 bg-chat rounded-md messages-container overflow-auto scroll-smooth"  ref={scrollRef}>
+                        {messages.map((msg, index) => (<>
+                        {msg.content  && (
                             <div key={index} className="message">
-                                {msg.content  && (
+                                
                                 <p className={`${msg.username == username?'me':'them'} chatmessage`}><strong>{msg.username}:</strong> {msg.content}</p>
-                            )}
-                            </div>
-                        ))}
+                            
+                            </div>)
+                            }s
+                       </> ))}
                     </div>
+                    <button onClick={()=>setScrollbutton(!scrollbutton)} className=" bg-lime-500 w-[5vw] h-[5vh] items-center fixed flex top-[68vh] left-[88vw] rounded-full justify-center">V</button>
                     <div className="bg-slate-900 w-full fixed top-[90vh] flex items-center justify-center inputchat ">
                     <input
                         type="text"
