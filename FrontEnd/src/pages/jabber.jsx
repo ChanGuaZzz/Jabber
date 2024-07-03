@@ -127,7 +127,7 @@ function Jabber() {
                 </div>
             </div>
             
-            <div className="Chat h-[92%]">
+            <div className="Chat h-[92%] ">
             {ischatting 
             ?
             <>
@@ -162,9 +162,11 @@ function Jabber() {
             </>
             :
             <>
-                <p>Welcome, {username}</p>
-                <h2>Select a room to chat</h2>
-            </>
+            <div className="flex flex-col justify-center items-center">
+                <p className="text-red-600 text-2xl">Welcome, {username}</p>
+                <h2 className=" ">Select a room to chat</h2>
+            </div>
+                </>
             }
             </div>
             
