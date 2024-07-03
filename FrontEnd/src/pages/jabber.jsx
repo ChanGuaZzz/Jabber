@@ -144,7 +144,7 @@ function Jabber() {
                             }s
                        </> ))}
                     </div>
-                    <button onClick={()=>setScrollbutton(!scrollbutton)} className=" bg-lime-500 w-[5vw] h-[5vh] items-center fixed flex top-[86vh] left-[80vw] rounded-full justify-center">V</button>
+                    <button onClick={()=>setScrollbutton(!scrollbutton)} className=" bg-lime-600 w-[5vw] h-[5vh] items-center fixed flex top-[86vh] left-[80vw] rounded-full justify-center opacity-75">V</button>
                     <div className=" bg-slate-900 w-full fixed top-[92.4vh] flex items-center justify-center inputchat  ">
                         <input
                             className="text-left w-4/6 bg-slate-600 border-none rounded-2xl "
