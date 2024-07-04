@@ -15,7 +15,7 @@ function Jabber() {
     const [ischatting, setIschatting] = useState(false);
     const scrollRef = useRef(null);
     const [scrollbutton, setScrollbutton] = useState(false);
-
+    const hscrollRef = useRef(null);
     const scrollToBottom = () => {
         if (scrollRef.current) {
           scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
@@ -124,7 +124,11 @@ function Jabber() {
         // Limpiar el campo de mensaje después de enviarlo
         setMessage('');
     };
-    
+
+    const Hscroll = (e) => {
+        if (hscrollRef.current) {
+            hscrollRef.current.scrollLeft += e.deltaY;
+          }}
     return (
         <div className="w-full h-full">
              
@@ -135,7 +139,7 @@ function Jabber() {
                     </svg>
                 </button>
                 <div className="overflow-y-auto  w-[100%] bg-slate-900 ps-2 flex rounded-l-2xl ">
-                    <div className="overflow-y-auto scrollbar flex flex-row  rounded-l-2xl ">
+                    <div ref={hscrollRef} onWheel={Hscroll} className="overflow-y-auto scrollbar flex flex-row  rounded-l-2xl ">
                             {rooms.map(room => (
                                 <button className=" bg-slate-600 text-white text-[80%] py-0 rounded-full m-1 p-2 " key={room.id} onClick={() => {setCurrentRoom(room.name); setIschatting(true)}}>
                                     {room.name}
