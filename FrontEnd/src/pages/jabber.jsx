@@ -50,7 +50,17 @@ function Jabber() {
             {"id": 8, "name": "Chinese", "description": "chinesepeople"},
             {"id": 9, "name": "Japanese", "description": "japanesepeople"},
             {"id": 10, "name": "Korean", "description": "koreanpeople"},
-            {"id": 11, "name": "Arabic", "description": "arabicpeople"}
+            {"id": 11, "name": "Arabic", "description": "arabicpeople"},
+            {"id": 12, "name": "Hindi", "description": "hindipeople"},
+            {"id": 13, "name": "Bengali", "description": "bengalipeople"},
+            {"id": 14, "name": "Urdu", "description": "urdupeople"},
+            {"id": 15, "name": "Turkish", "description": "turkishpeople"},
+            {"id": 16, "name": "Dutch", "description": "dutchpeople"},
+            {"id": 17, "name": "Polish", "description": "polishpeople"},
+            {"id": 18, "name": "Greek", "description": "greekpeople"},
+            {"id": 19, "name": "Swedish", "description": "swedishpeople"},
+            {"id": 20, "name": "Danish", "description": "danishpeople"},
+            
         ]);
         console.log(rooms[0],'dwdwdw');
     }, []);
@@ -117,8 +127,8 @@ function Jabber() {
     
     return (
         <div className="w-full h-full">
-            
-            <div className=" flex flex-row h-[8%] ">
+             
+            <div className=" flex flex-row h-[8vh] mb-1">
                 <button className="buttonLogout rounded-full " onClick={logout}>
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-6">
                         <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 9V5.25A2.25 2.25 0 0 1 10.5 3h6a2.25 2.25 0 0 1 2.25 2.25v13.5A2.25 2.25 0 0 1 16.5 21h-6a2.25 2.25 0 0 1-2.25-2.25V15m-3 0-3-3m0 0 3-3m-3 3H15" />
@@ -135,7 +145,7 @@ function Jabber() {
                 </div>
             </div>
             
-            <div className="Chat h-[92%] ">
+            <div className="Chat ">
             {ischatting 
             ?
             <>
@@ -178,7 +188,7 @@ function Jabber() {
                 </>
             }
             </div>
-            
+             
         </div>
     );
 }
