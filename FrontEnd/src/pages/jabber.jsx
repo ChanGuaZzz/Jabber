@@ -140,7 +140,7 @@ function Jabber() {
             {ischatting 
             ?
             <>
-                <div className=" flex items-center justify-center bg-orange-600 w-full h-[6vh]  "><h2 className="text-shadow font-semibold">Chat in {currentRoom}</h2></div> 
+                <div className=" flex items-center justify-center bg-orange-700 w-full h-[6vh]  "><h2 className="text-shadow font-semibold">Chat in {currentRoom}</h2></div> 
                 <div className="">
                     <div className="flex flex-col h-[80vh] pb-6 bg-chat rounded-md messages-container overflow-auto scrollbar-dark"  ref={scrollRef}>
                         {messages.map((msg, index) => (<>
