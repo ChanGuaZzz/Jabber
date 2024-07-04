@@ -165,7 +165,7 @@ function Jabber() {
                         />
                         {message.length>0
                         ?<button  className="w-1/6 flex justify-center buttonSend rounded-full " onClick={sendMessage}><SendIcon/></button>
-                        :<button disabled className="w-1/6 flex justify-center buttonSend opacity-50 pointer-events-none" onClick={sendMessage}><SendIcon/></button>
+                        :<button disabled className="w-1/6 flex justify-center buttonSend rounded-full opacity-50 pointer-events-none" onClick={sendMessage}><SendIcon/></button>
                         }
                     </div>
                 </div>
