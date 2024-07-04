@@ -126,9 +126,8 @@ function Jabber() {
                 </button>
                 <div className="overflow-y-auto  w-[100%] bg-slate-900 ps-2 flex rounded-l-2xl ">
                     <div className="overflow-y-auto scrollbar flex flex-row  rounded-l-2xl ">
-                        
                             {rooms.map(room => (
-                                <button className="buttonG py-0 " key={room.id} onClick={() => {setCurrentRoom(room.name); setIschatting(true)}}>
+                                <button className=" bg-slate-600 text-white text-[80%] py-0 rounded-full m-1 p-2 " key={room.id} onClick={() => {setCurrentRoom(room.name); setIschatting(true)}}>
                                     {room.name}
                                 </button>
                             ))}
