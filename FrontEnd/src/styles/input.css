@@ -123,4 +123,16 @@ float: left;
     background-repeat: no-repeat;
 }
 
+.scrollbar{
+    scrollbar-color:  #e64900 #521a00;
+    scrollbar-width: thin;
+    scroll-behavior: smooth;
+}
+
+.scrollbar-dark{
+    scrollbar-color:  #424242 #000000;
+    scrollbar-width: thin;
+    scroll-behavior: smooth;
+}
+
 

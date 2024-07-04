@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import axios from "axios";
 import {io} from "socket.io-client"
 import '../styles/input.css'
+import SendIcon from "../components/sendicon";
 
 const socket = io('http://localhost:5000', { withCredentials: true });
 function Jabber() {
@@ -43,6 +44,13 @@ function Jabber() {
             {"id": 2, "name": "Spanish", "description": "spanishpeople"},
             {"id": 3, "name": "French", "description": "frenchpeople"},
             {"id": 4, "name": "German", "description": "germanpeople"},
+            {"id": 5, "name": "Italian", "description": "italianpeople"},
+            {"id": 6, "name": "Portuguese", "description": "portuguesepeople"},
+            {"id": 7, "name": "Russian", "description": "russianpeople"},
+            {"id": 8, "name": "Chinese", "description": "chinesepeople"},
+            {"id": 9, "name": "Japanese", "description": "japanesepeople"},
+            {"id": 10, "name": "Korean", "description": "koreanpeople"},
+            {"id": 11, "name": "Arabic", "description": "arabicpeople"}
         ]);
         console.log(rooms[0],'dwdwdw');
     }, []);
@@ -111,19 +119,20 @@ function Jabber() {
         <div className="w-full h-full">
             
             <div className=" flex flex-row h-[8%] ">
-                <button className="buttonLogout rounded-full" onClick={logout}>
+                <button className="buttonLogout rounded-full " onClick={logout}>
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-6">
                         <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 9V5.25A2.25 2.25 0 0 1 10.5 3h6a2.25 2.25 0 0 1 2.25 2.25v13.5A2.25 2.25 0 0 1 16.5 21h-6a2.25 2.25 0 0 1-2.25-2.25V15m-3 0-3-3m0 0 3-3m-3 3H15" />
                     </svg>
                 </button>
-
-                <div className="overflow-y-auto flex flex-row bg-slate-900 rounded-l-2xl ">
-                    
-                        {rooms.map(room => (
-                            <button className="buttonG py-0 " key={room.id} onClick={() => {setCurrentRoom(room.name); setIschatting(true)}}>
-                                {room.name}
-                            </button>
-                        ))}
+                <div className="overflow-y-auto  w-[100%] bg-slate-900 ps-2 flex rounded-l-2xl ">
+                    <div className="overflow-y-auto scrollbar flex flex-row  rounded-l-2xl ">
+                        
+                            {rooms.map(room => (
+                                <button className="buttonG py-0 " key={room.id} onClick={() => {setCurrentRoom(room.name); setIschatting(true)}}>
+                                    {room.name}
+                                </button>
+                            ))}
+                    </div>
                 </div>
             </div>
             
@@ -133,7 +142,7 @@ function Jabber() {
             <>
                 <div className=" flex items-center justify-center bg-orange-600 w-full h-[6vh]  "><h2 className="text-shadow font-semibold">Chat in {currentRoom}</h2></div> 
                 <div className="">
-                    <div className="flex flex-col h-[80vh] pb-6 bg-chat rounded-md messages-container overflow-auto scroll-smooth"  ref={scrollRef}>
+                    <div className="flex flex-col h-[80vh] pb-6 bg-chat rounded-md messages-container overflow-auto scrollbar-dark"  ref={scrollRef}>
                         {messages.map((msg, index) => (<>
                         {msg.content  && (
                             <div key={index} className="message">
@@ -141,21 +150,22 @@ function Jabber() {
                                 <p className={`${msg.username == username?'me':'them'} chatmessage`}><strong>{msg.username}:</strong> {msg.content}</p>
                             
                             </div>)
-                            }s
+                            }
                        </> ))}
                     </div>
                     <button onClick={()=>setScrollbutton(!scrollbutton)} className=" bg-lime-600 w-[5vw] h-[5vh] items-center fixed flex top-[86vh] left-[80vw] rounded-full justify-center opacity-75">V</button>
                     <div className=" bg-slate-900 w-full fixed top-[92.4vh] flex items-center justify-center inputchat  ">
                         <input
-                            className="text-left w-4/6 bg-slate-600 border-none rounded-2xl "
+                            className="text-left w-5/6 bg-slate-600 border-none rounded-2xl "
                             type="text"
                             placeholder="Type a message..."
                             value={message}
                             onChange={(e) => setMessage(e.target.value)}
+                            onKeyDown={(e) => {if (e.key === 'Enter') { sendMessage() }}}
                         />
                         {message.length>0
-                        ?<button  className="w-1/4 buttonSend " onClick={sendMessage}>Enviar</button>
-                        :<button disabled className="w-1/4 buttonSend opacity-50 pointer-events-none" onClick={sendMessage}>Enviar</button>
+                        ?<button  className="w-1/6 flex justify-center buttonSend rounded-full " onClick={sendMessage}><SendIcon/></button>
+                        :<button disabled className="w-1/6 flex justify-center buttonSend opacity-50 pointer-events-none" onClick={sendMessage}><SendIcon/></button>
                         }
                     </div>
                 </div>
