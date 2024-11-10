@@ -15,11 +15,11 @@ load_dotenv()
 
 app = Flask(__name__, static_folder='../build', static_url_path='/')
 
-mysql_jabberusers = os.getenv("mysql_jabberusers", 'root')
-mysql_password = os.getenv("mysql_password", '')
-mysql_host = os.getenv("mysql_host", 'localhost')
-mysql_port = int(os.getenv("mysql_port", 3306))
-mysql_db = os.getenv("mysql_db", 'jabber')
+mysql_jabberusers = os.environ.get("mysql_jabberusers", 'root')
+mysql_password = os.environ.get("mysql_password", '')
+mysql_host = os.environ.get("mysql_host", 'localhost')
+mysql_port = int(os.environ.get("mysql_port", 3306))
+mysql_db = os.environ.get("mysql_db", 'jabber')
 app.config['SQLALCHEMY_DATABASE_URI'] = f'mysql+mysqlconnector://{mysql_jabberusers}:{mysql_password}@{mysql_host}:{mysql_port}/{mysql_db}'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False  # Disable SQLAlchemy modification tracking
 app.config['SESSION_TYPE'] = 'filesystem'
@@ -30,7 +30,7 @@ Session(app)
 socketio = SocketIO(app, cors_allowed_origins="*")
 
 db = SQLAlchemy(app)
-CORS(app, supports_credentials=True, origins=[os.getenv("origins", 'http://localhost:5173')])  # Allowing CORS requests from the frontend
+CORS(app, supports_credentials=True, origins=[os.environ.get("origins", 'http://localhost:5173')])  # Allowing CORS requests from the frontend
 
 # jabberusers model definition
 class jabberusers(db.Model):
