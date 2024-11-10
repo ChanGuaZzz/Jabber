@@ -91,7 +91,12 @@ def logout():
 #get session
 @app.route('/api/getsession', methods=['GET'])
 def get_session():
-    return jsonify({"session": session})
+    if 'username' in session:
+        return jsonify({
+            'username': session['username'],
+            'email': session['email']
+        })
+    return jsonify({'message': 'No session data found.'}), 404
 
 
 # Static route for the frontend
@@ -143,6 +148,7 @@ def login():
     if user and user.check_password(password):
         session['username'] = user.username
         session['email'] = user.email
+        session.modified = True
         return jsonify({'JabberMessages': 'Login successful.'}), 200
     else:
         return jsonify({'JabberMessages': 'Incorrect username or password.'}), 400
@@ -242,7 +248,7 @@ with app.app_context():
     db.create_all()
     
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host="0.0.0.0", port=10000, debug=True)
 
 if __name__ == '__main__':
-    socketio.run(app, debug=True)
+    socketio.run(app)
