@@ -11,8 +11,8 @@ from flask_cors import CORS, cross_origin
 from werkzeug.security import generate_password_hash, check_password_hash
 from dotenv import load_dotenv
 from sqlalchemy.exc import OperationalError
-from sqlalchemy import event, text
-from sqlalchemy.engine import Engine
+from sqlalchemy.pool import QueuePool
+
 
 load_dotenv()
 
@@ -30,12 +30,38 @@ app.config['SECRET_KEY'] = 'supersecretkey'
 app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(minutes=20000)
 app.config.update(SESSION_COOKIE_SAMESITE="None", SESSION_COOKIE_SECURE=True)
 
+app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {
+    'poolclass': QueuePool,
+    'pool_size': 10,
+    'max_overflow': 20,
+    'pool_timeout': 30,
+    'pool_recycle': 1800,  # Reciclar conexiones cada 30 minutos
+}
+
 print(mysql_jabberusers, mysql_password, mysql_host, mysql_port, mysql_db, "envvvv")
 Session(app)
 socketio = SocketIO(app, cors_allowed_origins=os.environ.get("origins", 'http://localhost:5173'))
 
 db = SQLAlchemy(app)
 CORS(app, supports_credentials=True, origins=[os.environ.get("origins", 'http://localhost:5173')])  # Allowing CORS requests from the frontend
+
+def connect_with_retry():
+    retries = 5
+    for i in range(retries):
+        try:
+            db.engine.connect()
+            print("Database connection successful")
+            break
+        except OperationalError as e:
+            print(f"Database connection failed: {e}")
+            if i < retries - 1:
+                print("Retrying...")
+                time.sleep(5)
+            else:
+                print("All retries failed. Exiting.")
+                raise
+
+connect_with_retry()
 
 # jabberusers model definition
 class jabberusers(db.Model):
