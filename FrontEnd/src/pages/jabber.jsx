@@ -99,7 +99,7 @@ function Jabber() {
           window.location.href = "/login";
         } else {
           setLoggedIn(true);
-          setUsername(response.data.session.username);
+          setUsername(response.data.username);
         }
       })
       .catch((error) => {
