@@ -226,27 +226,6 @@ def get_messages(room):
     messages = JabberMessages.query.filter_by(room=room).order_by(JabberMessages.timestamp.asc()).all()
     messages_json = [{"username": jabberusers.query.filter_by(id=msg.sender_id).first().username, "content": msg.content, "timestamp": msg.timestamp, "messageid" : msg.id} for msg in messages]
     return jsonify(messages_json)
-    
-
-# @app.route('/api/messages', methods=['POST'])
-# def send_message():
-
-
-
-
-
-#     data = request.get_json()
-#     sender_id = data.get('sender_id')
-#     receiver_id = data.get('receiver_id')
-#     content = data.get('content')
-
-#     # Create a new message
-#     new_message = JabberMessages(sender_id=sender_id, receiver_id=receiver_id, content=content)
-#     db.session.add(new_message)
-#     db.session.commit()
-
-#     return jsonify({'JabberMessages': 'Message sent successfully.'}), 201
-
 
 #SOCKET IO
 @socketio.on('join')
@@ -259,7 +238,7 @@ def handle_join(data):
 def handle_leave(data):
     room = data['currentRoom']
     leave_room(room)
-    send(f"{session['user']} has left the room.", room=room)
+    send(f"{session.get('username')} has left the room.", room=room)
 
 @socketio.on('message')
 @cross_origin(supports_credentials=True)
@@ -270,18 +249,17 @@ def handle_message(data):
     print(message_content)
     if username:
         print('entre al if')
-        username_id = jabberusers.query.filter_by(username=username).first().id
-        print(username_id)
-
-        if username_id is None:
+        user = jabberusers.query.filter_by(username=username).first()
+        if user is None:
             return jsonify({'JabberMessages': 'User not found.'}), 404
-        message = JabberMessages(content=message_content, sender_id=username_id, room=room)
+        message = JabberMessages(content=message_content, sender_id=user.id, room=room)
         db.session.add(message)
         db.session.commit()
         # Obtener la representación serializable del timestamp
         timestamp_isoformat = message.timestamp.isoformat()
         send({"username": username, "content": message_content, "timestamp": timestamp_isoformat, "room": room}, room=room)
-
+    else:
+        return jsonify({'JabberMessages': 'Username not found in session.'}), 400
 
 with app.app_context():
     db.create_all()
