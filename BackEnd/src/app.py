@@ -231,14 +231,22 @@ def get_messages(room):
 @socketio.on('join')
 def handle_join(data):
     room = data['currentRoom']
-    join_room(room)
-    send(f"{data['username']} has entered the room.", room=room)
+    username = session.get('username')
+    if username:
+        join_room(room)
+        send(f"{username} has entered the room.", room=room)
+    else:
+        send("Error: User not logged in.", room=room)
 
 @socketio.on('leave')
 def handle_leave(data):
     room = data['currentRoom']
-    leave_room(room)
-    send(f"{data['username']} has left the room.", room=room)
+    username = session.get('username')
+    if username:
+        leave_room(room)
+        send(f"{username} has left the room.", room=room)
+    else:
+        send("Error: User not logged in.", room=room)
 
 @socketio.on('message')
 @cross_origin(supports_credentials=True)
