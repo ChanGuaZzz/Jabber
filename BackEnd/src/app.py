@@ -4,7 +4,7 @@ import datetime
 import hashlib
 from flask_session import Session
 from datetime import timedelta
-from flask import Flask,  session, jsonify, request, send_from_directory
+from flask import Flask, session, jsonify, request, send_from_directory
 from flask_sqlalchemy import SQLAlchemy
 from flask_socketio import SocketIO, join_room, leave_room, send
 from flask_cors import CORS, cross_origin
@@ -12,7 +12,6 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from dotenv import load_dotenv
 from sqlalchemy.exc import OperationalError
 from sqlalchemy.pool import QueuePool
-
 
 load_dotenv()
 
@@ -26,10 +25,11 @@ mysql_db = os.environ.get("mysql_db", 'jabber')
 app.config['SQLALCHEMY_DATABASE_URI'] = f'mysql+mysqlconnector://{mysql_jabberusers}:{mysql_password}@{mysql_host}:{mysql_port}/{mysql_db}'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False  # Disable SQLAlchemy modification tracking
 app.config['SESSION_TYPE'] = 'filesystem'
-app.config['SECRET_KEY'] = 'supersecretkey'
+app.config['_KEY'] = 'supersecretkey'
 app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(minutes=20000)
 app.config.update(SESSION_COOKIE_SAMESITE="None", SESSION_COOKIE_SECURE=True)
 
+# Configuración del pool de conexiones
 app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {
     'poolclass': QueuePool,
     'pool_size': 10,
@@ -45,6 +45,7 @@ socketio = SocketIO(app, cors_allowed_origins=os.environ.get("origins", 'http://
 db = SQLAlchemy(app)
 CORS(app, supports_credentials=True, origins=[os.environ.get("origins", 'http://localhost:5173')])  # Allowing CORS requests from the frontend
 
+# Función para intentar conectar a la base de datos con reintentos
 def connect_with_retry():
     retries = 5
     for i in range(retries):
@@ -61,7 +62,8 @@ def connect_with_retry():
                 print("All retries failed. Exiting.")
                 raise
 
-connect_with_retry()
+with app.app_context():
+    connect_with_retry()
 
 # jabberusers model definition
 class jabberusers(db.Model):
