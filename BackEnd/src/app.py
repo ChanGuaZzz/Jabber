@@ -7,7 +7,7 @@ from datetime import timedelta
 from flask import Flask,  session, jsonify, request, send_from_directory
 from flask_sqlalchemy import SQLAlchemy
 from flask_socketio import SocketIO, join_room, leave_room, send
-from flask_cors import CORS
+from flask_cors import CORS, cross_origin
 from werkzeug.security import generate_password_hash, check_password_hash
 from dotenv import load_dotenv
 from sqlalchemy.exc import OperationalError
@@ -89,12 +89,14 @@ frontend_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..
 
 #Del session
 @app.route('/api/logout', methods=['GET'])
+@cross_origin(supports_credentials=True)
 def logout():
     session.clear()
     return jsonify({"message": "Logged out!"})
 
 #get session
 @app.route('/api/getsession', methods=['GET'])
+@cross_origin(supports_credentials=True)
 def get_session():
     if 'username' in session:
         return jsonify({
@@ -121,6 +123,7 @@ def get_current_time():
 
 # Register endpoint
 @app.route('/api/register', methods=['POST'])
+@cross_origin(supports_credentials=True)
 def register():
     data = request.get_json()
     username = data.get('username')
@@ -141,6 +144,7 @@ def register():
 
 # Login endpoint
 @app.route('/api/login', methods=['POST'])
+@cross_origin(supports_credentials=True)
 def login():
     data = request.get_json()
     username = data.get('username')
@@ -160,6 +164,7 @@ def login():
 
 # User profile endpoint
 @app.route('/api/profile/<username>', methods=['GET', 'POST'])
+@cross_origin(supports_credentials=True)
 def profile(username):
     if request.method == 'GET':
         user = jabberusers.query.filter_by(username=username).first()
@@ -229,6 +234,7 @@ def handle_leave(data):
     send(f"{session['user']} has left the room.", room=room)
 
 @socketio.on('message')
+@cross_origin(supports_credentials=True)
 def handle_message(data):
     room = data['currentRoom']
     message_content = data['message']
