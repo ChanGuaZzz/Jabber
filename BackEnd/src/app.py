@@ -11,7 +11,7 @@ from flask_cors import CORS
 from werkzeug.security import generate_password_hash, check_password_hash
 from dotenv import load_dotenv
 from sqlalchemy.exc import OperationalError
-from sqlalchemy import event
+from sqlalchemy import event, text
 from sqlalchemy.engine import Engine
 
 load_dotenv()
@@ -41,10 +41,10 @@ def ping_connection(connection, branch):
     if branch:
         return
     try:
-        connection.scalar("SELECT 1")
+        connection.scalar(text("SELECT 1"))
     except OperationalError:
         connection._invalidate()
-        connection.scalar("SELECT 1")
+        connection.scalar(text("SELECT 1"))
 
 # jabberusers model definition
 class jabberusers(db.Model):
