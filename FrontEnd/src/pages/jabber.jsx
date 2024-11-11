@@ -6,7 +6,7 @@ import SendIcon from "../components/sendicon";
 import MessageComponent from "../components/messagecomponent";
 import { Filter } from "bad-words";
 const filter = new Filter();
-const socket = io('https://jabberweb.onrender.com/api', {
+const socket = io('https://jabberapisecretsdfgdfgehtjf.onrender.com', {
   withCredentials: true,
   transports: ['websocket'],
 });
