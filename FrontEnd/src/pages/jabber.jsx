@@ -6,7 +6,10 @@ import SendIcon from "../components/sendicon";
 import MessageComponent from "../components/messagecomponent";
 import { Filter } from "bad-words";
 const filter = new Filter();
-const socket = io("https://jabberapisecretsdfgdfgehtjf.onrender.com", { withCredentials: true });
+const socket = io('https://jabberapisecretsdfgdfgehtjf.onrender.com', {
+  withCredentials: true,
+  transports: ['websocket'],
+});
 function Jabber() {
   const [username, setUsername] = useState("");
   const [loggedIn, setLoggedIn] = useState(false);
@@ -33,11 +36,6 @@ function Jabber() {
   }, [messages, scrollbutton]);
 
   useEffect(() => {
-    const socket = io('https://jabberapisecretsdfgdfgehtjf.onrender.com', {
-      withCredentials: true,
-      transports: ['websocket'],
-    });
-
     socket.on('connect', () => {
       console.log('Connected to WebSocket');
     });
@@ -47,11 +45,7 @@ function Jabber() {
       setMessages((prevMessages) => [...prevMessages, message]);
     });
 
-    return () => {
-      socket.disconnect();
-      console.log('Disconnected from WebSocket');
-    };
-  }, [currentRoom]);
+  }, [socket]);
 
   useEffect(() => {
     setRooms([
