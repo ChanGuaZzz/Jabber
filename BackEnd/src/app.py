@@ -35,17 +35,6 @@ socketio = SocketIO(app, cors_allowed_origins="*")
 db = SQLAlchemy(app)
 CORS(app, supports_credentials=True, origins=[os.environ.get("origins", 'http://localhost:5173')])  # Allowing CORS requests from the frontend
 
-# Manejo de errores de conexión
-@event.listens_for(Engine, "engine_connect")
-def ping_connection(connection, branch):
-    if branch:
-        return
-    try:
-        connection.scalar(text("SELECT 1"))
-    except OperationalError:
-        connection._invalidate()
-        connection.scalar(text("SELECT 1"))
-
 # jabberusers model definition
 class jabberusers(db.Model):
     id = db.Column(db.Integer, primary_key=True)
