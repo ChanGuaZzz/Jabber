@@ -91,11 +91,11 @@ function Jabber() {
       .get("https://jabberapisecretsdfgdfgehtjf.onrender.com/api/getsession", { withCredentials: true })
       .then((response) => {
         console.log(response);
-        if (response.data.session.username) {
+        if (response.data.message == "No session data found." ) {
+          window.location.href = "/login";
+        } else {
           setLoggedIn(true);
           setUsername(response.data.session.username);
-        } else {
-          window.location.href = "/login";
         }
       })
       .catch((error) => {
