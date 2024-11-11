@@ -33,15 +33,24 @@ function Jabber() {
   }, [messages, scrollbutton]);
 
   useEffect(() => {
-    socket.on("message", (data) => {
-      // Actualiza los mensajes recibidos del servidor
-      setMessages((prevMessages) => [...prevMessages, data]);
+    const socket = io('https://jabberapisecretsdfgdfgehtjf.onrender.com', {
+      withCredentials: true,
+      transports: ['websocket'],
+    });
+
+    socket.on('connect', () => {
+      console.log('Connected to WebSocket');
+    });
+
+    socket.on('message', (message) => {
+      console.log('New message:', message);
+      setMessages((prevMessages) => [...prevMessages, message]);
     });
 
     return () => {
       socket.disconnect();
     };
-  }, []);
+  }, [currentRoom]);
 
   useEffect(() => {
     setRooms([

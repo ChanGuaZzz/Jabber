@@ -30,7 +30,7 @@ app.config['SECRET_KEY'] = 'supersecretkey'
 app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(minutes=20000)
 print(mysql_jabberusers, mysql_password, mysql_host, mysql_port, mysql_db, "envvvv")
 Session(app)
-socketio = SocketIO(app, cors_allowed_origins="*")
+socketio = SocketIO(app, cors_allowed_origins=os.environ.get("origins", 'http://localhost:5173'))
 
 db = SQLAlchemy(app)
 CORS(app, supports_credentials=True, origins=[os.environ.get("origins", 'http://localhost:5173')])  # Allowing CORS requests from the frontend
