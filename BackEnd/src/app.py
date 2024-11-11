@@ -99,7 +99,7 @@ def get_session():
             'username': session['username'],
             'email': session['email']
         })
-    return jsonify({'message': 'No session data found.'}), 404
+    return jsonify({'message': 'No session data found.'})
 
 
 # Static route for the frontend
