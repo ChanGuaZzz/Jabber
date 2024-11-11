@@ -15,7 +15,7 @@ load_dotenv()
 
 app = Flask(__name__, static_folder='../build', static_url_path='/')
 
-mysql_jabberusers = os.environ.get("mysql_jabberusers", 'root')
+mysql_jabberusers = os.environ.get("mysql_user", 'root')
 mysql_password = os.environ.get("mysql_password", '')
 mysql_host = os.environ.get("mysql_host", 'localhost')
 mysql_port = int(os.environ.get("mysql_port", 3306))
