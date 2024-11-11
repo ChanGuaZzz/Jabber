@@ -232,21 +232,20 @@ def get_messages(room):
 def handle_join(data):
     room = data['currentRoom']
     join_room(room)
-    print(session)
-    send(f"{session.get('username')} has entered the room.", room=room)
+    send(f"{data['username']} has entered the room.", room=room)
 
 @socketio.on('leave')
 def handle_leave(data):
     room = data['currentRoom']
     leave_room(room)
-    send(f"{session.get('username')} has left the room.", room=room)
+    send(f"{data['username']} has left the room.", room=room)
 
 @socketio.on('message')
 @cross_origin(supports_credentials=True)
 def handle_message(data):
     room = data['currentRoom']
     message_content = data['message']
-    username = session.get('username')
+    username = data['username']
     print(message_content)
     if username:
         print('entre al if')

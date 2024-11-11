@@ -75,7 +75,7 @@ function Jabber() {
 
   useEffect(() => {
     if (loggedIn && currentRoom) {
-      socket.emit("join", { currentRoom });
+      socket.emit("join", { currentRoom, username });
       setloading(true);
       axios
         .get(`https://jabberweb.onrender.com/api/api/messages/${currentRoom}`)
