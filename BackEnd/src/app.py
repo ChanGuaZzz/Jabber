@@ -28,6 +28,8 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False  # Disable SQLAlchemy modif
 app.config['SESSION_TYPE'] = 'filesystem'
 app.config['SECRET_KEY'] = 'supersecretkey'
 app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(minutes=20000)
+app.config.update(SESSION_COOKIE_SAMESITE="None", SESSION_COOKIE_SECURE=True)
+
 print(mysql_jabberusers, mysql_password, mysql_host, mysql_port, mysql_db, "envvvv")
 Session(app)
 socketio = SocketIO(app, cors_allowed_origins=os.environ.get("origins", 'http://localhost:5173'))
