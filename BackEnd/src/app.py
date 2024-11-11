@@ -249,7 +249,6 @@ def handle_leave(data):
         send("Error: User not logged in.", room=room)
 
 @socketio.on('message')
-@cross_origin(supports_credentials=True)
 def handle_message(data):
     room = data['currentRoom']
     message_content = data['message']
@@ -259,7 +258,7 @@ def handle_message(data):
         print('entre al if')
         user = jabberusers.query.filter_by(username=username).first()
         if user is None:
-            return jsonify({'JabberMessages': 'User not found.'}), 404
+            send({'JabberMessages': 'User not found.'}, room=room)
         message = JabberMessages(content=message_content, sender_id=user.id, room=room)
         db.session.add(message)
         db.session.commit()
@@ -267,7 +266,7 @@ def handle_message(data):
         timestamp_isoformat = message.timestamp.isoformat()
         send({"username": username, "content": message_content, "timestamp": timestamp_isoformat, "room": room}, room=room)
     else:
-        return jsonify({'JabberMessages': 'Username not found in session.'}), 400
+        send({'JabberMessages': 'Username not found in session.'}, room=room)
 
 with app.app_context():
     db.create_all()
