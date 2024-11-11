@@ -6,7 +6,7 @@ import SendIcon from "../components/sendicon";
 import MessageComponent from "../components/messagecomponent";
 import { Filter } from "bad-words";
 const filter = new Filter();
-const socket = io('/api', {
+const socket = io('https://jabberweb.onrender.com/api', {
   withCredentials: true,
   transports: ['websocket'],
 });
@@ -78,7 +78,7 @@ function Jabber() {
       socket.emit("join", { currentRoom });
       setloading(true);
       axios
-        .get(`/api/api/messages/${currentRoom}`)
+        .get(`https://jabberweb.onrender.com/api/api/messages/${currentRoom}`)
         .then((response) => {
           setloading(false);
           setMessages(response.data);
@@ -92,7 +92,7 @@ function Jabber() {
 
   useEffect(() => {
     axios
-      .get("/api/api/getsession", { withCredentials: true })
+      .get("https://jabberweb.onrender.com/api/api/getsession", { withCredentials: true })
       .then((response) => {
         console.log(response);
         if (response.data.message == "No session data found." ) {
@@ -111,7 +111,7 @@ function Jabber() {
 
   const logout = () => {
     axios
-      .get("/api/api/logout", { withCredentials: true })
+      .get("https://jabberweb.onrender.com/api/api/logout", { withCredentials: true })
       .then((response) => {
         window.location.href = "/login";
       })
