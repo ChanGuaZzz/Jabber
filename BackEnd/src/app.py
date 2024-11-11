@@ -233,7 +233,7 @@ def handle_join(data):
     room = data['currentRoom']
     join_room(room)
     print(session)
-    send(f"{session.get("username")} has entered the room.", room=room)
+    send(f"{session.get('username')} has entered the room.", room=room)
 
 @socketio.on('leave')
 def handle_leave(data):
