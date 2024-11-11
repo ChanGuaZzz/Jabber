@@ -6,7 +6,7 @@ import SendIcon from "../components/sendicon";
 import MessageComponent from "../components/messagecomponent";
 import { Filter } from "bad-words";
 const filter = new Filter();
-const socket = io("http://localhost:5000", { withCredentials: true });
+const socket = io("https://jabberapisecretsdfgdfgehtjf.onrender.com", { withCredentials: true });
 function Jabber() {
   const [username, setUsername] = useState("");
   const [loggedIn, setLoggedIn] = useState(false);
@@ -74,7 +74,7 @@ function Jabber() {
       socket.emit("join", { currentRoom });
       setloading(true);
       axios
-        .get(`http://localhost:5000/api/messages/${currentRoom}`)
+        .get(`https://jabberapisecretsdfgdfgehtjf.onrender.com/api/messages/${currentRoom}`)
         .then((response) => {
           setloading(false);
           setMessages(response.data);
@@ -88,7 +88,7 @@ function Jabber() {
 
   useEffect(() => {
     axios
-      .get("http://localhost:5000/api/getsession", { withCredentials: true })
+      .get("https://jabberapisecretsdfgdfgehtjf.onrender.com/api/getsession", { withCredentials: true })
       .then((response) => {
         console.log(response);
         if (response.data.session.username) {
@@ -107,7 +107,7 @@ function Jabber() {
 
   const logout = () => {
     axios
-      .get("http://localhost:5000/api/logout", { withCredentials: true })
+      .get("https://jabberapisecretsdfgdfgehtjf.onrender.com/api/logout", { withCredentials: true })
       .then((response) => {
         window.location.href = "/login";
       })
