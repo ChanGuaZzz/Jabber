@@ -25,7 +25,7 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False  # Disable SQLAlchemy modif
 app.config['SESSION_TYPE'] = 'filesystem'
 app.config['SECRET_KEY'] = 'supersecretkey'
 app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(minutes=20000)
-
+print(os.environ, "ENVIRONMENT VARIABLES")
 Session(app)
 socketio = SocketIO(app, cors_allowed_origins="*")
 
