@@ -49,6 +49,7 @@ function Jabber() {
 
     return () => {
       socket.disconnect();
+      console.log('Disconnected from WebSocket');
     };
   }, [currentRoom]);
 
