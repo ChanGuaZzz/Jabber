@@ -10,6 +10,9 @@ from flask_socketio import SocketIO, join_room, leave_room, send
 from flask_cors import CORS
 from werkzeug.security import generate_password_hash, check_password_hash
 from dotenv import load_dotenv
+from sqlalchemy.exc import OperationalError
+from sqlalchemy import event
+from sqlalchemy.engine import Engine
 
 load_dotenv()
 
@@ -31,6 +34,17 @@ socketio = SocketIO(app, cors_allowed_origins="*")
 
 db = SQLAlchemy(app)
 CORS(app, supports_credentials=True, origins=[os.environ.get("origins", 'http://localhost:5173')])  # Allowing CORS requests from the frontend
+
+# Manejo de errores de conexión
+@event.listens_for(Engine, "engine_connect")
+def ping_connection(connection, branch):
+    if branch:
+        return
+    try:
+        connection.scalar("SELECT 1")
+    except OperationalError:
+        connection._invalidate()
+        connection.scalar("SELECT 1")
 
 # jabberusers model definition
 class jabberusers(db.Model):
