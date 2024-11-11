@@ -202,6 +202,7 @@ function Jabber() {
                   <>
                     {messages.map((msg, index) => (
                       <div key={index}>
+                        {console.log("usuario enviador", msg.username,"usuario actual", username, (msg.username == username ? true : false))}
                         {msg.content && (
                           <MessageComponent
                             messageid={msg.messageid}
