@@ -20,7 +20,7 @@ function Login() {
     e.preventDefault(); // Evita que el formulario haga un submit por defecto
 
     axios
-      .post("https://jabberapisecretsdfgdfgehtjf.onrender.com/api/login", { username, password }, { withCredentials: true })
+      .post("https://jabberweb.onrender.com/api/api/login", { username, password }, { withCredentials: true })
       .then((response) => {
         setMessage(response.data.message);
         if (response.status === 200) {
@@ -54,7 +54,7 @@ function Login() {
     e.preventDefault(); // Evita que el formulario haga un submit por defecto
 
     axios
-      .post("https://jabberapisecretsdfgdfgehtjf.onrender.com/api/register", { username, email, password })
+      .post("https://jabberweb.onrender.com/api/api/register", { username, email, password })
       .then((response) => {
         setMessage(response.data.message);
         // Puedes manejar el cambio de ventana aquí si es necesario
