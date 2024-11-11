@@ -231,7 +231,7 @@ def get_messages(room):
 @socketio.on('join')
 def handle_join(data):
     room = data['currentRoom']
-    username = session.get('username')
+    username = data['username']
     if username:
         join_room(room)
         send(f"{username} has entered the room.", room=room)
@@ -241,7 +241,7 @@ def handle_join(data):
 @socketio.on('leave')
 def handle_leave(data):
     room = data['currentRoom']
-    username = session.get('username')
+    username = data['username']
     if username:
         leave_room(room)
         send(f"{username} has left the room.", room=room)
