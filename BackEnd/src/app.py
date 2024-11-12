@@ -6,7 +6,7 @@ from flask_session import Session
 from datetime import timedelta
 from flask import Flask, session, jsonify, request, send_from_directory
 from flask_sqlalchemy import SQLAlchemy
-from flask_socketio import SocketIO, join_room, leave_room, send
+from flask_socketio import SocketIO, join_room, leave_room, send, emit
 from flask_cors import CORS, cross_origin
 from werkzeug.security import generate_password_hash, check_password_hash
 from dotenv import load_dotenv
@@ -234,9 +234,9 @@ def handle_join(data):
     username = data['username']
     if username:
         join_room(room)
-        send(f"{username} has entered the room.", room=room)
+        print(f"{username} has entered the room",room)
     else:
-        send("Error: User not logged in.", room=room)
+        print("Error: User not logged in.", room)
 
 @socketio.on('leave')
 def handle_leave(data):
@@ -264,9 +264,9 @@ def handle_message(data):
         db.session.commit()
         # Obtener la representación serializable del timestamp
         timestamp_isoformat = message.timestamp.isoformat()
-        send({"username": username, "content": message_content, "timestamp": timestamp_isoformat, "room": room}, room=room)
+        emit('message',{"username": username, "content": message_content, "timestamp": timestamp_isoformat, "room": room}, room=room,  broadcast=True)
     else:
-        send({'JabberMessages': 'Username not found in session.'}, room=room)
+        print({'JabberMessages': 'Username not found in session.'},room)
 
 with app.app_context():
     db.create_all()
