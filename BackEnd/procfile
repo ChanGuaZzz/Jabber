@@ -1,1 +1,1 @@
-gunicorn -w 5 -b 0.0.0.0:10000 --timeout 120 src.app:app
+gunicorn -w 5 -b 0.0.0.0:10000 --timeout 120 src.run:app
