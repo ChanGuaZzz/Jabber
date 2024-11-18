@@ -283,6 +283,11 @@
 # if __name__ == '__main__':
 #     socketio.run(app, host="0.0.0.0", port=10000, debug=True)
 
+import sys
+import os
+
+# Agregar el directorio raíz al sys.path
+sys.path.append(os.path.abspath(os.path.dirname(__file__)))
 from app import create_app, socketio
 
 app = create_app()
