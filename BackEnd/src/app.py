@@ -232,9 +232,13 @@ def get_messages(room):
 def handle_join(data):
     room = data['currentRoom']
     username = data['username']
+    print("ISLOGGINGGGGGGGGGGGGGGGGGGGGGGGGG TO ROOM")
     if username:
         join_room(room)
-        print(f"{username} has entered the room",room)
+        users_in_room = socketio.server.manager.rooms['/'].get(room, set())
+        users_list = list(users_in_room)
+        print(f"{username} has entered the room",room, "user list", users_list)
+        
     else:
         print("Error: User not logged in.", room)
 
@@ -253,8 +257,6 @@ def handle_message(data):
     room = data['currentRoom']
     message_content = data['message']
     username = data['username']
-    socket_id = request.sid  # Obtener el ID del socket del cliente
-    print(f"Socket ID: {socket_id}")
     print(message_content)
     if username:
         users_in_room = socketio.server.manager.rooms['/'].get(room, set())
