@@ -75,18 +75,18 @@ function Jabber() {
 
   useEffect(() => {
     if (loggedIn && currentRoom) {
-      socket.emit("join", { currentRoom, username });
-      // setloading(true);
-      // axios
-      //   .get(`https://jabberweb.onrender.com/api/api/messages/${currentRoom}`)
-      //   .then((response) => {
-      //     setloading(false);
-      //     setMessages(response.data);
-      //     console.log(response.data);
-      //   })
-      //   .catch((error) => {
-      //     console.log(error);
-      //   });
+      // socket.emit("join", { currentRoom, username });
+      setloading(true);
+      axios
+        .get(`https://jabberweb.onrender.com/api/api/messages/${currentRoom}`)
+        .then((response) => {
+          setloading(false);
+          setMessages(response.data);
+          console.log(response.data);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     }
   }, [currentRoom]);
 
