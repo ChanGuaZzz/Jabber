@@ -224,7 +224,7 @@ def profile(username):
 @app.route('/api/messages/<room>', methods=['GET'])
 def get_messages(room):
     print(room, 'NOMBREEEEE DE LA SALAAAAAAAAAAAAAAAAA')
-    messages = JabberMessages.query.filter_by(room=room).order_by(JabberMessages.timestamp.asc()).all()
+    messages = JabberMessages.query.filter_by(room=room).order_by(JabberMessages.timestamp.asc()).limit(50).all()
     messages_json = [{"username": jabberusers.query.filter_by(id=msg.sender_id).first().username, "content": msg.content, "timestamp": msg.timestamp, "messageid" : msg.id} for msg in messages]
     return jsonify(messages_json)
 
