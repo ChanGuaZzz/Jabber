@@ -253,9 +253,15 @@ def handle_message(data):
     room = data['currentRoom']
     message_content = data['message']
     username = data['username']
+    socket_id = request.sid  # Obtener el ID del socket del cliente
+    print(f"Socket ID: {socket_id}")
     print(message_content)
     if username:
-        print('entre al if')
+        users_in_room = socketio.server.manager.rooms['/'].get(room, set())
+        users_list = list(users_in_room)
+        print("my socket", )
+        print('mensaje enviado',room, "USUARIOS EN LA SALA", users_list)
+
         user = jabberusers.query.filter_by(username=username).first()
         if user is None:
             send({'JabberMessages': 'User not found.'}, room=room)
