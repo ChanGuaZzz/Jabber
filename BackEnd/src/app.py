@@ -126,7 +126,7 @@ def logout():
 #get session
 @app.route('/api/getsession', methods=['GET'])
 @cross_origin(supports_credentials=True)
-def get_session():
+async def get_session():
     if 'username' in session:
         return jsonify({
             'username': session['username'],
@@ -153,7 +153,7 @@ def get_current_time():
 # Register endpoint
 @app.route('/api/register', methods=['POST'])
 @cross_origin(supports_credentials=True)
-def register():
+async def register():
     data = request.get_json()
     username = data.get('username')
     email = data.get('email')
@@ -173,28 +173,44 @@ def register():
 
 # Login endpoint
 @app.route('/api/login', methods=['POST'])
-@cross_origin(supports_credentials=True)
-def login():
-    data = request.get_json()
-    username = data.get('username')
-    password = data.get('password')
+async def login():
+    try:
+        # Obtén los datos enviados en la solicitud
+        data = request.get_json()
+        if not data:
+            return jsonify({'error': 'No input data provided'}), 400
 
-    # Find the user in the database by username
-    user = jabberusers.query.filter_by(username=username).first()
+        username = data.get('username')
+        password = data.get('password')
 
-    # Check if the user exists and if the password is correct
-    if user and user.check_password(password):
-        session['username'] = user.username
-        session['email'] = user.email
-        session.modified = True
-        return jsonify({'JabberMessages': 'Login successful.'}), 200
-    else:
-        return jsonify({'JabberMessages': 'Incorrect username or password.'}), 400
+        if not username or not password:
+            return jsonify({'error': 'Username and password are required'}), 400
 
+        # Busca el usuario en la base de datos
+        user = jabberusers.query.filter_by(username=username).first()
+
+        # Verifica que el usuario exista y que la contraseña sea correcta
+        if user and user.check_password(password):
+            session['username'] = user.username
+            session['email'] = user.email
+            session.modified = True
+            return jsonify({'message': 'Login successful.'}), 200
+        else:
+            return jsonify({'error': 'Incorrect username or password.'}), 401
+
+    except OperationalError as e:
+        # Maneja errores de conexión a la base de datos
+        app.logger.error(f"Database connection error: {e}")
+        return jsonify({'error': 'Database connection error. Please try again later.'}), 500
+
+    except Exception as e:
+        # Maneja cualquier otro error inesperado
+        app.logger.error(f"Unexpected error: {e}")
+        return jsonify({'error': 'An unexpected error occurred.'}), 500
 # User profile endpoint
 @app.route('/api/profile/<username>', methods=['GET', 'POST'])
 @cross_origin(supports_credentials=True)
-def profile(username):
+async def profile(username):
     if request.method == 'GET':
         user = jabberusers.query.filter_by(username=username).first()
         if not user:
@@ -222,7 +238,7 @@ def profile(username):
 
 # Message routes and controllers
 @app.route('/api/messages/<room>', methods=['GET'])
-def get_messages(room):
+async def get_messages(room):
     print(room, 'NOMBREEEEE DE LA SALAAAAAAAAAAAAAAAAA')
     messages = JabberMessages.query.filter_by(room=room).order_by(JabberMessages.timestamp.asc()).limit(50).all()
     messages_json = [{"username": jabberusers.query.filter_by(id=msg.sender_id).first().username, "content": msg.content, "timestamp": msg.timestamp, "messageid" : msg.id} for msg in messages]
@@ -240,7 +256,7 @@ async def handle_join(data):
         print("Error: User not logged in.")
 
 @socketio.on('leave')
-def handle_leave(data):
+async def handle_leave(data):
     room = data['currentRoom']
     username = data['username']
     if username:
@@ -250,7 +266,7 @@ def handle_leave(data):
         send("Error: User not logged in.", room=room)
 
 @socketio.on('message')
-def handle_message(data):
+async def handle_message(data):
     room = data['currentRoom']
     message_content = data['message']
     username = data['username']
