@@ -126,7 +126,7 @@ def logout():
 #get session
 @app.route('/api/getsession', methods=['GET'])
 @cross_origin(supports_credentials=True)
-async def get_session():
+def get_session():
     if 'username' in session:
         return jsonify({
             'username': session['username'],
@@ -153,7 +153,7 @@ def get_current_time():
 # Register endpoint
 @app.route('/api/register', methods=['POST'])
 @cross_origin(supports_credentials=True)
-async def register():
+def register():
     data = request.get_json()
     username = data.get('username')
     email = data.get('email')
@@ -173,7 +173,7 @@ async def register():
 
 # Login endpoint
 @app.route('/api/login', methods=['POST'])
-async def login():
+def login():
     try:
         # Obtén los datos enviados en la solicitud
         data = request.get_json()
@@ -210,7 +210,7 @@ async def login():
 # User profile endpoint
 @app.route('/api/profile/<username>', methods=['GET', 'POST'])
 @cross_origin(supports_credentials=True)
-async def profile(username):
+def profile(username):
     if request.method == 'GET':
         user = jabberusers.query.filter_by(username=username).first()
         if not user:
@@ -238,7 +238,7 @@ async def profile(username):
 
 # Message routes and controllers
 @app.route('/api/messages/<room>', methods=['GET'])
-async def get_messages(room):
+def get_messages(room):
     print(room, 'NOMBREEEEE DE LA SALAAAAAAAAAAAAAAAAA')
     messages = JabberMessages.query.filter_by(room=room).order_by(JabberMessages.timestamp.asc()).limit(50).all()
     messages_json = [{"username": jabberusers.query.filter_by(id=msg.sender_id).first().username, "content": msg.content, "timestamp": msg.timestamp, "messageid" : msg.id} for msg in messages]
@@ -256,7 +256,7 @@ async def handle_join(data):
         print("Error: User not logged in.")
 
 @socketio.on('leave')
-async def handle_leave(data):
+def handle_leave(data):
     room = data['currentRoom']
     username = data['username']
     if username:
@@ -266,7 +266,7 @@ async def handle_leave(data):
         send("Error: User not logged in.", room=room)
 
 @socketio.on('message')
-async def handle_message(data):
+def handle_message(data):
     room = data['currentRoom']
     message_content = data['message']
     username = data['username']
