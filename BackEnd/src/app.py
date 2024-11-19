@@ -230,18 +230,14 @@ def get_messages(room):
 
 #SOCKET IO
 @socketio.on('join')
-def handle_join(data):
+async def handle_join(data):
     room = data['currentRoom']
     username = data['username']
-    print("ISLOGGINGGGGGGGGGGGGGGGGGGGGGGGGG TO ROOM")
     if username:
-        join_room(room)
-        users_in_room = socketio.server.manager.rooms['/'].get(room, set())
-        users_list = list(users_in_room)
-        print(f"{username} has entered the room",room, "user list", users_list)
-        
+        await join_room(room)
+        print(f"{username} has entered the room {room}")
     else:
-        print("Error: User not logged in.", room)
+        print("Error: User not logged in.")
 
 @socketio.on('leave')
 def handle_leave(data):
