@@ -246,11 +246,11 @@ def get_messages(room):
 
 #SOCKET IO
 @socketio.on('join')
-async def handle_join(data):
+def handle_join(data):
     room = data['currentRoom']
     username = data['username']
     if username:
-        await join_room(room)
+        join_room(room)
         print(f"{username} has entered the room {room}")
     else:
         print("Error: User not logged in.")
