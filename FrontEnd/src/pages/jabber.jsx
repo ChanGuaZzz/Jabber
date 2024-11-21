@@ -151,7 +151,7 @@ function Jabber() {
   };
   return (
     <div className="size-full">
-      <div className=" flex flex-row h-[8%] mb-1">
+      <div className=" flex flex-row items-center item h-[8%] mb-1">
         <button className="buttonLogout m-2 button rounded-xl flex justify-center items-center  " onClick={logout}>
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-6">
             <path
@@ -161,7 +161,7 @@ function Jabber() {
             />
           </svg>
         </button>
-        <div className="overflow-y-auto  w-full bg-[#c7c7c7] ps-2 flex rounded-l-2xl ">
+        <div className="overflow-y-auto h-full  w-full bg-[#c7c7c7] ps-2 flex rounded-l-2xl ">
           <div ref={hscrollRef} onWheel={Hscroll} className="overflow-y-auto scrollbar flex flex-row  rounded-l-2xl ">
             {rooms.map((room, index) => (
               <button
@@ -189,9 +189,9 @@ function Jabber() {
               <h2 className="text-shadow font-semibold">Chat in {currentRoom}</h2>
             </div>
             <div className="">
-              <div className="flex flex-col h-[80vh] pb-14 pt-6 bg-chat rounded-md messages-container overflow-auto scrollbar-dark" ref={scrollRef}>
+              <div className="flex flex-col h-[80vh] pb-14  bg-chat rounded-md messages-container overflow-auto scrollbar-dark" ref={scrollRef}>
                 {loading ? (
-                  <div className="absolute bg-black w-full h-[80%] bg-opacity-60 backdrop-blur-sm ">
+                  <div className="absolute bg-black w-full h-full bg-opacity-60 backdrop-blur-sm ">
                     <div className=" loadinganimation size-full flex justify-center items-center text-white">
                       <div className=" size-2 mx-1 bg-white rounded-full transition-all"></div>
                       <div className="size-2 mx-1 bg-white rounded-full transition-all"></div>
@@ -219,13 +219,13 @@ function Jabber() {
               </div>
               <button
                 onClick={() => setScrollbutton(!scrollbutton)}
-                className=" button  bg-lime-600 w-[40px] h-[40px] backdrop-blur-sm shadow-black shadow-md text-white my-2 items-center fixed flex bottom-[70px] right-[20px] rounded-full justify-center opacity-75"
+                className=" button  bg-lime-600 w-[40px] h-[40px] backdrop-blur-sm shadow-black shadow-md text-white my-2 items-center fixed flex bottom-[80px] right-[20px] rounded-full justify-center opacity-50 hover:opacity-100"
               >
                 <ion-icon name="chevron-down-circle-outline" size="large"></ion-icon>
               </button>
-              <div className=" bg-slate-900 w-full fixed top-[92.4vh] flex items-center justify-center inputchat  ">
+              <div className=" bg-slate-900 w-full fixed top-[91vh] pb-7 flex items-center justify-center inputchat ">
                 <input
-                  className="text-left w-5/6 bg-slate-600 border-none rounded-2xl "
+                  className="text-left w-[70%] bg-slate-600 border-none rounded-2xl "
                   type="text"
                   placeholder="Type a message..."
                   value={message}
@@ -250,7 +250,7 @@ function Jabber() {
           </>
         ) : (
           <>
-            <div className=" size-full flex flex-col pt-[30%] items-center">
+            <div className=" size-full flex flex-col pt-[200px] items-center">
               <div className="flex welcome flex-col justify-center items-center rounded-2xl bg-">
                 <p className="text-white font-extrabold text-6xl transition-all  m-10">Welcome</p>
                 <h2 className={` opacity-40  text-sm text-center mb-4  mx-8`}>Your portal to connect and chat with people around the world. Join a room and start your global conversation now!</h2>

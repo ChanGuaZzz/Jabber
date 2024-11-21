@@ -68,19 +68,18 @@ function Login() {
   return (
     <div className="background-login w-full h-full flex justify-center items-center  p-0">
       <div className="h-full w-full  flex items-center flex-col text-center justify-center">
-        <div className="h-2/3 flex items-center flex-col  justify-center">
+        <div className={`  ${currentWindow != "login" ? "h-[30%]":"h-[40%]"}  flex items-center flex-col  justify-center`}>
           <img src={logo} alt="" />
           <img src={letra} alt="" />
         </div>
-        <div className="h-3/5  flex flex-col w-4/5 sm:w-2/5 xl:w-1/5 lg:w-2/5">
+        <div className="h-[40%] flex flex-col w-4/5 sm:w-2/5 xl:w-1/5 lg:w-2/5">
           {currentWindow === "login" ? (
             <>
-              <h2 className="text-center">Log in</h2>
               <form className="flex flex-col" onSubmit={handleLogin}>
                 <input type="text" placeholder="Username" value={username} onChange={(e) => setUsername(e.target.value)} required />
                 <input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} required />
                 <button className="buttonG rounded-xl button p-3" type="submit">
-                  Log In
+                  Sign in
                 </button>
               </form>
               <p className="text-white">
@@ -97,7 +96,6 @@ function Login() {
             </>
           ) : (
             <>
-              <h2 className="text-center">Register</h2>
               <form className="flex flex-col" onSubmit={handleRegister}>
                 <input type="text" placeholder="Username" onChange={(e) => setUsername(e.target.value)} required />
                 <input type="email" placeholder="Email" onChange={(e) => setEmail(e.target.value)} required />
@@ -125,7 +123,7 @@ function Login() {
                 )}
               </form>
               <p className="text-white">
-                I don't have an account{" "}
+              I already have an account {" "}
                 <a
                   className="font-medium text-orange-500"
                   onClick={() => {
