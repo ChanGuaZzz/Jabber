@@ -78,7 +78,7 @@ function Login() {
               <form className="flex flex-col" onSubmit={handleLogin}>
                 <input type="text" placeholder="Username" value={username} onChange={(e) => setUsername(e.target.value)} required />
                 <input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} required />
-                <button className="buttonG rounded-xl button p-3" type="submit">
+                <button className="buttonG rounded-xl button p-3 my-3" type="submit">
                   Sign in
                 </button>
               </form>
@@ -117,7 +117,7 @@ function Login() {
                     </button>
                   </>
                 ) : (
-                  <button className="buttonG rounded-xl button p-3 mt-4" type="submit">
+                  <button className="buttonG rounded-xl button p-3 my-3" type="submit">
                     Register
                   </button>
                 )}
