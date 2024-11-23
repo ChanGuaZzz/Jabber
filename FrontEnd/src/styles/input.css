@@ -74,13 +74,15 @@ a{
     cursor: pointer;
 }
 
-.buttonLogout{
-background-color: red;
+.buttonheader{
 font-size: small;
 color: white;
-padding: 1%;
+padding: 5px;
 height: 60px;
-width: 50px;
+width: 40px;
+min-width: 40px;
+min-height: 60px;
+
 }
 
 .welcome > *{

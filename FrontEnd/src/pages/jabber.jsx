@@ -152,7 +152,7 @@ function Jabber() {
   return (
     <div className="size-full">
       <div className=" flex flex-row items-center item h-[8%] mb-1">
-        <button className="buttonLogout m-2 button rounded-xl flex justify-center items-center  " onClick={logout}>
+        <button className="buttonheader bg-red-600 ml-2 button rounded-xl flex justify-center items-center  " onClick={logout}>
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-6">
             <path
               strokeLinecap="round"
@@ -161,6 +161,9 @@ function Jabber() {
             />
           </svg>
         </button>
+        <a className="buttonheader bg-blue-600 m-2 button rounded-xl flex justify-center items-center  " href="/profile">
+        <ion-icon name="person-circle-outline" size="large"></ion-icon>
+        </a>
         <div className="overflow-y-auto h-full  w-full bg-[#c7c7c7] ps-2 flex rounded-l-2xl ">
           <div ref={hscrollRef} onWheel={Hscroll} className="overflow-y-auto scrollbar flex flex-row  rounded-l-2xl ">
             {rooms.map((room, index) => (
