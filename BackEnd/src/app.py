@@ -130,10 +130,10 @@ def get_session():
     if 'username' in session:
         return jsonify({
             'username': session['username'],
-            'email': session['email']
+            'email': session['email'],
+            'userId': session['userId']
         })
     return jsonify({'message': 'No session data found.'})
-
 
 # Static route for the frontend
 @app.route('/')
@@ -192,6 +192,7 @@ def login():
         # Verifica que el usuario exista y que la contraseña sea correcta
         if user and user.check_password(password):
             session['username'] = user.username
+            session['userId'] = user.id
             session['email'] = user.email
             session.modified = True
             return jsonify({'message': 'Login successful.'}), 200
@@ -208,13 +209,18 @@ def login():
         app.logger.error(f"Unexpected error: {e}")
         return jsonify({'error': 'An unexpected error occurred.'}), 500
 # User profile endpoint
-@app.route('/api/profile/<username>', methods=['GET', 'POST'])
+@app.route('/api/profile', methods=['GET', 'POST'])
 @cross_origin(supports_credentials=True)
-def profile(username):
+def profile():
+    
+    if 'userId' not in session:
+        return jsonify({'JabberMessages': 'User not logged in.'}), 401
+    
+    userId = session['userId']
+    user = jabberusers.query.filter_by(id=userId).first()
+    if not user:
+            return jsonify({'JabberMessages': 'User not found.'}), 401
     if request.method == 'GET':
-        user = jabberusers.query.filter_by(username=username).first()
-        if not user:
-            return jsonify({'JabberMessages': 'User not found.'}), 404
         # Return user profile data (excluding sensitive information)
         return jsonify({
             'username': user.username,
@@ -226,13 +232,17 @@ def profile(username):
     elif request.method == 'POST':
         # Update user profile data
         data = request.get_json()
-        user = jabberusers.query.filter_by(username=username).first()
-        if not user:
-            return jsonify({'JabberMessages': 'User not found.'}), 404
-        
         # Update profile fields
-        user.location = data.get('location', user.location)
-        user.languages = data.get('languages', user.languages)
+        if 'username' in data:
+            user.username = data['username']
+        elif 'email' in data:
+            user.email = data['email']
+        elif 'location' in data:
+            user.location = data['location']
+        elif 'languages' in data:
+            user.languages = data['languages']
+        elif 'password' in data:
+            user.password = data['password']        
         db.session.commit()
         return jsonify({'JabberMessages': 'Profile updated successfully.'}), 200
 
@@ -241,17 +251,17 @@ def profile(username):
 def get_messages(room):
     print(room, 'NOMBREEEEE DE LA SALAAAAAAAAAAAAAAAAA')
     messages = JabberMessages.query.filter_by(room=room).order_by(JabberMessages.timestamp.asc()).limit(50).all()
-    messages_json = [{"username": jabberusers.query.filter_by(id=msg.sender_id).first().username, "content": msg.content, "timestamp": msg.timestamp, "messageid" : msg.id} for msg in messages]
+    messages_json = [{"username": jabberusers.query.filter_by(id=msg.sender_id).first().username, "senderId": msg.sender_id, "content": msg.content, "timestamp": msg.timestamp, "messageid" : msg.id} for msg in messages]
     return jsonify(messages_json)
 
 #SOCKET IO
 @socketio.on('join')
 def handle_join(data):
     room = data['currentRoom']
-    username = data['username']
-    if username:
+    userId = data['userId']
+    if userId:
         join_room(room)
-        print(f"{username} has entered the room {room}")
+        print(f"{userId} has entered the room {room}")
     else:
         print("Error: User not logged in.")
 
@@ -269,23 +279,23 @@ def handle_leave(data):
 def handle_message(data):
     room = data['currentRoom']
     message_content = data['message']
-    username = data['username']
+    userId = data['userId']
     print(message_content)
-    if username:
+    if userId:
         users_in_room = socketio.server.manager.rooms['/'].get(room, set())
         users_list = list(users_in_room)
         print("my socket", )
         print('mensaje enviado',room, "USUARIOS EN LA SALA", users_list)
 
-        user = jabberusers.query.filter_by(username=username).first()
+        user = jabberusers.query.filter_by(id=userId).first()
         if user is None:
             send({'JabberMessages': 'User not found.'}, room=room)
-        message = JabberMessages(content=message_content, sender_id=user.id, room=room)
+        message = JabberMessages(content=message_content, sender_id=userId, room=room)
         db.session.add(message)
         db.session.commit()
         # Obtener la representación serializable del timestamp
         timestamp_isoformat = message.timestamp.isoformat()
-        emit('message',{"username": username, "content": message_content, "timestamp": timestamp_isoformat, "room": room}, room=room,  broadcast=True)
+        emit('message',{"username": user.username, "senderId": message.sender_id, "content": message_content, "timestamp": timestamp_isoformat, "room": room}, room=room,  broadcast=True)
     else:
         print({'JabberMessages': 'Username not found in session.'},room)
 

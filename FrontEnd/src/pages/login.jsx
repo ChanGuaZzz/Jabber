@@ -21,6 +21,7 @@ function Login() {
 
     axios
       .post("https://jabberweb.onrender.com/api/api/login", { username, password }, { withCredentials: true })
+      // .post("http://127.0.0.1:10000/api/login", { username, password }, { withCredentials: true })
       .then((response) => {
         setMessage(response.data.message);
         if (response.status === 200) {
@@ -55,6 +56,7 @@ function Login() {
 
     axios
       .post("https://jabberweb.onrender.com/api/api/register", { username, email, password })
+      // .post("http://127.0.0.1:10000/api/register", { username, email, password })
       .then((response) => {
         setMessage(response.data.message);
         // Puedes manejar el cambio de ventana aquí si es necesario
@@ -76,7 +78,7 @@ function Login() {
           {currentWindow === "login" ? (
             <>
               <form className="flex flex-col" onSubmit={handleLogin}>
-                <input type="text" placeholder="Username" value={username} onChange={(e) => setUsername(e.target.value)} required />
+                <input type="text" placeholder="Username" maxLength={10} value={username} onChange={(e) => setUsername(e.target.value)} required />
                 <input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} required />
                 <button className="buttonG rounded-xl button p-3 my-3" type="submit">
                   Sign in
@@ -97,7 +99,7 @@ function Login() {
           ) : (
             <>
               <form className="flex flex-col" onSubmit={handleRegister}>
-                <input type="text" placeholder="Username" onChange={(e) => setUsername(e.target.value)} required />
+                <input type="text" placeholder="Username" maxLength={10} onChange={(e) => setUsername(e.target.value)} required />
                 <input type="email" placeholder="Email" onChange={(e) => setEmail(e.target.value)} required />
                 <input type="password" placeholder="Password" onChange={(e) => setPassword(e.target.value)} required />
                 <input

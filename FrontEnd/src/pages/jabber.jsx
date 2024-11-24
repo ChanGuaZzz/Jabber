@@ -7,11 +7,13 @@ import MessageComponent from "../components/messagecomponent";
 import { Filter } from "bad-words";
 const filter = new Filter();
 const socket = io('https://jabberapisecretsdfgdfgehtjf.onrender.com', {
+// const socket = io('http://127.0.0.1:10000', {
   withCredentials: true,
   transports: ['websocket'],
 });
 function Jabber() {
   const [username, setUsername] = useState("");
+  const [userId, setUserId] = useState("");
   const [loggedIn, setLoggedIn] = useState(false);
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([]);
@@ -75,10 +77,11 @@ function Jabber() {
 
   useEffect(() => {
     if (loggedIn && currentRoom) {
-      socket.emit("join", { currentRoom, username });
+      socket.emit("join", { currentRoom, userId });
       setloading(true);
       axios
         .get(`https://jabberweb.onrender.com/api/api/messages/${currentRoom}`)
+        // .get(`http://127.0.0.1:10000/api/messages/${currentRoom}`)
         .then((response) => {
           setloading(false);
           setMessages(response.data);
@@ -93,6 +96,8 @@ function Jabber() {
   useEffect(() => {
     axios
       .get("https://jabberweb.onrender.com/api/api/getsession", { withCredentials: true })
+      // .get("http://127.0.0.1:10000/api/getsession", { withCredentials: true })
+
       .then((response) => {
         console.log(response);
         if (response.data.message == "No session data found." ) {
@@ -100,6 +105,7 @@ function Jabber() {
         } else {
           setLoggedIn(true);
           setUsername(response.data.username);
+          setUserId(response.data.userId);
         }
       })
       .catch((error) => {
@@ -112,6 +118,8 @@ function Jabber() {
   const logout = () => {
     axios
       .get("https://jabberweb.onrender.com/api/api/logout", { withCredentials: true })
+      // .get("http://127.0.0.1:10000/api/logout", { withCredentials: true })
+
       .then((response) => {
         window.location.href = "/login";
       })
@@ -127,7 +135,7 @@ function Jabber() {
     const messageData = {
       currentRoom,
       message: cleanMessage,
-      username,
+      userId,
     };
 
     socket.emit("message", messageData);
@@ -205,11 +213,11 @@ function Jabber() {
                   <>
                     {messages.map((msg, index) => (
                       <div key={index}>
-                        {console.log("usuario enviador", msg.username,"usuario actual", username, (msg.username == username ? true : false))}
+                        {console.log("usuario enviador", msg.senderId,"usuario actual", userId)}
                         {msg.content && (
                           <MessageComponent
                             messageid={msg.messageid}
-                            isMe={msg.username == username ? true : false}
+                            isMe={msg.senderId == userId ? true : false}
                             message={msg.content}
                             sender={msg.username}
                             time={msg.timestamp}
@@ -255,7 +263,8 @@ function Jabber() {
           <>
             <div className=" size-full flex flex-col pt-[200px] items-center">
               <div className="flex welcome flex-col justify-center items-center rounded-2xl bg-">
-                <p className="text-white font-extrabold text-6xl transition-all  m-10">Welcome</p>
+                <p className="text-white font-extrabold text-6xl transition-all  m-10">Welcome </p>
+                
                 <h2 className={` opacity-40  text-sm text-center mb-4  mx-8`}>Your portal to connect and chat with people around the world. Join a room and start your global conversation now!</h2>
                 <button onClick={() => putAnimation()} className={`p-5 ${buttonanimation} bg-white opacity-100 flex justify-center h-[60px] w-[220px]  items-center border rounded-full text-black shadow-gray-700 shadow-xl text-dsm`}>{buttonwelcome?<ion-icon name="arrow-up-circle-outline" size="large"></ion-icon>:"Select a room to chat"}</button>
               </div>
