@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import Loading from "./loading";
 
 function EditButton({ value, setValue, sendEdit, canEmpty, isemail, isusername, name = "name" }) {
   const [edit, setEdit] = useState(false);
@@ -35,6 +36,8 @@ function EditButton({ value, setValue, sendEdit, canEmpty, isemail, isusername, 
 
   return (
     <>
+    {loading && <Loading/>}
+
       {edit ? (
         <>
           <div className="my-2 relative border bg-white bg-opacity-50 rounded-full text-white text-center min-w-[300px]">
