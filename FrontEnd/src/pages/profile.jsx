@@ -72,9 +72,9 @@ function Profile() {
             
           </div>
           <div className=" flex flex-col my-6 text-sm">
-            <EditButton value={userData.email} isemail={1} setValue={setUserData} name="email" sendEdit={() => {}} />
-            <EditButton value={userData.languages} canEmpty={1} setValue={setUserData} name="languages" sendEdit={() => {}} />
-            <EditButton value={userData.location} canEmpty={1} setValue={setUserData} name="location" sendEdit={() => {}} />
+            <EditButton setLoading={setLoading} value={userData.email} isemail={1} setValue={setUserData} name="email" sendEdit={() => {}} />
+            <EditButton setLoading={setLoading} value={userData.languages} canEmpty={1} setValue={setUserData} name="languages" sendEdit={() => {}} />
+            <EditButton setLoading={setLoading} value={userData.location} canEmpty={1} setValue={setUserData} name="location" sendEdit={() => {}} />
           </div>
         </main>
       </div>
