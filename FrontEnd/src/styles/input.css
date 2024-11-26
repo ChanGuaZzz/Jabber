@@ -3,8 +3,8 @@
 @tailwind utilities;
 
 @font-face {
-    font-family: 'Fabric';
-    src: url(../font/Fabrica-ZOjx.otf);
+    font-family: 'lexend';
+    src: url(../font/Lexend-Regular.ttf);
 }
 
 @font-face {
@@ -13,7 +13,7 @@
 }
 
 body{
-    font-family: 'Fabric', sans-serif;
+    font-family: 'lexend', sans-serif;
 }
 
 h2{

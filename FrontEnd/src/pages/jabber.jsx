@@ -6,8 +6,8 @@ import SendIcon from "../components/sendicon";
 import MessageComponent from "../components/messagecomponent";
 import { Filter } from "bad-words";
 const filter = new Filter();
-const socket = io('https://jabberapisecretsdfgdfgehtjf.onrender.com', {
-// const socket = io('http://127.0.0.1:10000', {
+// const socket = io('https://jabberapisecretsdfgdfgehtjf.onrender.com', {
+const socket = io('http://127.0.0.1:10000', {
   withCredentials: true,
   transports: ['websocket'],
 });
@@ -24,7 +24,7 @@ function Jabber() {
   const [scrollbutton, setScrollbutton] = useState(false);
   const hscrollRef = useRef(null);
   const [buttonanimation, setbuttonanimation] = useState("buttonwelcomebefore");
-  const [loading, setloading] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [buttonwelcome, setbuttonwelcome] = useState(false);
   const [currentRoomIndex, setCurrentRoomIndex] = useState();
   const scrollToBottom = () => {
@@ -78,12 +78,12 @@ function Jabber() {
   useEffect(() => {
     if (loggedIn && currentRoom) {
       socket.emit("join", { currentRoom, userId });
-      setloading(true);
+      setLoading(true);
       axios
         .get(`https://jabberweb.onrender.com/api/api/messages/${currentRoom}`)
         // .get(`http://127.0.0.1:10000/api/messages/${currentRoom}`)
         .then((response) => {
-          setloading(false);
+          setLoading(false);
           setMessages(response.data);
           console.log(response.data);
         })
