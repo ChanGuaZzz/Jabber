@@ -54,5 +54,3 @@ Jabber es una aplicación web para conectarse y chatear con personas de todo el 
 1. Abre tu navegador y ve a [https://jabberweb.onrender.com/login](https://jabberweb.onrender.com/login).
 2. Regístrate o inicia sesión con tus credenciales.
 3. Únete a una sala y comienza a chatear.
-
-## Estructura del Proyecto
