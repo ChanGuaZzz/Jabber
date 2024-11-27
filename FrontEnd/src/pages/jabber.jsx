@@ -234,7 +234,7 @@ function Jabber() {
               >
                 <ion-icon name="chevron-down-circle-outline" size="large"></ion-icon>
               </button>
-              <div className=" bg-slate-900 w-full fixed bottom-0 pb-7 flex items-center justify-center inputchat ">
+              <div className=" bg-slate-900 w-full fixed bottom-0  flex items-center justify-center inputchat ">
                 <input
                   className="text-left w-[70%] bg-slate-600 border-none rounded-2xl "
                   type="text"
