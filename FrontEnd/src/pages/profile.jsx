@@ -12,8 +12,8 @@ function Profile() {
   useEffect(() => {
     setLoading(true);
     axios
-      .get("https://jabberweb.onrender.com/api/api/getsession", { withCredentials: true })
-      // .get("http://127.0.0.1:10000/api/getsession", { withCredentials: true })
+      // .get("https://jabberweb.onrender.com/api/api/getsession", { withCredentials: true })
+      .get("http://127.0.0.1:10000/api/getsession", { withCredentials: true })
 
       .then((response) => {
         console.log(response);
@@ -33,8 +33,8 @@ function Profile() {
       return;
     }
     axios
-      .get(`https://jabberweb.onrender.com/api/api/profile`, { withCredentials: true })
-      // .get(`http://127.0.0.1:10000/api/profile`, { withCredentials: true })
+      // .get(`https://jabberweb.onrender.com/api/api/profile`, { withCredentials: true })
+      .get(`http://127.0.0.1:10000/api/profile`, { withCredentials: true })
       .then((res) => {
         console.log("user", res);
         setUserData(res.data);
@@ -55,8 +55,9 @@ function Profile() {
     <>
       {loading && <Loading />}
       <div className="size-full flex flex-col  items-center">
-        <header className="bg-[#e64900] h-[8%] w-full flex justify-center items-center text-white">
-          <a href="/jabber" className="absolute left-2 buttonheader button bg-amber-800 rounded-2xl flex justify-center items-center">
+        
+        <header className=" relative bg-[#e64900]   h-[8%] w-full flex justify-center items-center text-white">
+          <a href="/jabber" className=" absolute left-2 buttonheader button bg-amber-800 rounded-2xl flex justify-center items-center">
             <ion-icon name="arrow-back-circle-outline" size={"large"}></ion-icon>
           </a>
           <h1 className="font-extrabold text-xl">PROFILE</h1>
