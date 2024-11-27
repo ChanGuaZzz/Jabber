@@ -78,11 +78,9 @@ a{
 font-size: small;
 color: white;
 padding: 5px;
-height: 60px;
+height: 100%;
 width: 40px;
 min-width: 40px;
-min-height: 60px;
-
 }
 
 .loader{
