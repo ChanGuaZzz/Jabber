@@ -33,8 +33,8 @@ function Profile() {
       return;
     }
     axios
-      // .get(`https://jabberweb.onrender.com/api/api/profile`, { withCredentials: true })
-      .get(`http://127.0.0.1:10000/api/profile`, { withCredentials: true })
+      .get(`https://jabberweb.onrender.com/api/api/profile`, { withCredentials: true })
+      // .get(`http://127.0.0.1:10000/api/profile`, { withCredentials: true })
       .then((res) => {
         console.log("user", res);
         setUserData(res.data);
