@@ -67,8 +67,18 @@ function Login() {
         setCurrentWindow("login");
       })
       .catch((error) => {
-        setLoading(false);
+        if (error.response && error.response.status === 400) {
+          console.log(error.response.data.JabberMessages);
+          setMessage(error.response.data.JabberMessages);
+          setTimeout(() => {
+            setMessage("");
+          } , 10000);
+        } else {
+          console.log(error, "errorrrrr");
         setMessage("User already exists or invalid input.");
+
+        }
+        setLoading(false);
       });
   };
 

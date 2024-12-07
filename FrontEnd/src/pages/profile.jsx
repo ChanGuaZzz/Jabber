@@ -73,9 +73,10 @@ function Profile() {
             
           </div>
           <div className=" flex flex-col my-6 text-sm">
-            <EditButton setLoading={setLoading} value={userData.email} isemail={1} setValue={setUserData} name="email" sendEdit={() => {}} />
-            <EditButton setLoading={setLoading} value={userData.languages} canEmpty={1} setValue={setUserData} name="languages" sendEdit={() => {}} />
-            <EditButton setLoading={setLoading} value={userData.location} canEmpty={1} setValue={setUserData} name="location" sendEdit={() => {}} />
+            <EditButton setLoading={setLoading} value={userData.email} isemail={1} setValue={setUserData} name="email" />
+            <EditButton setLoading={setLoading} value={userData.languages} canEmpty={1} setValue={setUserData} name="languages"/>
+            <EditButton setLoading={setLoading} value={userData.location} canEmpty={1} setValue={setUserData} name="location"/>
+            <EditButton setLoading={setLoading} value={"Password"} setValue={setUserData} name="password" ispassword={1}/>
           </div>
         </main>
       </div>

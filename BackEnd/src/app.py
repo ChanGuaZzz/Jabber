@@ -164,6 +164,8 @@ def register():
         return jsonify({'JabberMessages': 'User already exists.'}), 400
 
     # Create a new user
+    if not check_password(password):
+        return jsonify({'JabberMessages': 'Password must contain at least 8 characters, one uppercase letter, one lowercase letter, and one number.'}), 400
     new_user = jabberusers(username=username, email=email)
     new_user.password = password  # Use the password setter to hash the password
     db.session.add(new_user)
@@ -171,6 +173,21 @@ def register():
 
     return jsonify({'JabberMessages': 'User registered successfully.'}), 201
 
+
+def check_password(password):
+    if len(password) < 8:
+        return False
+    else:
+        if not any(char.isdigit() for char in password):
+            return False
+        elif not any(char.isalpha() for char in password):
+            return False
+        elif not any(char.isupper() for char in password):
+            return False
+        elif not any(char.islower() for char in password):
+            return False
+        else:
+            return True
 # Login endpoint
 @app.route('/api/login', methods=['POST'])
 def login():
@@ -242,6 +259,8 @@ def profile():
         elif 'languages' in data:
             user.languages = data['languages']
         elif 'password' in data:
+            if not check_password(data['password']):            
+                return jsonify({'JabberMessages': 'Password must contain at least 8 characters, one uppercase letter, one lowercase letter, and one number.'}), 400
             user.password = data['password']        
         db.session.commit()
         return jsonify({'JabberMessages': 'Profile updated successfully.'}), 200
