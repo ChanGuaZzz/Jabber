@@ -12,8 +12,8 @@ function Profile() {
   useEffect(() => {
     setLoading(true);
     axios
-      // .get("https://jabberweb.onrender.com/api/api/getsession", { withCredentials: true })
-      .get("http://127.0.0.1:10000/api/getsession", { withCredentials: true })
+      .get("https://jabberweb.onrender.com/api/api/getsession", { withCredentials: true })
+      // .get("http://127.0.0.1:10000/api/getsession", { withCredentials: true })
 
       .then((response) => {
         console.log(response);
