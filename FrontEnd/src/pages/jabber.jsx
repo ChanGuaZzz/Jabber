@@ -157,7 +157,7 @@ function Jabber() {
   };
   return (
     <div className="size-full">
-      <div className=" flex flex-row items-center item h-[8%] my-1">
+      <div className=" flex flex-row items-center h-[8%] pt-1">
         <button className="buttonheader bg-red-600 ml-2 button rounded-xl flex justify-center items-center  " onClick={logout}>
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-6">
             <path
@@ -219,6 +219,7 @@ function Jabber() {
                             message={msg.content}
                             sender={msg.username}
                             time={msg.timestamp}
+                            userId={msg.senderId}
                           />
                         )}
                       </div>

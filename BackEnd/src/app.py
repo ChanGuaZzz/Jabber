@@ -227,16 +227,20 @@ def login():
         return jsonify({'error': 'An unexpected error occurred.'}), 500
 # User profile endpoint
 @app.route('/api/profile', methods=['GET', 'POST'])
+@app.route('/api/profile/<int:user_id>', methods=['GET', 'POST'])
 @cross_origin(supports_credentials=True)
-def profile():
-    
-    if 'userId' not in session:
-        return jsonify({'JabberMessages': 'User not logged in.'}), 401
-    
-    userId = session['userId']
+def profile(user_id=None):
+    if user_id is None:
+        if 'userId' not in session:
+            return jsonify({'JabberMessages': 'User not logged in.'}), 401
+        userId = session['userId']
+    else:
+        userId = user_id
+
     user = jabberusers.query.filter_by(id=userId).first()
     if not user:
-            return jsonify({'JabberMessages': 'User not found.'}), 401
+        return jsonify({'JabberMessages': 'User not found.'}), 401
+
     if request.method == 'GET':
         # Return user profile data (excluding sensitive information)
         return jsonify({
@@ -259,9 +263,9 @@ def profile():
         elif 'languages' in data:
             user.languages = data['languages']
         elif 'password' in data:
-            if not check_password(data['password']):            
+            if not check_password(data['password']):
                 return jsonify({'JabberMessages': 'Password must contain at least 8 characters, one uppercase letter, one lowercase letter, and one number.'}), 400
-            user.password = data['password']        
+            user.password = data['password']
         db.session.commit()
         return jsonify({'JabberMessages': 'Profile updated successfully.'}), 200
 
