@@ -18,8 +18,6 @@ function Login() {
   const [animation, setAnimation] = useState("");
   const [Errorpassword, setErrorpassword] = useState(false);
 
-  console.log(import.meta.env.VITE_API_URL);
-
   const handleLogin = (e) => {
     e.preventDefault(); // Evita que el formulario haga un submit por defecto
     setLoading(true);
