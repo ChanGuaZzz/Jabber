@@ -12,8 +12,7 @@ function Profile() {
   useEffect(() => {
     setLoading(true);
     axios
-      .get("https://jabberweb.onrender.com/api/api/getsession", { withCredentials: true })
-      // .get("http://127.0.0.1:10000/api/getsession", { withCredentials: true })
+       .get(`${import.meta.env.VITE_API_URL}/api/getsession`, { withCredentials: true })
 
       .then((response) => {
         console.log(response);
@@ -33,8 +32,7 @@ function Profile() {
       return;
     }
     axios
-      .get(`https://jabberweb.onrender.com/api/api/profile`, { withCredentials: true })
-      // .get(`http://127.0.0.1:10000/api/profile`, { withCredentials: true })
+       .get(`${import.meta.env.VITE_API_URL}/api/profile`, { withCredentials: true })
       .then((res) => {
         console.log("user", res);
         setUserData(res.data);

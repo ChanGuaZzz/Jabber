@@ -6,6 +6,7 @@ import logo from "../img/logo.png";
 import letra from "../img/logo_letra.png";
 import Loading from "../components/loading";
 
+
 function Login() {
   const [currentWindow, setCurrentWindow] = useState("login");
   const [username, setUsername] = useState("");
@@ -17,12 +18,13 @@ function Login() {
   const [animation, setAnimation] = useState("");
   const [Errorpassword, setErrorpassword] = useState(false);
 
+  console.log(import.meta.env.VITE_API_URL);
+
   const handleLogin = (e) => {
     e.preventDefault(); // Evita que el formulario haga un submit por defecto
     setLoading(true);
     axios
-      .post("https://jabberweb.onrender.com/api/api/login", { username, password }, { withCredentials: true })
-      // .post("http://127.0.0.1:10000/api/login", { username, password }, { withCredentials: true })
+       .post(`${import.meta.env.VITE_API_URL}/api/login`, { username, password }, { withCredentials: true })
       .then((response) => {
         setMessage(response.data.message);
         setLoading(false);
@@ -58,8 +60,7 @@ function Login() {
     e.preventDefault(); // Evita que el formulario haga un submit por defecto
     setLoading(true);
     axios
-      .post("https://jabberweb.onrender.com/api/api/register", { username, email, password })
-      // .post("http://127.0.0.1:10000/api/register", { username, email, password })
+       .post(`${import.meta.env.VITE_API_URL}/api/register`, { username, email, password })
       .then((response) => {
         setMessage(response.data.message);
         setLoading(false);

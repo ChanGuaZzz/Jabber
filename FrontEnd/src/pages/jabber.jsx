@@ -6,11 +6,12 @@ import SendIcon from "../components/sendicon";
 import MessageComponent from "../components/messagecomponent";
 import { Filter } from "bad-words";
 const filter = new Filter();
-const socket = io('https://jabberapisecretsdfgdfgehtjf.onrender.com', {
-// const socket = io('http://127.0.0.1:10000', {
+const socket = io(`${import.meta.env.VITE_API_URL_SOCKET}`, {
   withCredentials: true,
   transports: ['websocket'],
 });
+
+
 function Jabber() {
   const [username, setUsername] = useState("");
   const [userId, setUserId] = useState("");
@@ -80,8 +81,7 @@ function Jabber() {
       socket.emit("join", { currentRoom, userId });
       setLoading(true);
       axios
-        .get(`https://jabberweb.onrender.com/api/api/messages/${currentRoom}`)
-        // .get(`http://127.0.0.1:10000/api/messages/${currentRoom}`)
+         .get(`${import.meta.env.VITE_API_URL}/api/messages/${currentRoom}`)
         .then((response) => {
           setLoading(false);
           setMessages(response.data);
@@ -95,8 +95,7 @@ function Jabber() {
 
   useEffect(() => {
     axios
-      .get("https://jabberweb.onrender.com/api/api/getsession", { withCredentials: true })
-      // .get("http://127.0.0.1:10000/api/getsession", { withCredentials: true })
+       .get(`${import.meta.env.VITE_API_URL}/api/getsession`, { withCredentials: true })
 
       .then((response) => {
         console.log(response);
@@ -117,8 +116,7 @@ function Jabber() {
 
   const logout = () => {
     axios
-      .get("https://jabberweb.onrender.com/api/api/logout", { withCredentials: true })
-      // .get("http://127.0.0.1:10000/api/logout", { withCredentials: true })
+       .get(`${import.meta.env.VITE_API_URL}/api/logout`, { withCredentials: true })
 
       .then((response) => {
         window.location.href = "/login";

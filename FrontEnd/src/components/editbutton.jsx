@@ -39,8 +39,7 @@ function EditButton({ value, setValue, setLoading, canEmpty, isemail, isusername
 
     setLoading(true);
     axios
-      .post("https://jabberweb.onrender.com/api/api/profile", { [name]: newvalue }, { withCredentials: true })
-    //   .post("http://127.0.0.1:10000/api/profile", { [name]: newvalue }, { withCredentials: true })
+       .post(`${import.meta.env.VITE_API_URL}/api/profile`, { [name]: newvalue }, { withCredentials: true })
       .then((res) => {
         console.log(res);
         setValue((prevState) => ({
