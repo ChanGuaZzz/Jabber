@@ -44,7 +44,13 @@ Jabber es una aplicación web para conectarse y chatear con personas de todo el 
     npm install
     ```
 
-3. Inicia la aplicación:
+3. Configura las variables de entorno en el archivo `.env`:
+    ```env
+    VITE_API_URL=URL_BACKEND
+    VITE_API_URL_SOCKET=URL_BACKEND
+    ```
+
+4. Inicia la aplicación:
     ```sh
     npm run dev
     ```
@@ -54,3 +60,5 @@ Jabber es una aplicación web para conectarse y chatear con personas de todo el 
 1. Abre tu navegador y ve a [https://jabberweb.onrender.com/login](https://jabberweb.onrender.com/login).
 2. Regístrate o inicia sesión con tus credenciales.
 3. Únete a una sala y comienza a chatear.
+
+## Estructura del Proyecto
