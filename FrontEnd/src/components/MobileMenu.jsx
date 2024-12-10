@@ -21,7 +21,7 @@ export function MobileMenu({ isOpen, onClose }) {
           <a href={"#features"} onClick={onClose} className="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium text-left">
             Features
           </a >
-          <a href='#social' className="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium text-left">
+          <a href='#social' onClick={onClose} className="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium text-left">
             Social
           </a>
           <Link to={"/login"} className="bg-[#fd5000] text-gray-900 px-4 py-2 rounded-md text-sm font-medium hover:bg-yellow-400 transition-colors w-full text-center">
