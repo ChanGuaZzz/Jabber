@@ -6,7 +6,6 @@ import logo from "../img/logo.png";
 import letra from "../img/logo_letra.png";
 import Loading from "../components/loading";
 
-
 function Login() {
   const [currentWindow, setCurrentWindow] = useState("login");
   const [username, setUsername] = useState("");
@@ -22,7 +21,7 @@ function Login() {
     e.preventDefault(); // Evita que el formulario haga un submit por defecto
     setLoading(true);
     axios
-       .post(`${import.meta.env.VITE_API_URL}/api/login`, { username, password }, { withCredentials: true })
+      .post(`${import.meta.env.VITE_API_URL}/api/login`, { username, password }, { withCredentials: true })
       .then((response) => {
         setMessage(response.data.message);
         setLoading(false);
@@ -32,72 +31,63 @@ function Login() {
         }
       })
       .catch((error) => {
+        setMessage("Login failed. Please try again.");
         setLoading(false);
-        if (message === "Incorrect username or password.") {
-          setAnimation("animate__animated animate__headShake");
-          setTimeout(() => {
-            setAnimation("");
-          }, 500);
-        } else {
-          setMessage("Incorrect username or password.");
-        }
       });
   };
 
-  useEffect(() => {
-    if (password != "" && secondpassword != "") {
-      if (password == secondpassword) {
-        setErrorpassword(false);
-      } else {
-        setErrorpassword(true);
-      }
-    }
-  }, [password, secondpassword]);
-
   const handleRegister = (e) => {
     e.preventDefault(); // Evita que el formulario haga un submit por defecto
+    if (password !== secondpassword) {
+      setErrorpassword(true);
+      return;
+    }
     setLoading(true);
     axios
-       .post(`${import.meta.env.VITE_API_URL}/api/register`, { username, email, password })
+      .post(`${import.meta.env.VITE_API_URL}/api/register`, { username, email, password }, { withCredentials: true })
       .then((response) => {
         setMessage(response.data.message);
         setLoading(false);
-        // Puedes manejar el cambio de ventana aquí si es necesario
-        setCurrentWindow("login");
+        if (response.status === 201) {
+          // Redireccionar al usuario después de un registro exitoso
+          window.location.href = "/jabber";
+        }
       })
       .catch((error) => {
-        if (error.response && error.response.status === 400) {
-          console.log(error.response.data.JabberMessages);
-          setMessage(error.response.data.JabberMessages);
-          setTimeout(() => {
-            setMessage("");
-          } , 10000);
-        } else {
-          console.log(error, "errorrrrr");
-        setMessage("User already exists or invalid input.");
-
-        }
+        setMessage("Registration failed. Please try again.");
         setLoading(false);
       });
   };
 
   return (
     <>
-      {loading && (
-        <Loading/>
-      )}
-      <div className="background-login w-full h-full flex justify-center items-center  p-0">
-        <div className="h-full w-full  flex items-center flex-col text-center justify-center">
-          <div className={`  ${currentWindow != "login" ? "h-[30%]" : "h-[40%]"}  flex items-center flex-col  justify-center`}>
-            <img src={logo} alt="" />
-            <img src={letra} alt="" />
+      {loading && <Loading />}
+      <div className="background-login w-full h-screen flex justify-center items-center p-0">
+        <div className="h-full w-full flex items-center flex-col text-center justify-center">
+          <div className={` ${currentWindow !== "login" ? "h-[30%]" : "h-[40%]"} flex items-center flex-col justify-center`}>
+            <img src={logo} alt="Logo" />
+            <img src={letra} alt="Letra" />
           </div>
           <div className="h-[40%] flex flex-col w-4/5 sm:w-2/5 xl:w-1/5 lg:w-2/5">
             {currentWindow === "login" ? (
               <>
                 <form className="flex flex-col" onSubmit={handleLogin}>
-                  <input type="text" placeholder="Username" minLength={5} maxLength={10} value={username} onChange={(e) => setUsername(e.target.value)} required />
-                  <input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} required />
+                  <input
+                    type="text"
+                    placeholder="Username"
+                    minLength={5}
+                    maxLength={10}
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
+                    required
+                  />
+                  <input
+                    type="password"
+                    placeholder="Password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    required
+                  />
                   <button className="buttonG rounded-xl button p-3 my-3" type="submit">
                     Sign in
                   </button>
@@ -105,7 +95,7 @@ function Login() {
                 <p className="text-white">
                   I don't have an account{" "}
                   <a
-                    className="font-medium text-orange-500"
+                    className="font-medium text-orange-500 cursor-pointer"
                     onClick={() => {
                       setCurrentWindow("register");
                     }}
@@ -117,13 +107,30 @@ function Login() {
             ) : (
               <>
                 <form className="flex flex-col" onSubmit={handleRegister}>
-                  <input type="text" placeholder="Username" minLength={5} maxLength={10} onChange={(e) => setUsername(e.target.value)} required />
-                  <input type="email" placeholder="Email" onChange={(e) => setEmail(e.target.value)} required />
-                  <input type="password" placeholder="Password" onChange={(e) => setPassword(e.target.value)} required />
+                  <input
+                    type="text"
+                    placeholder="Username"
+                    minLength={5}
+                    maxLength={10}
+                    onChange={(e) => setUsername(e.target.value)}
+                    required
+                  />
+                  <input
+                    type="email"
+                    placeholder="Email"
+                    onChange={(e) => setEmail(e.target.value)}
+                    required
+                  />
+                  <input
+                    type="password"
+                    placeholder="Password"
+                    onChange={(e) => setPassword(e.target.value)}
+                    required
+                  />
                   <input
                     className="mb-0"
                     type="password"
-                    placeholder="repeat password"
+                    placeholder="Repeat password"
                     onChange={(e) => {
                       setsecondpassword(e.target.value);
                     }}
@@ -131,8 +138,8 @@ function Login() {
                   />
                   {Errorpassword ? (
                     <>
-                      <h1 className="text-red-500 text-xs">check password</h1>
-                      <button disabled className=" opacity-80 pointer-events-none buttonG rounded-xl button p-3" type="submit">
+                      <h1 className="text-red-500 text-xs">Check password</h1>
+                      <button disabled className="opacity-80 pointer-events-none buttonG rounded-xl button p-3" type="submit">
                         Register
                       </button>
                     </>
@@ -145,12 +152,12 @@ function Login() {
                 <p className="text-white">
                   I already have an account{" "}
                   <a
-                    className="font-medium text-orange-500"
+                    className="font-medium text-orange-500 cursor-pointer"
                     onClick={() => {
                       setCurrentWindow("login");
                     }}
                   >
-                    Sign Up
+                    Sign In
                   </a>
                 </p>
               </>
