@@ -269,6 +269,37 @@ def profile(user_id=None):
         db.session.commit()
         return jsonify({'JabberMessages': 'Profile updated successfully.'}), 200
 
+
+@app.route('/api/messageoptions', methods=['POST'])
+@cross_origin(supports_credentials=True)
+def messageoptions():
+    if 'userId' not in session:
+        return jsonify({'JabberMessages': 'User not logged in.'}), 401
+
+    userId = session['userId']
+    data = request.get_json()
+    messageId = data.get('messageId')
+    option = data.get('option')
+    message = JabberMessages.query.filter_by(id=messageId).first()
+
+    if not message:
+        return jsonify({'JabberMessages': 'Message not found.'}), 404
+
+    if message.sender_id != userId:
+        return jsonify({'JabberMessages': 'Petición bloqueada.'}), 403
+
+    if option == 'delete':
+        db.session.delete(message)
+        db.session.commit()
+        return jsonify({'JabberMessages': 'Message deleted successfully.'}), 200
+    elif option == 'edit':
+        message.content = data.get('content')
+        db.session.commit()
+        return jsonify({'JabberMessages': 'Message edited successfully.'}), 200
+
+    return jsonify({'JabberMessages': 'Invalid option.'}), 400
+
+
 # Message routes and controllers
 @app.route('/api/messages/<room>', methods=['GET'])
 def get_messages(room):
