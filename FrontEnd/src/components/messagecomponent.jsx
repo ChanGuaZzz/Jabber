@@ -12,7 +12,7 @@ function MessageComponent({ messageid, sender, message, time, isMe, userId }) {
     <>
     {
       messageoptions && (
-        <MessageOptions setMessageOptions={setMessageOptions} messageId={messageid} />
+        <MessageOptions setMessageOptions={setMessageOptions} messageId={messageid} currentContent={message} />
       )
     }
 

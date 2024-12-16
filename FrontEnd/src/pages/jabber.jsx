@@ -48,30 +48,60 @@ function Jabber() {
       setMessages((prevMessages) => [...prevMessages, message]);
     });
 
+    socket.on('message_deleted', ({ messageId }) => {
+      setMessages((prevMessages) => prevMessages.filter(msg => msg.messageid !== messageId));
+      console.log('Message deleted:', messageId);
+    });
+
+    socket.on('message_edited', ({ messageId, content }) => {
+      setMessages((prevMessages) => prevMessages.map(msg => msg.messageid === messageId ? { ...msg, content } : msg));
+      console.log('Message edited:', messageId);
+    });
+
   }, [socket]);
 
   useEffect(() => {
     setRooms([
       { id: 1, name: "English", description: "englishpeople" },
-      { id: 2, name: "Spanish", description: "spanishpeople" },
-      { id: 3, name: "French", description: "frenchpeople" },
-      { id: 4, name: "German", description: "germanpeople" },
-      { id: 5, name: "Italian", description: "italianpeople" },
-      { id: 6, name: "Portuguese", description: "portuguesepeople" },
-      { id: 7, name: "Russian", description: "russianpeople" },
-      { id: 8, name: "Chinese", description: "chinesepeople" },
-      { id: 9, name: "Japanese", description: "japanesepeople" },
-      { id: 10, name: "Korean", description: "koreanpeople" },
-      { id: 11, name: "Arabic", description: "arabicpeople" },
-      { id: 12, name: "Hindi", description: "hindipeople" },
-      { id: 13, name: "Bengali", description: "bengalipeople" },
-      { id: 14, name: "Urdu", description: "urdupeople" },
-      { id: 15, name: "Turkish", description: "turkishpeople" },
-      { id: 16, name: "Dutch", description: "dutchpeople" },
-      { id: 17, name: "Polish", description: "polishpeople" },
-      { id: 18, name: "Greek", description: "greekpeople" },
-      { id: 19, name: "Swedish", description: "swedishpeople" },
-      { id: 20, name: "Danish", description: "danishpeople" },
+    { id: 2, name: "Spanish", description: "spanishpeople" },
+    { id: 3, name: "French", description: "frenchpeople" },
+    { id: 4, name: "German", description: "germanpeople" },
+    { id: 5, name: "Italian", description: "italianpeople" },
+    { id: 6, name: "Portuguese", description: "portuguesepeople" },
+    { id: 7, name: "Russian", description: "russianpeople" },
+    { id: 8, name: "Chinese", description: "chinesepeople" },
+    { id: 9, name: "Japanese", description: "japanesepeople" },
+    { id: 10, name: "Korean", description: "koreanpeople" },
+    { id: 11, name: "Arabic", description: "arabicpeople" },
+    { id: 12, name: "Hindi", description: "hindipeople" },
+    { id: 13, name: "Bengali", description: "bengalipeople" },
+    { id: 14, name: "Urdu", description: "urdupeople" },
+    { id: 15, name: "Turkish", description: "turkishpeople" },
+    { id: 16, name: "Dutch", description: "dutchpeople" },
+    { id: 17, name: "Polish", description: "polishpeople" },
+    { id: 18, name: "Greek", description: "greekpeople" },
+    { id: 19, name: "Swedish", description: "swedishpeople" },
+    { id: 20, name: "Danish", description: "danishpeople" },
+    { id: 21, name: "Norwegian", description: "norwegianpeople" },
+    { id: 22, name: "Finnish", description: "finnishpeople" },
+    { id: 23, name: "Hungarian", description: "hungarianpeople" },
+    { id: 24, name: "Czech", description: "czechpeople" },
+    { id: 25, name: "Slovak", description: "slovakpeople" },
+    { id: 26, name: "Romanian", description: "romanianpeople" },
+    { id: 27, name: "Bulgarian", description: "bulgarianpeople" },
+    { id: 28, name: "Serbian", description: "serbianpeople" },
+    { id: 29, name: "Croatian", description: "croatianpeople" },
+    { id: 30, name: "Bosnian", description: "bosnianpeople" },
+    { id: 31, name: "Slovenian", description: "slovenianpeople" },
+    { id: 32, name: "Macedonian", description: "macedonianpeople" },
+    { id: 33, name: "Albanian", description: "albanianpeople" },
+    { id: 34, name: "Lithuanian", description: "lithuanianpeople" },
+    { id: 35, name: "Latvian", description: "latvianpeople" },
+    { id: 36, name: "Estonian", description: "estonianpeople" },
+    { id: 37, name: "Georgian", description: "georgianpeople" },
+    { id: 38, name: "Armenian", description: "armenianpeople" },
+    { id: 39, name: "Azerbaijani", description: "azerbaijanipeople" },
+    { id: 40, name: "Hebrew", description: "hebrewpeople" },
     ]);
     console.log(rooms[0], "dwdwdw");
   }, []);
@@ -156,7 +186,7 @@ function Jabber() {
     }
   };
   return (
-    <div className="size-full">
+    <div className="w-full h-screen">
       <div className=" flex flex-row items-center h-[80px] py-1">
         <button className="buttonheader bg-red-600 ml-2 button rounded-xl flex justify-center items-center  " onClick={logout}>
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-6">
@@ -194,7 +224,7 @@ function Jabber() {
       <div className="Chat h-[90%]">
         {ischatting ? (
           <>
-            <div className=" flex items-center justify-center bg-orange-700 w-full h-[6vh]  ">
+            <div className=" flex items-center justify-center bg-gradient-to-b from-orange-500 to-orange-800 w-full h-[6vh]  ">
               <h2 className="text-shadow font-semibold">Chat in {currentRoom}</h2>
             </div>
             <div className="">

@@ -291,10 +291,14 @@ def messageoptions():
     if option == 'delete':
         db.session.delete(message)
         db.session.commit()
+        
+        socketio.emit('message_deleted', {'messageId': messageId}, room=message.room)
         return jsonify({'JabberMessages': 'Message deleted successfully.'}), 200
     elif option == 'edit':
         message.content = data.get('content')
         db.session.commit()
+        
+        socketio.emit('message_edited', {'messageId': messageId, 'content': message.content}, room=message.room)
         return jsonify({'JabberMessages': 'Message edited successfully.'}), 200
 
     return jsonify({'JabberMessages': 'Invalid option.'}), 400
@@ -349,7 +353,7 @@ def handle_message(data):
         db.session.commit()
         # Obtener la representación serializable del timestamp
         timestamp_isoformat = message.timestamp.isoformat()
-        emit('message',{"username": user.username, "senderId": message.sender_id, "content": message_content, "timestamp": timestamp_isoformat, "room": room}, room=room,  broadcast=True)
+        emit('message',{"username": user.username, "senderId": message.sender_id, "content": message_content, "timestamp": timestamp_isoformat,"messageid" : message.id,  "room": room}, room=room,  broadcast=True)
     else:
         print({'JabberMessages': 'Username not found in session.'},room)
 

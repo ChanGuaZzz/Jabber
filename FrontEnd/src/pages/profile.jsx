@@ -52,9 +52,9 @@ function Profile() {
   return (
     <>
       {loading && <Loading />}
-      <div className="size-full flex flex-col  items-center">
+      <div className="w-full h-screen flex flex-col  items-center">
         
-        <header className=" relative bg-[#e64900] h-[80px] w-full flex justify-center items-center text-white">
+        <header className=" relative bg-gradient-to-b from-orange-800 to-orange-400 h-[80px] w-full flex justify-center items-center text-white">
           <a href="/jabber" className="absolute left-2 h-full p-1 ">
             <div className="buttonheader flex justify-center p-3 items-center button bg-amber-800 rounded-2xl">
             <ion-icon name="arrow-back-circle-outline" size={"large"}></ion-icon>
@@ -63,7 +63,7 @@ function Profile() {
           <h1 className="font-extrabold text-xl">PROFILE</h1>
         </header>
         <main className=" h-[92%] w-full flex flex-col p-10 items-center ">
-          <div className="text-white text-9xl size-[200px] flex justify-center items-center p-6 bg-[#515151] rounded-full">
+          <div className="text-white text-9xl size-[200px] flex justify-center items-center p-6 bg-[#515151] rounded-full border">
             <ion-icon name="person-outline"></ion-icon>
           </div>
           <div className="mt-9 text-2xl ">

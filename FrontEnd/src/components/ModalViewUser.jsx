@@ -41,7 +41,10 @@ function ModalViewUser({ userId, setViewUser }) {
             <div className="text-white text-9xl size-[200px] flex justify-center items-center bg-[#515151] rounded-full">
               <ion-icon name="person-outline"></ion-icon>
             </div>
-            <div className="text-white text-2xl p-6">{userData.email}</div>
+            <div className="text-white text-xl m-6 p-2 rounded-full bg-gradient-to-b from-orange-800 to-orange-400">{userData.email || "No defined"}</div>
+            <div className="text-white text-lg m-6 p-2 rounded-full bg-gradient-to-b from-orange-800 to-orange-400">{userData.languages || "No defined"}</div>
+            <div className="text-white text-lg m-6 p-2 rounded-full bg-gradient-to-b from-blue-800 to-blue-400">{userData.location || "No defined"}</div>
+
           </div>
         )}
       </div>
