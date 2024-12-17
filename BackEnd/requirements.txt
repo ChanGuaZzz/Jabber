@@ -2,6 +2,7 @@ bidict==0.23.1
 blinker==1.8.2
 cachelib==0.13.0
 certifi==2024.7.4
+cffi==1.17.1
 charset-normalizer==3.3.2
 click==8.1.7
 colorama==0.4.6
@@ -12,8 +13,9 @@ Flask-Cors==4.0.1
 Flask-Session==0.8.0
 Flask-SocketIO==5.3.6
 Flask-SQLAlchemy==3.1.1
-greenlet==3.0.3
-gunicorn==20.1.0
+gevent==24.11.1
+greenlet==3.1.1
+gunicorn==23.0.0
 h11==0.14.0
 idna==3.7
 itsdangerous==2.2.0
@@ -22,7 +24,9 @@ MarkupSafe==2.1.5
 msgspec==0.18.6
 mysql-connector-python==8.4.0
 numpy==2.1.2
+packaging==24.2
 pandas==2.2.3
+pycparser==2.22
 PyQt5==5.15.10
 PyQt5-Qt5==5.15.2
 PyQt5_sip==12.15.0
@@ -41,3 +45,5 @@ tzdata==2024.2
 urllib3==2.2.2
 Werkzeug==3.0.3
 wsproto==1.2.0
+zope.event==5.0
+zope.interface==7.2
