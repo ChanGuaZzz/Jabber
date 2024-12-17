@@ -159,7 +159,7 @@ def register():
     email = data.get('email')
     password = data.get('password')
     
-    if len(username) > 12 or len(username) < 4:
+    if len(username) > 10 or len(username) < 4:
         return jsonify({'JabberMessages': 'Username must be between 4 and 12 characters.'}), 400
 
     # Check if the user already exists
@@ -258,6 +258,8 @@ def profile(user_id=None):
         data = request.get_json()
         # Update profile fields
         if 'username' in data:
+            if len(data['username']) > 10 or len(data['username']) < 4:
+                return jsonify({'JabberMessages': 'Username must be between 4 and 12 characters.'}), 400
             user.username = data['username']
         elif 'email' in data:
             user.email = data['email']

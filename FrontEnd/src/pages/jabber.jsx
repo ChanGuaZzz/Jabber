@@ -8,9 +8,8 @@ import { Filter } from "bad-words";
 const filter = new Filter();
 const socket = io(`${import.meta.env.VITE_API_URL_SOCKET}`, {
   withCredentials: true,
-  transports: ['websocket'],
+  transports: ["websocket"],
 });
-
 
 function Jabber() {
   const [username, setUsername] = useState("");
@@ -39,69 +38,68 @@ function Jabber() {
   }, [messages, scrollbutton]);
 
   useEffect(() => {
-    socket.on('connect', () => {
-      console.log('Connected to WebSocket');
+    socket.on("connect", () => {
+      console.log("Connected to WebSocket");
     });
 
-    socket.on('message', (message) => {
-      console.log('New message:', message);
+    socket.on("message", (message) => {
+      console.log("New message:", message);
       setMessages((prevMessages) => [...prevMessages, message]);
     });
 
-    socket.on('message_deleted', ({ messageId }) => {
-      setMessages((prevMessages) => prevMessages.filter(msg => msg.messageid !== messageId));
-      console.log('Message deleted:', messageId);
+    socket.on("message_deleted", ({ messageId }) => {
+      setMessages((prevMessages) => prevMessages.filter((msg) => msg.messageid !== messageId));
+      console.log("Message deleted:", messageId);
     });
 
-    socket.on('message_edited', ({ messageId, content }) => {
-      setMessages((prevMessages) => prevMessages.map(msg => msg.messageid === messageId ? { ...msg, content } : msg));
-      console.log('Message edited:', messageId);
+    socket.on("message_edited", ({ messageId, content }) => {
+      setMessages((prevMessages) => prevMessages.map((msg) => (msg.messageid === messageId ? { ...msg, content } : msg)));
+      console.log("Message edited:", messageId);
     });
-
   }, [socket]);
 
   useEffect(() => {
     setRooms([
       { id: 1, name: "English", description: "englishpeople" },
-    { id: 2, name: "Spanish", description: "spanishpeople" },
-    { id: 3, name: "French", description: "frenchpeople" },
-    { id: 4, name: "German", description: "germanpeople" },
-    { id: 5, name: "Italian", description: "italianpeople" },
-    { id: 6, name: "Portuguese", description: "portuguesepeople" },
-    { id: 7, name: "Russian", description: "russianpeople" },
-    { id: 8, name: "Chinese", description: "chinesepeople" },
-    { id: 9, name: "Japanese", description: "japanesepeople" },
-    { id: 10, name: "Korean", description: "koreanpeople" },
-    { id: 11, name: "Arabic", description: "arabicpeople" },
-    { id: 12, name: "Hindi", description: "hindipeople" },
-    { id: 13, name: "Bengali", description: "bengalipeople" },
-    { id: 14, name: "Urdu", description: "urdupeople" },
-    { id: 15, name: "Turkish", description: "turkishpeople" },
-    { id: 16, name: "Dutch", description: "dutchpeople" },
-    { id: 17, name: "Polish", description: "polishpeople" },
-    { id: 18, name: "Greek", description: "greekpeople" },
-    { id: 19, name: "Swedish", description: "swedishpeople" },
-    { id: 20, name: "Danish", description: "danishpeople" },
-    { id: 21, name: "Norwegian", description: "norwegianpeople" },
-    { id: 22, name: "Finnish", description: "finnishpeople" },
-    { id: 23, name: "Hungarian", description: "hungarianpeople" },
-    { id: 24, name: "Czech", description: "czechpeople" },
-    { id: 25, name: "Slovak", description: "slovakpeople" },
-    { id: 26, name: "Romanian", description: "romanianpeople" },
-    { id: 27, name: "Bulgarian", description: "bulgarianpeople" },
-    { id: 28, name: "Serbian", description: "serbianpeople" },
-    { id: 29, name: "Croatian", description: "croatianpeople" },
-    { id: 30, name: "Bosnian", description: "bosnianpeople" },
-    { id: 31, name: "Slovenian", description: "slovenianpeople" },
-    { id: 32, name: "Macedonian", description: "macedonianpeople" },
-    { id: 33, name: "Albanian", description: "albanianpeople" },
-    { id: 34, name: "Lithuanian", description: "lithuanianpeople" },
-    { id: 35, name: "Latvian", description: "latvianpeople" },
-    { id: 36, name: "Estonian", description: "estonianpeople" },
-    { id: 37, name: "Georgian", description: "georgianpeople" },
-    { id: 38, name: "Armenian", description: "armenianpeople" },
-    { id: 39, name: "Azerbaijani", description: "azerbaijanipeople" },
-    { id: 40, name: "Hebrew", description: "hebrewpeople" },
+      { id: 2, name: "Spanish", description: "spanishpeople" },
+      { id: 3, name: "French", description: "frenchpeople" },
+      { id: 4, name: "German", description: "germanpeople" },
+      { id: 5, name: "Italian", description: "italianpeople" },
+      { id: 6, name: "Portuguese", description: "portuguesepeople" },
+      { id: 7, name: "Russian", description: "russianpeople" },
+      { id: 8, name: "Chinese", description: "chinesepeople" },
+      { id: 9, name: "Japanese", description: "japanesepeople" },
+      { id: 10, name: "Korean", description: "koreanpeople" },
+      { id: 11, name: "Arabic", description: "arabicpeople" },
+      { id: 12, name: "Hindi", description: "hindipeople" },
+      { id: 13, name: "Bengali", description: "bengalipeople" },
+      { id: 14, name: "Urdu", description: "urdupeople" },
+      { id: 15, name: "Turkish", description: "turkishpeople" },
+      { id: 16, name: "Dutch", description: "dutchpeople" },
+      { id: 17, name: "Polish", description: "polishpeople" },
+      { id: 18, name: "Greek", description: "greekpeople" },
+      { id: 19, name: "Swedish", description: "swedishpeople" },
+      { id: 20, name: "Danish", description: "danishpeople" },
+      { id: 21, name: "Norwegian", description: "norwegianpeople" },
+      { id: 22, name: "Finnish", description: "finnishpeople" },
+      { id: 23, name: "Hungarian", description: "hungarianpeople" },
+      { id: 24, name: "Czech", description: "czechpeople" },
+      { id: 25, name: "Slovak", description: "slovakpeople" },
+      { id: 26, name: "Romanian", description: "romanianpeople" },
+      { id: 27, name: "Bulgarian", description: "bulgarianpeople" },
+      { id: 28, name: "Serbian", description: "serbianpeople" },
+      { id: 29, name: "Croatian", description: "croatianpeople" },
+      { id: 30, name: "Bosnian", description: "bosnianpeople" },
+      { id: 31, name: "Slovenian", description: "slovenianpeople" },
+      { id: 32, name: "Macedonian", description: "macedonianpeople" },
+      { id: 33, name: "Albanian", description: "albanianpeople" },
+      { id: 34, name: "Lithuanian", description: "lithuanianpeople" },
+      { id: 35, name: "Latvian", description: "latvianpeople" },
+      { id: 36, name: "Estonian", description: "estonianpeople" },
+      { id: 37, name: "Georgian", description: "georgianpeople" },
+      { id: 38, name: "Armenian", description: "armenianpeople" },
+      { id: 39, name: "Azerbaijani", description: "azerbaijanipeople" },
+      { id: 40, name: "Hebrew", description: "hebrewpeople" },
     ]);
     console.log(rooms[0], "dwdwdw");
   }, []);
@@ -111,7 +109,7 @@ function Jabber() {
       socket.emit("join", { currentRoom, userId });
       setLoading(true);
       axios
-         .get(`${import.meta.env.VITE_API_URL}/api/messages/${currentRoom}`)
+        .get(`${import.meta.env.VITE_API_URL}/api/messages/${currentRoom}`)
         .then((response) => {
           setLoading(false);
           setMessages(response.data);
@@ -125,11 +123,11 @@ function Jabber() {
 
   useEffect(() => {
     axios
-       .get(`${import.meta.env.VITE_API_URL}/api/getsession`, { withCredentials: true })
+      .get(`${import.meta.env.VITE_API_URL}/api/getsession`, { withCredentials: true })
 
       .then((response) => {
         console.log(response);
-        if (response.data.message == "No session data found." ) {
+        if (response.data.message == "No session data found.") {
           window.location.href = "/login";
         } else {
           setLoggedIn(true);
@@ -146,7 +144,7 @@ function Jabber() {
 
   const logout = () => {
     axios
-       .get(`${import.meta.env.VITE_API_URL}/api/logout`, { withCredentials: true })
+      .get(`${import.meta.env.VITE_API_URL}/api/logout`, { withCredentials: true })
 
       .then((response) => {
         window.location.href = "/login";
@@ -198,16 +196,14 @@ function Jabber() {
           </svg>
         </button>
         <a className="buttonheader bg-blue-600 m-2 button rounded-xl flex justify-center items-center  " href="/profile">
-        <ion-icon name="person-circle-outline" size="large"></ion-icon>
+          <ion-icon name="person-circle-outline" size="large"></ion-icon>
         </a>
         <div className="overflow-y-auto h-full  w-full bg-[#c7c7c7] ps-2 flex rounded-l-2xl ">
           <div ref={hscrollRef} onWheel={Hscroll} className="overflow-y-auto scrollbar flex flex-row  rounded-l-2xl ">
             {rooms.map((room, index) => (
               <button
-                className={`button bg-[#5a5a5a] text-white text-[80%] py-0 rounded-full m-1 p-2 ${
-                    currentRoomIndex === index ? "bg-[#ff8a24]" : ""
-                  }`}
-                  key={room.id}
+                className={`button bg-[#5a5a5a] text-white text-[80%] py-0 rounded-full m-1 p-2 ${currentRoomIndex === index ? "bg-[#ff8a24]" : ""}`}
+                key={room.id}
                 onClick={() => {
                   setCurrentRoom(room.name);
                   setCurrentRoomIndex(index);
@@ -221,81 +217,92 @@ function Jabber() {
         </div>
       </div>
 
-      <div className="Chat h-[90%]">
+      <div className="Chat h-[90%] flex flex-col">
         {ischatting ? (
           <>
-            <div className=" flex items-center justify-center bg-gradient-to-b from-orange-500 to-orange-800 w-full h-[6vh]  ">
-              <h2 className="text-shadow font-semibold">Chat in {currentRoom}</h2>
-            </div>
-            <div className="">
-              <div className="flex flex-col h-[80vh] pb-14  bg-chat rounded-md messages-container overflow-auto scrollbar-dark" ref={scrollRef}>
-                {loading ? (
-                  <div className="absolute bg-black w-full h-full bg-opacity-60 backdrop-blur-sm ">
-                    <div className=" loadinganimation size-full flex justify-center items-center text-white">
-                      <div className=" size-2 mx-1 bg-white rounded-full transition-all"></div>
-                      <div className="size-2 mx-1 bg-white rounded-full transition-all"></div>
-                      <div className="size-2 mx-1 bg-white rounded-full transition-all"></div>
-                    </div>
-                  </div>
-                ) : (
-                  <>
-                    {messages.map((msg, index) => (
-                      <div key={index}>
-                        {console.log("usuario enviador", msg.senderId,"usuario actual", userId)}
-                        {msg.content && (
-                          <MessageComponent
-                            messageid={msg.messageid}
-                            isMe={msg.senderId == userId ? true : false}
-                            message={msg.content}
-                            sender={msg.username}
-                            time={msg.timestamp}
-                            userId={msg.senderId}
-                          />
-                        )}
+              <div className=" flex items-center justify-center bg-gradient-to-b from-orange-500 to-orange-800 w-full h-[6vh]  ">
+                <h2 className="text-shadow font-semibold">Chat in {currentRoom}</h2>
+              </div>
+              <div className="">
+                <div className="flex flex-col h-[85vh] pb-16  bg-chat rounded-md messages-container overflow-auto scrollbar-dark" ref={scrollRef}>
+                  {loading ? (
+                    <div className="absolute bg-black w-full h-full bg-opacity-60 backdrop-blur-sm ">
+                      <div className=" loadinganimation size-full flex justify-center items-center text-white">
+                        <div className=" size-2 mx-1 bg-white rounded-full transition-all"></div>
+                        <div className="size-2 mx-1 bg-white rounded-full transition-all"></div>
+                        <div className="size-2 mx-1 bg-white rounded-full transition-all"></div>
                       </div>
-                    ))}
-                  </>
-                )}
+                    </div>
+                  ) : (
+                    <>
+                      {messages.map((msg, index) => (
+                        <div key={index}>
+                          {console.log("usuario enviador", msg.senderId, "usuario actual", userId)}
+                          {msg.content && (
+                            <MessageComponent
+                              messageid={msg.messageid}
+                              isMe={msg.senderId == userId ? true : false}
+                              message={msg.content}
+                              sender={msg.username}
+                              time={msg.timestamp}
+                              userId={msg.senderId}
+                            />
+                          )}
+                        </div>
+                      ))}
+                    </>
+                  )}
+                </div>
+                <button
+                  onClick={() => setScrollbutton(!scrollbutton)}
+                  className=" button  bg-lime-600 w-[40px] h-[40px] backdrop-blur-sm shadow-black shadow-md text-white my-2 items-center fixed flex bottom-[80px] right-[20px] rounded-full justify-center opacity-50 hover:opacity-100"
+                >
+                  <ion-icon name="chevron-down-circle-outline" size="large"></ion-icon>
+                </button>
+                <div className=" bg-slate-900 w-full h-14  fixed bottom-0  flex items-center justify-center inputchat ">
+                  <input
+                    className="text-left w-[80%] h-[70%] pl-3   bg-slate-600 border-none rounded-2xl "
+                    type="text"
+                    placeholder="Type a message..."
+                    value={message}
+                    onChange={(e) => setMessage(e.target.value)}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter") {
+                        sendMessage();
+                      }
+                    }}
+                  />
+                  {message.length > 0 ? (
+                    <button className=" h-[70%] w-[10%] flex justify-center items-center buttonSend rounded-full " onClick={sendMessage}>
+                      <SendIcon />
+                    </button>
+                  ) : (
+                    <button
+                      disabled
+                      className=" h-[70%] w-[10%]  flex justify-center items-center buttonSend rounded-full opacity-50 pointer-events-none"
+                      onClick={sendMessage}
+                    >
+                      <SendIcon />
+                    </button>
+                  )}
+                </div>
               </div>
-              <button
-                onClick={() => setScrollbutton(!scrollbutton)}
-                className=" button  bg-lime-600 w-[40px] h-[40px] backdrop-blur-sm shadow-black shadow-md text-white my-2 items-center fixed flex bottom-[80px] right-[20px] rounded-full justify-center opacity-50 hover:opacity-100"
-              >
-                <ion-icon name="chevron-down-circle-outline" size="large"></ion-icon>
-              </button>
-              <div className=" bg-slate-900 w-full fixed bottom-0  flex items-center justify-center inputchat ">
-                <input
-                  className="text-left w-[70%] bg-slate-600 border-none rounded-2xl "
-                  type="text"
-                  placeholder="Type a message..."
-                  value={message}
-                  onChange={(e) => setMessage(e.target.value)}
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter") {
-                      sendMessage();
-                    }
-                  }}
-                />
-                {message.length > 0 ? (
-                  <button className=" w-1/6 flex justify-center buttonSend rounded-full " onClick={sendMessage}>
-                    <SendIcon />
-                  </button>
-                ) : (
-                  <button disabled className="  w-1/6 flex justify-center buttonSend rounded-full opacity-50 pointer-events-none" onClick={sendMessage}>
-                    <SendIcon />
-                  </button>
-                )}
-              </div>
-            </div>
           </>
         ) : (
           <>
             <div className=" size-full flex flex-col pt-[200px] items-center">
               <div className="flex welcome flex-col justify-center items-center rounded-2xl bg-">
                 <p className="text-white font-extrabold text-6xl transition-all  m-10">Welcome </p>
-                
-                <h2 className={` opacity-40  text-sm text-center mb-4  mx-8`}>Your portal to connect and chat with people around the world. Join a room and start your global conversation now!</h2>
-                <button onClick={() => putAnimation()} className={`p-5 ${buttonanimation} bg-white opacity-100 flex justify-center h-[60px] w-[220px]  items-center border rounded-full text-black shadow-gray-700 shadow-xl text-dsm`}>{buttonwelcome?<ion-icon name="arrow-up-circle-outline" size="large"></ion-icon>:"Select a room to chat"}</button>
+
+                <h2 className={` opacity-40  text-sm text-center mb-4  mx-8`}>
+                  Your portal to connect and chat with people around the world. Join a room and start your global conversation now!
+                </h2>
+                <button
+                  onClick={() => putAnimation()}
+                  className={`p-5 ${buttonanimation} bg-white opacity-100 flex justify-center h-[60px] w-[220px]  items-center border rounded-full text-black shadow-gray-700 shadow-xl text-dsm`}
+                >
+                  {buttonwelcome ? <ion-icon name="arrow-up-circle-outline" size="large"></ion-icon> : "Select a room to chat"}
+                </button>
               </div>
             </div>
           </>

@@ -128,7 +128,7 @@ function EditButton({ value, setValue, setLoading, canEmpty, isemail, isusername
                           type="text"
                           maxLength={10}
                           required
-                          minLength={5}
+                          minLength={4}
                           className="w-[70%]"
                           value={newvalue}
                           onChange={(e) => {

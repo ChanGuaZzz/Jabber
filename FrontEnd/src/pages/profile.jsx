@@ -68,7 +68,7 @@ function Profile() {
           </div>
           <div className="mt-9 text-2xl ">
             {/* BUTTON DATOS */}
-            <EditButton value={userData.username} setValue={setUserData} name="username" isusername={1} sendEdit={() => {}} />
+            <EditButton setLoading={setLoading} value={userData.username} setValue={setUserData} name="username" isusername={1} sendEdit={() => {}} />
             {/* BUTTON DATOS */}
             
           </div>
