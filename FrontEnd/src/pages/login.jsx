@@ -54,7 +54,7 @@ function Login() {
         }
       })
       .catch((error) => {
-        setMessage("Registration failed. Please try again.");
+        setMessage(error.response.data.JabberMessages);
         setLoading(false);
       });
   };

@@ -158,6 +158,9 @@ def register():
     username = data.get('username')
     email = data.get('email')
     password = data.get('password')
+    
+    if len(username) > 12 or len(username) < 4:
+        return jsonify({'JabberMessages': 'Username must be between 4 and 12 characters.'}), 400
 
     # Check if the user already exists
     if jabberusers.query.filter_by(username=username).first() or jabberusers.query.filter_by(email=email).first():
