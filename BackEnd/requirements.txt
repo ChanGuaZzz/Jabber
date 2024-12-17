@@ -5,16 +5,18 @@ certifi==2024.7.4
 charset-normalizer==3.3.2
 click==8.1.7
 colorama==0.4.6
+dnspython==2.7.0
+eventlet==0.38.2
 Flask==3.0.3
 Flask-Cors==4.0.1
 Flask-Session==0.8.0
 Flask-SocketIO==5.3.6
 Flask-SQLAlchemy==3.1.1
 greenlet==3.0.3
+gunicorn==20.1.0
 h11==0.14.0
 idna==3.7
 itsdangerous==2.2.0
-gunicorn==20.1.0
 Jinja2==3.1.4
 MarkupSafe==2.1.5
 msgspec==0.18.6
@@ -30,6 +32,7 @@ python-engineio==4.9.1
 python-socketio==5.11.3
 pytz==2024.2
 requests==2.32.3
+setuptools==75.3.0
 simple-websocket==1.0.0
 six==1.16.0
 SQLAlchemy==2.0.30
