@@ -54,9 +54,9 @@ function Profile() {
       {loading && <Loading />}
       <div className="w-full h-screen flex flex-col  items-center">
         
-        <header className=" relative bg-gradient-to-b from-orange-800 to-orange-400 h-[80px] w-full flex justify-center items-center text-white">
+        <header className=" relative  bg-gray-700 h-[80px] w-full flex justify-center items-center text-white">
           <a href="/jabber" className="absolute left-2 h-full p-1 ">
-            <div className="buttonheader flex justify-center p-3 items-center button bg-amber-800 rounded-2xl">
+            <div className="buttonheader flex justify-center p-3 items-center button rounded-2xl">
             <ion-icon name="arrow-back-circle-outline" size={"large"}></ion-icon>
             </div>
           </a>

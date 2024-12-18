@@ -33,7 +33,7 @@ button{
 }
 .button:hover{
     transform: scale(0.97);
-    filter: brightness(1.1);
+    filter: brightness(0.8);
 }
 
 .button:active{
@@ -179,13 +179,14 @@ min-width: 40px;
 
 .me{
 color: white;
-background-color: rgb(119, 119, 119);
+background-color: #f97316;
 float: right;
+
 }
 
 .them{
-color: bisque;
-background-color: rgb(63, 62, 62);
+color: white;
+background-color: rgba(255, 255, 255, 0.075);
 float: left;
 
 }
@@ -215,14 +216,13 @@ float: left;
 }
 
 .buttonSend{
-    background-color: #59a503;
+    background-color: #f97316;
     color: white;
     padding: 10px;
 
 }
 .buttonSend:hover{
-    transform: scale(0.97);
-    filter: brightness(1.1);
+    filter: brightness(0.8);
 }
 
 .buttonSend:active{
@@ -230,7 +230,6 @@ float: left;
 }
 
 .chatmessage{
-    border-radius: 10px;
     margin-inline: 7%;
     margin-block: 4px;
 }
@@ -245,7 +244,7 @@ float: left;
 }
 
 .scrollbar{
-    scrollbar-color:  #e64900 #521a00;
+    scrollbar-color:  #e64900 #000000;
     scrollbar-width: thin;
     scroll-behavior: smooth;
 }

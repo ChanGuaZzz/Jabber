@@ -186,7 +186,7 @@ function Jabber() {
   return (
     <div className="w-full h-screen">
       <div className=" flex flex-row items-center h-[80px] py-1">
-        <button className="buttonheader bg-red-600 ml-2 button rounded-xl flex justify-center items-center  " onClick={logout}>
+        <button className="buttonheader ml-2 button rounded-xl flex justify-center items-center  " onClick={logout}>
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-6">
             <path
               strokeLinecap="round"
@@ -195,14 +195,14 @@ function Jabber() {
             />
           </svg>
         </button>
-        <a className="buttonheader bg-blue-600 m-2 button rounded-xl flex justify-center items-center  " href="/profile">
+        <a className="buttonheader  m-2 button rounded-xl flex justify-center items-center  " href="/profile">
           <ion-icon name="person-circle-outline" size="large"></ion-icon>
         </a>
-        <div className="overflow-y-auto h-full  w-full bg-[#c7c7c7] ps-2 flex rounded-l-2xl ">
+        <div className="overflow-y-auto h-full  w-full bg-gray-700 ps-2 flex rounded-l-2xl ">
           <div ref={hscrollRef} onWheel={Hscroll} className="overflow-y-auto scrollbar flex flex-row  rounded-l-2xl ">
             {rooms.map((room, index) => (
               <button
-                className={`button bg-[#5a5a5a] text-white text-[80%] py-0 rounded-full m-1 p-2 ${currentRoomIndex === index ? "bg-[#ff8a24]" : ""}`}
+                className={`button  text-white text-[80%] py-0 rounded-full m-1 p-2 ${currentRoomIndex === index ? "bg-[#f97316]" : "bg-[#00000046]"}`}
                 key={room.id}
                 onClick={() => {
                   setCurrentRoom(room.name);
@@ -220,7 +220,7 @@ function Jabber() {
       <div className="Chat h-[90%] flex flex-col">
         {ischatting ? (
           <>
-              <div className=" flex items-center justify-center bg-gradient-to-b from-orange-500 to-orange-800 w-full h-[6vh]  ">
+              <div className=" flex items-center justify-center bg-gray-800 w-full h-[6vh]  ">
                 <h2 className="text-shadow font-semibold">Chat in {currentRoom}</h2>
               </div>
               <div className="">
@@ -255,13 +255,13 @@ function Jabber() {
                 </div>
                 <button
                   onClick={() => setScrollbutton(!scrollbutton)}
-                  className=" button  bg-lime-600 w-[40px] h-[40px] backdrop-blur-sm shadow-black shadow-md text-white my-2 items-center fixed flex bottom-[80px] right-[20px] rounded-full justify-center opacity-50 hover:opacity-100"
+                  className=" button  bg-[#f97316] bg-opacity-70 w-[40px] h-[40px] backdrop-blur-sm shadow-black shadow-md text-white my-2 items-center fixed flex bottom-[80px] right-[20px] rounded-full justify-center opacity-50 hover:opacity-100"
                 >
                   <ion-icon name="chevron-down-circle-outline" size="large"></ion-icon>
                 </button>
-                <div className=" bg-slate-900 w-full h-14  fixed bottom-0  flex items-center justify-center inputchat ">
+                <div className=" bg-slate-9 w-full h-14 border-t-[1px] bg-[#0c1523] border-gray-700 px-[5%]   fixed bottom-0  flex items-center justify-center inputchat ">
                   <input
-                    className="text-left w-[80%] h-[70%] pl-3   bg-slate-600 border-none rounded-2xl "
+                    className="text-left w-[90%] h-[70%] pl-3  border-gray-700 border rounded-2xl "
                     type="text"
                     placeholder="Type a message..."
                     value={message}
@@ -273,16 +273,21 @@ function Jabber() {
                     }}
                   />
                   {message.length > 0 ? (
-                    <button className=" h-[70%] w-[10%] flex justify-center items-center buttonSend rounded-full " onClick={sendMessage}>
-                      <SendIcon />
+                    <button className=" h-[70%] w-[10%] w-max-[150px] flex justify-center items-center buttonSend rounded-full " onClick={sendMessage}>
+                                            <span className={`pr-3 hidden md:block`}>Send</span>
+
+                      <ion-icon name="paper-plane-outline" size="small"></ion-icon>
+
                     </button>
                   ) : (
                     <button
                       disabled
-                      className=" h-[70%] w-[10%]  flex justify-center items-center buttonSend rounded-full opacity-50 pointer-events-none"
+                      className=" h-[70%] w-[10%] w-max-[150px]  flex justify-center items-center buttonSend rounded-full opacity-50 pointer-events-none"
                       onClick={sendMessage}
                     >
-                      <SendIcon />
+                      <span className={`pr-3 hidden md:block`}>Send</span>
+                      <ion-icon name="paper-plane-outline" size="small"></ion-icon>
+
                     </button>
                   )}
                 </div>
@@ -299,7 +304,8 @@ function Jabber() {
                 </h2>
                 <button
                   onClick={() => putAnimation()}
-                  className={`p-5 ${buttonanimation} bg-white opacity-100 flex justify-center h-[60px] w-[220px]  items-center border rounded-full text-black shadow-gray-700 shadow-xl text-dsm`}
+                  className={`p-5 ${buttonanimation} bg-white opacity-100 flex justify-center h-[60px] w-[220px] mt-10  items-center border rounded-full text-blacktext-dsm`}
+                  style={{boxShadow:  "16px 16px 35px #0e131b,-16px -16px 35px #28354b"}}
                 >
                   {buttonwelcome ? <ion-icon name="arrow-up-circle-outline" size="large"></ion-icon> : "Select a room to chat"}
                 </button>
