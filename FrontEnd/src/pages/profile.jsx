@@ -50,7 +50,7 @@ function Profile() {
   return (
     <>
       {loading && <Loading />}
-      <div className="w-full flex flex-col items-center">
+      <div className="w-full h-full lg:h-screen flex flex-col items-center">
         <header className=" h-[80px] w-full flex justify-between px-6 py-16 items-center text-white">
           <div className="flex">
             <a href="/jabber" className=" h-full p-1 ">
@@ -65,40 +65,39 @@ function Profile() {
           </div>
         </header>
         <main className=" w-full h-full flex flex-col  items-center ">
-          <div className="w-[80%] bg-white bg-opacity-10 p-5 text-white rounded-lg">
-            <p className="text-lg">Personal Information</p>
-            <div className="my-6 text-sm flex flex-col w-full bg-">
-              <p className="opacity-50">Username</p>
-              <EditButton setLoading={setLoading} value={userData.username} setValue={setUserData} name="username" isusername={1} sendEdit={() => {}} />
+          <div className="flex w-full flex-wrap justify-center">
+            <div className="w-[80%] lg:w-[35%] m-5 bg-white bg-opacity-10 p-5 text-white rounded-lg">
+              <p className="text-lg">Personal Information</p>
+              <div className="my-6 text-sm flex flex-col w-full bg-">
+                <p className="opacity-50">Username</p>
+                <EditButton setLoading={setLoading} value={userData.username} setValue={setUserData} name="username" isusername={1} sendEdit={() => {}} />
+              </div>
+              <div className="my-3 text-sm flex flex-col w-full bg-">
+                <p className="opacity-50">Email</p>
+                <EditButton setLoading={setLoading} value={userData.email} isemail={1} setValue={setUserData} name="email" />
+              </div>
             </div>
-            <div className="my-3 text-sm flex flex-col w-full bg-">
-              <p className="opacity-50">Email</p>
-              <EditButton setLoading={setLoading} value={userData.email} isemail={1} setValue={setUserData} name="email" />
+            <div className="w-[80%] lg:w-[35%] m-5 bg-white bg-opacity-10 p-5 text-white rounded-lg">
+              <p className="text-lg">Additional</p>
+              <div className="my-6 text-sm flex flex-col w-full bg-">
+                <p className="opacity-50">Location</p>
+                <EditButton setLoading={setLoading} value={userData.location} setValue={setUserData} name="location" islocation={1} />
+              </div>
+              <div className="my-3 text-sm flex flex-col w-full bg-">
+                <p className="opacity-50">Native Language</p>
+                <EditButton setLoading={setLoading} value={userData.languages} setValue={setUserData} name="languages" islanguages={1} />
+              </div>
             </div>
           </div>
-          <div className="w-[80%] my-5 bg-white bg-opacity-10 p-5 text-white rounded-lg">
-            <p className="text-lg">Additional</p>
-            <div className="my-6 text-sm flex flex-col w-full bg-">
-              <p className="opacity-50">Location</p>
-              <EditButton setLoading={setLoading} value={userData.location} setValue={setUserData} name="location" islocation={1} />
-            </div>
-            <div className="my-3 text-sm flex flex-col w-full bg-">
-              <p className="opacity-50">Native Language</p>
-              <EditButton setLoading={setLoading} value={userData.languages} setValue={setUserData} name="languages" islanguages={1} />
-            </div> 
-          </div>
-
-          <div className="w-[80%] my-5 bg-white bg-opacity-10 p-5 text-white rounded-lg">
+          <div className="w-[80%] lg:w-[70%] my-5 bg-white bg-opacity-10 p-5 text-white rounded-lg">
             <p className="text-lg">Security</p>
-            
+
             <div className="my-3 text-sm flex flex-col w-full bg-">
               <p className="opacity-50">Change Password</p>
               <EditButton setLoading={setLoading} value={"Password"} setValue={setUserData} name="password" ispassword={1} />
-
-            </div> 
+            </div>
           </div>
         </main>
-
       </div>
     </>
   );

@@ -36,12 +36,17 @@ function Login() {
       });
   };
 
+  useEffect(() => {
+      if (password !== secondpassword) {
+        setErrorpassword(true);
+        return;
+      }else{
+      setErrorpassword(false);}
+  }, [secondpassword, password]);
+
   const handleRegister = (e) => {
     e.preventDefault(); // Evita que el formulario haga un submit por defecto
-    if (password !== secondpassword) {
-      setErrorpassword(true);
-      return;
-    }
+    
     setLoading(true);
     axios
       .post(`${import.meta.env.VITE_API_URL}/api/register`, { username, email, password }, { withCredentials: true })
@@ -68,16 +73,17 @@ function Login() {
             <img src={logo} alt="Logo" />
             <img src={letra} alt="Letra" />
           </div>
-          <div className="h-[40%] flex flex-col w-4/5 sm:w-2/5 xl:w-1/5 lg:w-2/5">
+          <div className="h-[40%] flex flex-col  items-center w-4/5 sm:w-2/5 xl:w-1/5 lg:w-2/5">
             {currentWindow === "login" ? (
               <>
-                <form className="flex flex-col" onSubmit={handleLogin}>
+                <form className="flex flex-col w-[90%]" onSubmit={handleLogin}>
                   <input
                     type="text"
                     placeholder="Username"
-                    minLength={5}
+                    minLength={4}
                     maxLength={10}
                     value={username}
+                    className="mb-5 p-2"
                     onChange={(e) => setUsername(e.target.value)}
                     required
                   />
@@ -85,6 +91,7 @@ function Login() {
                     type="password"
                     placeholder="Password"
                     value={password}
+                    className="mb-5 p-2"
                     onChange={(e) => setPassword(e.target.value)}
                     required
                   />
@@ -106,29 +113,32 @@ function Login() {
               </>
             ) : (
               <>
-                <form className="flex flex-col" onSubmit={handleRegister}>
+                <form className="flex flex-col w-[90%]" onSubmit={handleRegister}>
                   <input
                     type="text"
                     placeholder="Username"
-                    minLength={5}
+                    minLength={4}
                     maxLength={10}
+                    className="my-5 p-2"
                     onChange={(e) => setUsername(e.target.value)}
                     required
                   />
                   <input
                     type="email"
                     placeholder="Email"
+                    className="mb-5 p-2"
                     onChange={(e) => setEmail(e.target.value)}
                     required
                   />
                   <input
                     type="password"
                     placeholder="Password"
+                    className="mb-5 p-2"
                     onChange={(e) => setPassword(e.target.value)}
                     required
                   />
                   <input
-                    className="mb-0"
+                    className={`mb-0 p-2 ${Errorpassword && "text-red-600"} `}
                     type="password"
                     placeholder="Repeat password"
                     onChange={(e) => {
@@ -138,8 +148,7 @@ function Login() {
                   />
                   {Errorpassword ? (
                     <>
-                      <h1 className="text-red-500 text-xs">Check password</h1>
-                      <button disabled className="opacity-80 pointer-events-none buttonG rounded-xl button p-3" type="submit">
+                      <button disabled className="opacity-80 pointer-events-none my-3 buttonG rounded-xl button p-3" type="submit">
                         Register
                       </button>
                     </>

@@ -81,7 +81,7 @@ const SelectField = ({ options, value, onChange }) => (
     options={options}
     value={options.find(option => option.value === value || option.label === value)}
     onChange={onChange}
-    className="w-[60%] "
+    className="w-[75%] "
     styles={customStyles}
     
   />
@@ -150,9 +150,9 @@ function EditButton({ value, setValue, setLoading, canEmpty, isemail, isusername
         <div ref={formRef} className="my-2 relative h-[45px] border border-gray-600 bg-black bg-opacity-10 rounded-lg text-white text-center w-full">
           <form onSubmit={saveData} className="flex items-center h-full px-3 text-start">
             {isemail && <><ion-icon name="mail-outline"></ion-icon><InputField type="email" value={newvalue} onChange={(e) => setNewValue(e.target.value)} /></>}
-            {ispassword && <><ion-icon name="lock-closed-outline"></ion-icon><InputField type="password" value={newvalue} onChange={(e) => setNewValue(e.target.value)} minLength={10} placeholder="New password" /></>}
-            {islocation && <><ion-icon name="pin-outline"></ion-icon><SelectField options={optionsLocation} value={newvalue} onChange={(e) => setNewValue(e.label)} /></>}
-            {islanguages && <><ion-icon name="location-outline"></ion-icon><SelectField options={optionsLanguage} value={newvalue} onChange={(e) => setNewValue(e.value)} /></>}
+            {ispassword && <><ion-icon name="lock-closed-outline"></ion-icon><InputField type="password" value={newvalue} onChange={(e) => setNewValue(e.target.value)} minLength={8} placeholder="New password" /></>}
+            {islocation && <><ion-icon name="location-outline"></ion-icon><SelectField options={optionsLocation} value={newvalue} onChange={(e) => setNewValue(e.label)} /></>}
+            {islanguages && <><ion-icon name="globe-outline"></ion-icon><SelectField options={optionsLanguage} value={newvalue} onChange={(e) => setNewValue(e.value)} /></>}
             {!isemail && !ispassword && !islocation && !islanguages && (
             <><ion-icon name="person-outline" size="small"></ion-icon><InputField type="text" value={newvalue} onChange={(e) => setNewValue(e.target.value)} minLength={4} maxLength={10} /></>
             )}
@@ -167,9 +167,9 @@ function EditButton({ value, setValue, setLoading, canEmpty, isemail, isusername
             <p className={`flex items-center p-3 ${value ? "opacity-60" : "opacity-45"}`}>
               {isusername && <><ion-icon name="person-outline" size="small"></ion-icon><span className="px-2">@{value}</span></>}
               {isemail && <><ion-icon name="mail-outline"></ion-icon><span className="px-2">{value || `no ${name} defined`}</span></>}
-              {islocation && <><ion-icon name="pin-outline"></ion-icon><span className="px-2">{value || `no ${name} defined`}</span></>}
+              {islocation && <><ion-icon name="location-outline"></ion-icon><span className="px-2">{value || `no ${name} defined`}</span></>}
               {ispassword && <><ion-icon name="lock-closed-outline"></ion-icon><span className="px-2">********</span></>}
-              {islanguages && <><ion-icon name="location-outline"></ion-icon><span className="px-2">{value || `no ${name} defined`}</span></>}
+              {islanguages && <><ion-icon name="globe-outline"></ion-icon><span className="px-2">{value || `no ${name} defined`}</span></>}
               {!isusername && !isemail && !ispassword && !islocation && !islanguages && <><ion-icon name="pencil-outline"></ion-icon><span>{value || `no ${name} defined`}</span></>}
             </p>
           </button>
