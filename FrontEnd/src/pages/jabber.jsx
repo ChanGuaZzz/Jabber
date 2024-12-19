@@ -38,33 +38,32 @@ function Jabber() {
   }, [messages, scrollbutton]);
 
   useEffect(() => {
-    socket.on("connect", () => {
-      console.log("Connected to WebSocket");
-    });
+    if (userId !== "" && socket) {
+      socket.on("connect", () => {
+        console.log("Connected to WebSocket");
+      });
 
-    socket.on("message", (message) => {
-      console.log("New message:", message);
-      if (message.senderId !== userId) {
-        setMessages((prevMessages) => [...prevMessages, message]);
-      } else {
-        setMessages((prevMessages) =>
-          prevMessages.map((msg) =>
-            msg.tempMessageId === message.tempMessageId ? message : msg
-          )
-        );
-      }
-    });
+      socket.on("message", (message) => {
+        console.log("New message:", message);
+        console.log("usuario enviador", message.senderId, "usuario actual", userId);
+        if (message.senderId !== userId) {
+          setMessages((prevMessages) => [...prevMessages, message]);
+        } else {
+          setMessages((prevMessages) => prevMessages.map((msg) => (msg.tempMessageId === message.tempMessageId ? message : msg)));
+        }
+      });
 
-    socket.on("message_deleted", ({ messageId }) => {
-      setMessages((prevMessages) => prevMessages.filter((msg) => msg.messageid !== messageId));
-      console.log("Message deleted:", messageId);
-    });
+      socket.on("message_deleted", ({ messageId }) => {
+        setMessages((prevMessages) => prevMessages.filter((msg) => msg.messageid !== messageId));
+        console.log("Message deleted:", messageId);
+      });
 
-    socket.on("message_edited", ({ messageId, content }) => {
-      setMessages((prevMessages) => prevMessages.map((msg) => (msg.messageid === messageId ? { ...msg, content } : msg)));
-      console.log("Message edited:", messageId);
-    });
-  }, [socket]);
+      socket.on("message_edited", ({ messageId, content }) => {
+        setMessages((prevMessages) => prevMessages.map((msg) => (msg.messageid === messageId ? { ...msg, content } : msg)));
+        console.log("Message edited:", messageId);
+      });
+    }
+  }, [userId]);
 
   useEffect(() => {
     setRooms([
@@ -174,7 +173,7 @@ function Jabber() {
       messageid: tempMessageId,
       tempMessageId: tempMessageId,
     };
-  
+
     // Añadir el mensaje temporalmente al estado
     setMessages((prevMessages) => [
       ...prevMessages,
@@ -188,7 +187,7 @@ function Jabber() {
         room: currentRoom,
       },
     ]);
-  
+
     socket.emit("message", messageData);
     // Limpiar el campo de mensaje después de enviarlo
     setMessage("");
@@ -245,78 +244,75 @@ function Jabber() {
       <div className="Chat h-[90%] flex flex-col">
         {ischatting ? (
           <>
-              <div className=" flex items-center justify-center bg-gray-800 w-full h-[6vh]  ">
-                <h2 className="text-shadow font-semibold">Chat in {currentRoom}</h2>
-              </div>
-              <div className="">
-                <div className="flex flex-col h-[85vh] pb-16  bg-chat rounded-md messages-container overflow-auto scrollbar-dark" ref={scrollRef}>
-                  {loading ? (
-                    <div className="absolute bg-black w-full h-full bg-opacity-60 backdrop-blur-sm ">
-                      <div className=" loadinganimation size-full flex justify-center items-center text-white">
-                        <div className=" size-2 mx-1 bg-white rounded-full transition-all"></div>
-                        <div className="size-2 mx-1 bg-white rounded-full transition-all"></div>
-                        <div className="size-2 mx-1 bg-white rounded-full transition-all"></div>
-                      </div>
+            <div className=" flex items-center justify-center bg-gray-800 w-full h-[6vh]  ">
+              <h2 className="text-shadow font-semibold">Chat in {currentRoom}</h2>
+            </div>
+            <div className="">
+              <div className="flex flex-col h-[85vh] pb-16  bg-chat rounded-md messages-container overflow-auto scrollbar-dark" ref={scrollRef}>
+                {loading ? (
+                  <div className="absolute bg-black w-full h-full bg-opacity-60 backdrop-blur-sm ">
+                    <div className=" loadinganimation size-full flex justify-center items-center text-white">
+                      <div className=" size-2 mx-1 bg-white rounded-full transition-all"></div>
+                      <div className="size-2 mx-1 bg-white rounded-full transition-all"></div>
+                      <div className="size-2 mx-1 bg-white rounded-full transition-all"></div>
                     </div>
-                  ) : (
-                    <>
-                      {messages.map((msg, index) => (
-                        <div key={index}>
-                          {console.log("usuario enviador", msg.senderId, "usuario actual", userId)}
-                          {msg.content && (
-                            <MessageComponent
-                              messageid={msg.messageid}
-                              isMe={msg.senderId == userId ? true : false}
-                              message={msg.content}
-                              sender={msg.username}
-                              time={msg.timestamp}
-                              userId={msg.senderId}
-                            />
-                          )}
-                        </div>
-                      ))}
-                    </>
-                  )}
-                </div>
-                <button
-                  onClick={() => setScrollbutton(!scrollbutton)}
-                  className=" button  bg-[#f97316] bg-opacity-70 w-[40px] h-[40px] backdrop-blur-sm shadow-black shadow-md text-white my-2 items-center fixed flex bottom-[80px] right-[20px] rounded-full justify-center opacity-50 hover:opacity-100"
-                >
-                  <ion-icon name="chevron-down-circle-outline" size="large"></ion-icon>
-                </button>
-                <div className=" bg-slate-9 w-full h-14 border-t-[1px] bg-[#0c1523] border-gray-700 px-[5%]   fixed bottom-0  flex items-center justify-center inputchat ">
-                  <input
-                    className="text-left w-[90%] h-[70%] pl-3  border-gray-700 border rounded-2xl "
-                    type="text"
-                    placeholder="Type a message..."
-                    value={message}
-                    onChange={(e) => setMessage(e.target.value)}
-                    onKeyDown={(e) => {
-                      if (e.key === "Enter") {
-                        sendMessage();
-                      }
-                    }}
-                  />
-                  {message.length > 0 ? (
-                    <button className=" h-[70%] w-[10%] w-max-[150px] flex justify-center items-center buttonSend rounded-full " onClick={sendMessage}>
-                                            <span className={`pr-3 hidden md:block`}>Send</span>
-
-                      <ion-icon name="paper-plane-outline" size="small"></ion-icon>
-
-                    </button>
-                  ) : (
-                    <button
-                      disabled
-                      className=" h-[70%] w-[10%] w-max-[150px]  flex justify-center items-center buttonSend rounded-full opacity-50 pointer-events-none"
-                      onClick={sendMessage}
-                    >
-                      <span className={`pr-3 hidden md:block`}>Send</span>
-                      <ion-icon name="paper-plane-outline" size="small"></ion-icon>
-
-                    </button>
-                  )}
-                </div>
+                  </div>
+                ) : (
+                  <>
+                    {messages.map((msg, index) => (
+                      <div key={index}>
+                        {msg.content && (
+                          <MessageComponent
+                            messageid={msg.messageid}
+                            isMe={msg.senderId == userId ? true : false}
+                            message={msg.content}
+                            sender={msg.username}
+                            time={msg.timestamp}
+                            userId={msg.senderId}
+                          />
+                        )}
+                      </div>
+                    ))}
+                  </>
+                )}
               </div>
+              <button
+                onClick={() => setScrollbutton(!scrollbutton)}
+                className=" button  bg-[#f97316] bg-opacity-70 w-[40px] h-[40px] backdrop-blur-sm shadow-black shadow-md text-white my-2 items-center fixed flex bottom-[80px] right-[20px] rounded-full justify-center opacity-50 hover:opacity-100"
+              >
+                <ion-icon name="chevron-down-circle-outline" size="large"></ion-icon>
+              </button>
+              <div className=" bg-slate-9 w-full h-14 border-t-[1px] bg-[#0c1523] border-gray-700 px-[5%]   fixed bottom-0  flex items-center justify-center inputchat ">
+                <input
+                  className="text-left w-[90%] h-[70%] pl-3  border-gray-700 border rounded-2xl "
+                  type="text"
+                  placeholder="Type a message..."
+                  value={message}
+                  onChange={(e) => setMessage(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") {
+                      sendMessage();
+                    }
+                  }}
+                />
+                {message.length > 0 ? (
+                  <button className=" h-[70%] w-[10%] w-max-[150px] flex justify-center items-center buttonSend rounded-full " onClick={sendMessage}>
+                    <span className={`pr-3 hidden md:block`}>Send</span>
+
+                    <ion-icon name="paper-plane-outline" size="small"></ion-icon>
+                  </button>
+                ) : (
+                  <button
+                    disabled
+                    className=" h-[70%] w-[10%] w-max-[150px]  flex justify-center items-center buttonSend rounded-full opacity-50 pointer-events-none"
+                    onClick={sendMessage}
+                  >
+                    <span className={`pr-3 hidden md:block`}>Send</span>
+                    <ion-icon name="paper-plane-outline" size="small"></ion-icon>
+                  </button>
+                )}
+              </div>
+            </div>
           </>
         ) : (
           <>
@@ -330,7 +326,7 @@ function Jabber() {
                 <button
                   onClick={() => putAnimation()}
                   className={`p-5 ${buttonanimation} bg-white opacity-100 flex justify-center h-[60px] w-[220px] mt-10  items-center border rounded-full text-blacktext-dsm`}
-                  style={{boxShadow:  "16px 16px 35px #0e131b,-16px -16px 35px #28354b"}}
+                  style={{ boxShadow: "16px 16px 35px #0e131b,-16px -16px 35px #28354b" }}
                 >
                   {buttonwelcome ? <ion-icon name="arrow-up-circle-outline" size="large"></ion-icon> : "Select a room to chat"}
                 </button>
