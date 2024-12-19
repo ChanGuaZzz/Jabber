@@ -44,11 +44,15 @@ function Jabber() {
 
     socket.on("message", (message) => {
       console.log("New message:", message);
-      setMessages((prevMessages) =>
-        prevMessages.map((msg) =>
-          msg.tempMessageId === message.tempMessageId ? message : msg
-        )
-      );
+      if (message.tempMessageId === null) {
+        setMessages((prevMessages) => [...prevMessages, message]);
+      } else {
+        setMessages((prevMessages) =>
+          prevMessages.map((msg) =>
+            msg.tempMessageId === message.tempMessageId ? message : msg
+          )
+        );
+      }
     });
 
     socket.on("message_deleted", ({ messageId }) => {
