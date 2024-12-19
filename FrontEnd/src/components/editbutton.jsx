@@ -123,6 +123,7 @@ function EditButton({ value, setValue, setLoading, canEmpty, isemail, isusername
       .catch((err) => {
         if (err.response?.status === 400) {
           setErrorMessagePassword(err.response.data.JabberMessages);
+          console.log(err.response.data.JabberMessages);
           setTimeout(() => setErrorMessagePassword(""), 10000);
         }
         setLoading(false);
@@ -177,7 +178,7 @@ function EditButton({ value, setValue, setLoading, canEmpty, isemail, isusername
           </button>
         </div>
       )}
-      {!errorMessagePassword && <div className="text-red-500 text-center max-w-[300px]">{errorMessagePassword}</div>}
+      {errorMessagePassword !=="" && <div className="text-red-500 text-center max-w-[300px]">{errorMessagePassword}</div>}
     </>
   );
 }
