@@ -27,7 +27,7 @@ function MessageComponent({ messageid, sender, message, time, isMe, userId }) {
             )}
             {message}
           </p>
-          {isMe && (
+          {isMe && messageid !== null && (
             <div className="w-[20px]">
               <button className="w-full h-[20px]" onClick={() => { setMessageOptions(true)}}>
                 <ion-icon name="ellipsis-vertical-outline"></ion-icon>

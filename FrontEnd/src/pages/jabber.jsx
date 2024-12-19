@@ -179,7 +179,7 @@ function Jabber() {
         senderId: userId,
         content: cleanMessage,
         timestamp: new Date().toISOString(),
-        messageid: tempMessageId,
+        messageid: null,
         tempMessageId: tempMessageId,
         room: currentRoom,
       },
