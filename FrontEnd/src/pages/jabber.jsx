@@ -46,7 +46,7 @@ function Jabber() {
       console.log("New message:", message);
       setMessages((prevMessages) =>
         prevMessages.map((msg) =>
-          msg.messageid === message.messageid ? message : msg
+          msg.tempMessageId === message.tempMessageId ? message : msg
         )
       );
     });
@@ -162,12 +162,13 @@ function Jabber() {
     // Función para enviar un mensaje
     const cleanMessage = filter.clean(message);
     console.log(message, "limpiado", cleanMessage);
-    const tempMessageId = `temp-${Date.now()}`;
+    const tempMessageId = `temp-${Date.now()}-${userId}`;
     const messageData = {
       currentRoom,
       message: cleanMessage,
       userId,
       messageid: tempMessageId,
+      tempMessageId: tempMessageId,
     };
   
     // Añadir el mensaje temporalmente al estado
@@ -179,6 +180,7 @@ function Jabber() {
         content: cleanMessage,
         timestamp: new Date().toISOString(),
         messageid: tempMessageId,
+        tempMessageId: tempMessageId,
         room: currentRoom,
       },
     ]);

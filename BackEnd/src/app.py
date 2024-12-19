@@ -343,6 +343,7 @@ def handle_message(data):
     room = data['currentRoom']
     message_content = data['message']
     userId = data['userId']
+    tempMessageId = data['tempMessageId'] or None
     print(message_content)
     if userId:
         users_in_room = socketio.server.manager.rooms['/'].get(room, set())
@@ -358,7 +359,7 @@ def handle_message(data):
         db.session.commit()
         # Obtener la representación serializable del timestamp
         timestamp_isoformat = message.timestamp.isoformat()
-        emit('message',{"username": user.username, "senderId": message.sender_id, "content": message_content, "timestamp": timestamp_isoformat,"messageid" : message.id,  "room": room}, room=room,  broadcast=True)
+        emit('message',{"username": user.username, "tempMessageId": tempMessageId, "senderId": message.sender_id, "content": message_content, "timestamp": timestamp_isoformat,"messageid" : message.id,  "room": room}, room=room,  broadcast=True)
     else:
         print({'JabberMessages': 'Username not found in session.'},room)
 
