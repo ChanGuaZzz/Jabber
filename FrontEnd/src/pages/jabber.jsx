@@ -44,7 +44,11 @@ function Jabber() {
 
     socket.on("message", (message) => {
       console.log("New message:", message);
-      setMessages((prevMessages) => [...prevMessages, message]);
+      setMessages((prevMessages) =>
+        prevMessages.map((msg) =>
+          msg.messageid === message.messageid ? message : msg
+        )
+      );
     });
 
     socket.on("message_deleted", ({ messageId }) => {
@@ -158,12 +162,27 @@ function Jabber() {
     // Función para enviar un mensaje
     const cleanMessage = filter.clean(message);
     console.log(message, "limpiado", cleanMessage);
+    const tempMessageId = `temp-${Date.now()}`;
     const messageData = {
       currentRoom,
       message: cleanMessage,
       userId,
+      messageid: tempMessageId,
     };
-
+  
+    // Añadir el mensaje temporalmente al estado
+    setMessages((prevMessages) => [
+      ...prevMessages,
+      {
+        username,
+        senderId: userId,
+        content: cleanMessage,
+        timestamp: new Date().toISOString(),
+        messageid: tempMessageId,
+        room: currentRoom,
+      },
+    ]);
+  
     socket.emit("message", messageData);
     // Limpiar el campo de mensaje después de enviarlo
     setMessage("");
