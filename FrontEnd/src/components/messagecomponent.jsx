@@ -10,11 +10,7 @@ function MessageComponent({ messageid, sender, message, time, isMe, userId }) {
 
   return (
     <>
-    {
-      messageoptions && (
-        <MessageOptions setMessageOptions={setMessageOptions} messageId={messageid} currentContent={message} />
-      )
-    }
+      {messageoptions && <MessageOptions setMessageOptions={setMessageOptions} messageId={messageid} currentContent={message} />}
 
       {viewUser && <ModalViewUser setViewUser={setViewUser} userId={userId} />}
       <div className={`${isMe ? "me rounded-br-none" : "them rounded-bl-none"} rounded-lg chatmessage p-1  max-w-[70%] flex flex-col  `}>
@@ -27,11 +23,20 @@ function MessageComponent({ messageid, sender, message, time, isMe, userId }) {
             )}
             {message}
           </p>
-          {isMe && messageid !== null && (
-            <div className="w-[20px]">
-              <button className="w-full h-[20px]" onClick={() => { setMessageOptions(true)}}>
-                <ion-icon name="ellipsis-vertical-outline"></ion-icon>
-              </button>
+          {isMe && (
+            <div className="w-[20px] h-[20px]">
+              {messageid !== null && (
+                <>
+                  <button
+                    className="w-full h-full "
+                    onClick={() => {
+                      setMessageOptions(true);
+                    }}
+                  >
+                    <ion-icon name="ellipsis-vertical-outline"></ion-icon>
+                  </button>
+                </>
+              )}
             </div>
           )}
         </div>
