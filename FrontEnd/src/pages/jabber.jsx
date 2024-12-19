@@ -5,6 +5,7 @@ import "../styles/input.css";
 import SendIcon from "../components/sendicon";
 import MessageComponent from "../components/messagecomponent";
 import { Filter } from "bad-words";
+import { use } from "react";
 const filter = new Filter();
 const socket = io(`${import.meta.env.VITE_API_URL_SOCKET}`, {
   withCredentials: true,
@@ -111,7 +112,7 @@ function Jabber() {
     console.log(rooms[0], "dwdwdw");
   }, []);
 
-  useEffect(() => {
+  const getMessages = () => {
     if (loggedIn && currentRoom) {
       socket.emit("join", { currentRoom, userId });
       setLoading(true);
@@ -126,6 +127,20 @@ function Jabber() {
           console.log(error);
         });
     }
+  };
+
+  useEffect(() => {
+    //USAR APPSTATE PARA CUANDO VUELVE DE SEGUNDO PLANO A PRIMER PLANO SE ACTUALICE EL CHAT EJECUTANDO GETMESSAGES
+    document.addEventListener("visibilitychange", () => {
+      if (document.visibilityState === "visible") {
+        getMessages();
+        console.log("visible");
+      }
+    });
+  }, []);
+
+  useEffect(() => {
+    getMessages();
   }, [currentRoom]);
 
   useEffect(() => {
