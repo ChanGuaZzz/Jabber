@@ -256,6 +256,8 @@ def profile(user_id=None):
         if 'username' in data:
             if len(data['username']) > 10 or len(data['username']) < 4:
                 return jsonify({'JabberMessages': 'Username must be between 4 and 12 characters.'}), 400
+            elif jabberusers.query.filter_by(username=data['username']).first():
+                return jsonify({'JabberMessages': 'Username already exists.'}), 400
             user.username = data['username']
         elif 'email' in data:
             user.email = data['email']

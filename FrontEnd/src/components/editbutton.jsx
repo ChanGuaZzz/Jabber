@@ -106,7 +106,9 @@ function EditButton({ value, setValue, setLoading, canEmpty, isemail, isusername
   }, [value, edit]);
 
   const saveData = (e) => {
-    e.preventDefault();
+    if(e){
+      e.preventDefault();
+    }
     if (ispassword && !alertPassword) {
       setAlertPassword(true);
       return;
@@ -175,7 +177,7 @@ function EditButton({ value, setValue, setLoading, canEmpty, isemail, isusername
           </button>
         </div>
       )}
-      {errorMessagePassword && <div className="text-red-500 text-center max-w-[300px]">{errorMessagePassword}</div>}
+      {!errorMessagePassword && <div className="text-red-500 text-center max-w-[300px]">{errorMessagePassword}</div>}
     </>
   );
 }
