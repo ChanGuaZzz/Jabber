@@ -44,7 +44,7 @@ function Jabber() {
 
     socket.on("message", (message) => {
       console.log("New message:", message);
-      if (message.tempMessageId === null) {
+      if (message.senderId !== userId) {
         setMessages((prevMessages) => [...prevMessages, message]);
       } else {
         setMessages((prevMessages) =>
