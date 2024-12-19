@@ -260,6 +260,8 @@ def profile(user_id=None):
                 return jsonify({'JabberMessages': 'Username already exists.'}), 400
             user.username = data['username']
         elif 'email' in data:
+            if jabberusers.query.filter_by(email=data['email']).first():
+                return jsonify({'JabberMessages': 'Email already exists.'}), 400
             user.email = data['email']
         elif 'location' in data:
             user.location = data['location']
