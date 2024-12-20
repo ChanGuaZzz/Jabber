@@ -50,7 +50,7 @@ function Profile() {
   return (
     <>
       {loading && <Loading />}
-      <div className="w-full h-full lg:h-screen flex flex-col items-center">
+      <div className="size-full flex flex-col items-center">
         <header className=" h-[80px] w-full flex justify-between px-6 py-16 items-center text-white">
           <div className="flex">
             <a href="/jabber" className=" h-full p-1 ">

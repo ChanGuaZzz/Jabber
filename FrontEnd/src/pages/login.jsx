@@ -67,8 +67,8 @@ function Login() {
   return (
     <>
       {loading && <Loading />}
-      <div className="background-login w-full h-screen flex justify-center items-center p-0">
-        <div className="h-full w-full flex items-center flex-col text-center justify-center">
+      <div className="background-login w-full min-h-screen flex justify-center items-center p-0">
+        <div className="size-full flex items-center flex-col text-center justify-center">
           <div className={` ${currentWindow !== "login" ? "h-[30%]" : "h-[40%]"} flex items-center flex-col justify-center`}>
             <img src={logo} alt="Logo" />
             <img src={letra} alt="Letra" />

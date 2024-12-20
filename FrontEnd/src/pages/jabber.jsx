@@ -238,7 +238,7 @@ function Jabber() {
     }
   };
   return (
-    <div className="w-full ">
+    <div className="size-full">
       <div className=" flex flex-row items-center h-[80px] py-1">
         <button className="buttonheader ml-2 button rounded-xl flex justify-center items-center  " onClick={logout}>
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-6">
