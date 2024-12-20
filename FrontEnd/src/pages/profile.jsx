@@ -15,7 +15,7 @@ function Profile() {
       .get(`${import.meta.env.VITE_API_URL}/api/getsession`, { withCredentials: true })
 
       .then((response) => {
-        console.log(response);
+        //console.log(response);
         if (response.data.message == "No session data found.") {
           window.location.href = "/login";
         } else {
@@ -23,7 +23,7 @@ function Profile() {
         }
       })
       .catch((error) => {
-        console.log(error);
+        //console.log(error);
       });
   }, []);
 
@@ -34,17 +34,17 @@ function Profile() {
     axios
       .get(`${import.meta.env.VITE_API_URL}/api/profile`, { withCredentials: true })
       .then((res) => {
-        console.log("user", res);
+        //console.log("user", res);
         setUserData(res.data);
         setLoading(false);
       })
       .catch((err) => {
-        console.log(err);
+        //console.log(err);
       });
   }, [userId]);
 
   useEffect(() => {
-    console.log(userData);
+    //console.log(userData);
   }, [userData]);
 
   return (

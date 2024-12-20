@@ -123,7 +123,7 @@ function EditButton({ value, setValue, setLoading, canEmpty, isemail, isusername
       .catch((err) => {
         if (err.response?.status === 400) {
           setErrorMessagePassword(err.response.data.JabberMessages);
-          console.log(err.response.data.JabberMessages);
+          //console.log(err.response.data.JabberMessages);
           setTimeout(() => setErrorMessagePassword(""), 10000);
         }
         setLoading(false);

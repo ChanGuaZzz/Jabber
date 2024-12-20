@@ -11,12 +11,12 @@ function ModalViewUser({ userId, setViewUser }) {
     axios
       .get(`${import.meta.env.VITE_API_URL}/api/profile/${userId}`, { withCredentials: true })
       .then((res) => {
-        console.log("user", res.data);
+        //console.log("user", res.data);
         setUserData(res.data);
         setLoading(false);
       })
       .catch((err) => {
-        console.log(err);
+        //console.log(err);
         setLoading(false);
       });
   };

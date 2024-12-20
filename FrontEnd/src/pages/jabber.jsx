@@ -43,12 +43,12 @@ function Jabber() {
   useEffect(() => {
     if (userId !== "" && socket) {
       socket.on("connect", () => {
-        console.log("Connected to WebSocket");
+        //console.log("Connected to WebSocket");
       });
 
       socket.on("message", (message) => {
-        console.log("New message:", message);
-        console.log("usuario enviador", message.senderId, "usuario actual", userId);
+        //console.log("New message:", message);
+        //console.log("usuario enviador", message.senderId, "usuario actual", userId);
         if (message.senderId !== userId) {
           setMessages((prevMessages) => [...prevMessages, message]);
         } else {
@@ -58,12 +58,12 @@ function Jabber() {
 
       socket.on("message_deleted", ({ messageId }) => {
         setMessages((prevMessages) => prevMessages.filter((msg) => msg.messageid !== messageId));
-        console.log("Message deleted:", messageId);
+        //console.log("Message deleted:", messageId);
       });
 
       socket.on("message_edited", ({ messageId, content }) => {
         setMessages((prevMessages) => prevMessages.map((msg) => (msg.messageid === messageId ? { ...msg, content } : msg)));
-        console.log("Message edited:", messageId);
+        //console.log("Message edited:", messageId);
       });
     }
   }, [userId]);
@@ -111,7 +111,7 @@ function Jabber() {
       { id: 39, name: "Azerbaijani", description: "azerbaijanipeople" },
       { id: 40, name: "Hebrew", description: "hebrewpeople" },
     ]);
-    console.log(rooms[0], "dwdwdw");
+    //console.log(rooms[0], "dwdwdw");
   }, []);
 
   const getMessages = () => {
@@ -133,14 +133,14 @@ function Jabber() {
         .then((response) => {
           setLoading(false);
           setMessages(response.data);
-          console.log(response.data);
+          //console.log(response.data);
           setCanType(true);
         })
         .catch((error) => {
           if (axios.isCancel(error)) {
-            console.log("Request canceled", error.message);
+            //console.log("Request canceled", error.message);
           } else {
-            console.log(error);
+            //console.log(error);
           }
         });
     }
@@ -151,7 +151,7 @@ function Jabber() {
     document.addEventListener("visibilitychange", () => {
       if (document.visibilityState === "visible") {
         getMessages();
-        console.log("visible");
+        //console.log("visible");
       }
     });
   }, []);
@@ -165,7 +165,7 @@ function Jabber() {
       .get(`${import.meta.env.VITE_API_URL}/api/getsession`, { withCredentials: true })
 
       .then((response) => {
-        console.log(response);
+        //console.log(response);
         if (response.data.message == "No session data found.") {
           window.location.href = "/login";
         } else {
@@ -175,7 +175,7 @@ function Jabber() {
         }
       })
       .catch((error) => {
-        console.log(error);
+        //console.log(error);
       });
   }, []);
 
@@ -189,14 +189,14 @@ function Jabber() {
         window.location.href = "/login";
       })
       .catch((error) => {
-        console.log(error);
+        //console.log(error);
       });
   };
 
   const sendMessage = () => {
     // Función para enviar un mensaje
     const cleanMessage = filter.clean(message);
-    console.log(message, "limpiado", cleanMessage);
+    //console.log(message, "limpiado", cleanMessage);
     const tempMessageId = `temp-${Date.now()}-${userId}`;
     const messageData = {
       currentRoom,

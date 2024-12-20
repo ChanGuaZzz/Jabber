@@ -18,12 +18,12 @@ function MessageOptions({ setMessageOptions, messageId, currentContent }) {
     axios
       .post(`${import.meta.env.VITE_API_URL}/api/messageoptions`, { messageId, option: "delete" }, { withCredentials: true })
       .then((res) => {
-        console.log(res);
+        //console.log(res);
         setMessageOptions(false);
         setLoading(false);
       })
       .catch((err) => {
-        console.log(err);
+        //console.log(err);
         setLoading(false);
 
       });
@@ -34,13 +34,13 @@ function MessageOptions({ setMessageOptions, messageId, currentContent }) {
     axios
       .post(`${import.meta.env.VITE_API_URL}/api/messageoptions`, { messageId, option: "edit", content }, { withCredentials: true })
       .then((res) => {
-        console.log(res);
+        //console.log(res);
         setMessageOptions(false);
         setLoading(false);
 
       })
       .catch((err) => {
-        console.log(err);
+        //console.log(err);
         setLoading(false);
 
       });
