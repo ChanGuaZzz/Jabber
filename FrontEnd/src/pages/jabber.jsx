@@ -28,6 +28,7 @@ function Jabber() {
   const [loading, setLoading] = useState(false);
   const [buttonwelcome, setbuttonwelcome] = useState(false);
   const [currentRoomIndex, setCurrentRoomIndex] = useState();
+  const cancelTokenSource = useRef(null);
   const scrollToBottom = () => {
     if (scrollRef.current) {
       scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
