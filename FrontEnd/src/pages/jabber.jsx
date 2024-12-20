@@ -29,6 +29,7 @@ function Jabber() {
   const [buttonwelcome, setbuttonwelcome] = useState(false);
   const [currentRoomIndex, setCurrentRoomIndex] = useState();
   const cancelTokenSource = useRef(null);
+  const [canType, setCanType] = useState(false);
   const scrollToBottom = () => {
     if (scrollRef.current) {
       scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
@@ -133,6 +134,7 @@ function Jabber() {
           setLoading(false);
           setMessages(response.data);
           console.log(response.data);
+          setCanType(true);
         })
         .catch((error) => {
           if (axios.isCancel(error)) {
@@ -325,7 +327,7 @@ function Jabber() {
                     }
                   }}
                 />
-                {message.length > 0 ? (
+                {message.length > 0 && canType ? (
                   <button className=" h-[70%] w-[10%] w-max-[150px] flex justify-center items-center buttonSend rounded-full " onClick={sendMessage}>
                     <span className={`pr-3 hidden md:block`}>Send</span>
 
@@ -335,7 +337,6 @@ function Jabber() {
                   <button
                     disabled
                     className=" h-[70%] w-[10%] w-max-[150px]  flex justify-center items-center buttonSend rounded-full opacity-50 pointer-events-none"
-                    onClick={sendMessage}
                   >
                     <span className={`pr-3 hidden md:block`}>Send</span>
                     <ion-icon name="paper-plane-outline" size="small"></ion-icon>

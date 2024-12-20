@@ -50,7 +50,7 @@ function Profile() {
   return (
     <>
       {loading && <Loading />}
-      <div className="size-full  flex flex-col items-center bg-gradient-to-b from-gray-900 to-gray-800 ">
+      <div className={`size-full ${loading && "overflow-hidden"}  flex flex-col items-center bg-gradient-to-b from-gray-900 to-gray-800`}>
         <header className=" h-[80px] w-full flex justify-between px-6 py-16 items-center text-white">
           <div className="flex">
             <a href="/jabber" className=" h-full p-1 ">
