@@ -255,5 +255,8 @@ float: left;
     scroll-behavior: smooth;
 }
 
+html, body{
+    height: 100%;
+    }
 
 
