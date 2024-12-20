@@ -114,17 +114,31 @@ function Jabber() {
 
   const getMessages = () => {
     if (loggedIn && currentRoom) {
+      // Cancelar la solicitud anterior si existe
+      if (cancelTokenSource.current) {
+        cancelTokenSource.current.cancel("Operation canceled due to new request.");
+      }
+
+      // Crear un nuevo token de cancelación
+      cancelTokenSource.current = axios.CancelToken.source();
+
       socket.emit("join", { currentRoom, userId });
       setLoading(true);
       axios
-        .get(`${import.meta.env.VITE_API_URL}/api/messages/${currentRoom}`)
+        .get(`${import.meta.env.VITE_API_URL}/api/messages/${currentRoom}`, {
+          cancelToken: cancelTokenSource.current.token,
+        })
         .then((response) => {
           setLoading(false);
           setMessages(response.data);
           console.log(response.data);
         })
         .catch((error) => {
-          console.log(error);
+          if (axios.isCancel(error)) {
+            console.log("Request canceled", error.message);
+          } else {
+            console.log(error);
+          }
         });
     }
   };
