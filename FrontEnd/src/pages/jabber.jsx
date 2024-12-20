@@ -281,7 +281,7 @@ function Jabber() {
             </div>
             <div className="">
               <div className=" relative flex flex-col h-[85vh] pb-28  bg-chat rounded-md messages-container overflow-auto scrollbar-dark" ref={scrollRef}>
-                {!loading ? (
+                {loading ? (
                   <div className="absolute bg-black w-full h-full bg-opacity-60 backdrop-blur-sm ">
                     <div className=" loadinganimation size-full flex justify-center items-center text-white">
                       <div className=" size-2 mx-1 bg-white rounded-full transition-all"></div>
