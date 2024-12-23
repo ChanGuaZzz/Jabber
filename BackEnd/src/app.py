@@ -4,7 +4,7 @@ import datetime
 import hashlib
 from flask_session import Session
 from datetime import timedelta
-from flask import Flask, session, jsonify, request, send_from_directory
+from flask import  redirect, Flask, session, jsonify, request, send_from_directory
 from flask_sqlalchemy import SQLAlchemy
 from flask_socketio import SocketIO, join_room, leave_room, send, emit
 from flask_cors import CORS, cross_origin
@@ -138,7 +138,7 @@ def get_session():
 # Static route for the frontend
 @app.route('/')
 def index():
-    return send_from_directory(frontend_dir, 'index.html')
+    return redirect("https://jabberweb.onrender.com")
 
 # 404 error handler
 @app.errorhandler(404)
