@@ -37,16 +37,27 @@ function Login() {
   };
 
   useEffect(() => {
-      if (password !== secondpassword) {
-        setErrorpassword(true);
-        return;
-      }else{
-      setErrorpassword(false);}
+    axios
+      .get(`${import.meta.env.VITE_API_URL}/api/getsession`, { withCredentials: true })
+
+      .then((response) => {
+        //console.log(response);
+        if (response.data.message !== "No session data found.") {
+          window.location.href = "/jabber";
+        }
+      });
+
+    if (password !== secondpassword) {
+      setErrorpassword(true);
+      return;
+    } else {
+      setErrorpassword(false);
+    }
   }, [secondpassword, password]);
 
   const handleRegister = (e) => {
     e.preventDefault(); // Evita que el formulario haga un submit por defecto
-    
+
     setLoading(true);
     axios
       .post(`${import.meta.env.VITE_API_URL}/api/register`, { username, email, password }, { withCredentials: true })
@@ -87,14 +98,7 @@ function Login() {
                     onChange={(e) => setUsername(e.target.value)}
                     required
                   />
-                  <input
-                    type="password"
-                    placeholder="Password"
-                    value={password}
-                    className="mb-5 p-2"
-                    onChange={(e) => setPassword(e.target.value)}
-                    required
-                  />
+                  <input type="password" placeholder="Password" value={password} className="mb-5 p-2" onChange={(e) => setPassword(e.target.value)} required />
                   <button className="buttonG rounded-xl button p-3 my-3" type="submit">
                     Sign in
                   </button>
@@ -123,20 +127,8 @@ function Login() {
                     onChange={(e) => setUsername(e.target.value)}
                     required
                   />
-                  <input
-                    type="email"
-                    placeholder="Email"
-                    className="mb-5 p-2"
-                    onChange={(e) => setEmail(e.target.value)}
-                    required
-                  />
-                  <input
-                    type="password"
-                    placeholder="Password"
-                    className="mb-5 p-2"
-                    onChange={(e) => setPassword(e.target.value)}
-                    required
-                  />
+                  <input type="email" placeholder="Email" className="mb-5 p-2" onChange={(e) => setEmail(e.target.value)} required />
+                  <input type="password" placeholder="Password" className="mb-5 p-2" onChange={(e) => setPassword(e.target.value)} required />
                   <input
                     className={`mb-0 p-2 ${Errorpassword && "text-red-600"} `}
                     type="password"
